@@ -1,0 +1,28 @@
+# Build directories and output files
+build/
+*.o
+*.so
+*.exe
+*.egg-info/
+
+# Virtual environment
+py_for_c_venv/
+
+# Compiled Python files
+__pycache__/
+*.pyc
+*.pyo
+
+# Temporary and log files
+*.log
+*.tmp
+
+# Editor/IDE specific files
+.vscode/
+.idea/
+*~
+
+# Test executables
+test_*
+
+tree.txt

@@ -1,0 +1,22 @@
+#!/bin/bash
+
+FUNCTIONS_DIR="../../functions"
+TEST_COMPILATION_PATH="../execs/test_simple_hash"
+TEST_SOURCE="../test_simple_hash.c"
+
+# Compile the individual C files in the functions directory
+gcc -c \
+    "$FUNCTIONS_DIR/initialize_hash_table.c" \
+    "$FUNCTIONS_DIR/traverse.c" \
+    "$FUNCTIONS_DIR/simple_hash.c"
+
+# link the object files with the test file and cunit library
+gcc -o "$TEST_COMPILATION_PATH" "$TEST_SOURCE" \
+    initialize_hash_table.o traverse.o simple_hash.o \
+    -lcunit
+
+# Clean up object files after linking (optional)
+rm *.o
+
+# Run the test (optional, you can comment this out if you prefer not to run automatically)
+"$TEST_COMPILATION_PATH"
