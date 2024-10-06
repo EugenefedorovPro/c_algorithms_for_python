@@ -9,49 +9,47 @@
 // recursion foo to split rangde into left (less than pivot) and right (greater
 // than pivot) sort left, sort right base case low < hight
 
-// 5, 1, 3, 0, 4, 2
-
 void swap(int *arr, size_t i, size_t j) {
   int temp = arr[i];
   arr[i] = arr[j];
   arr[j] = temp;
 }
 
-size_t find_pivot_idx(int *arr, size_t low, size_t high) {
-
+// set_pivotal_point
+int find_pivotal_index(int *arr, size_t low, size_t high) {
   int pivot = arr[high];
-  size_t pivot_idx = low;
+  size_t pivotal_idx = low;
 
   for (size_t i = low; i < high; i++) {
     if (arr[i] < pivot) {
-      swap(arr, i, pivot_idx);
-      pivot_idx++;
+      // swap arr[i] with arr[pivotal_idx]
+      swap(arr, i, pivotal_idx);
+      // increment pivotal index to the next position
+      pivotal_idx++;
     }
   }
-  swap(arr, pivot_idx, high);
-
-  return pivot_idx;
+  // swap arr[pivot] with arr[pivotal_idx]
+  swap(arr, pivotal_idx, high);
+  return pivotal_idx;
 }
 
+// recursively sort left and right halves
 void quick_recurse(int *arr, size_t low, size_t high) {
-
+  // exit condition
   if (low < high) {
-    size_t pi = find_pivot_idx(arr, low, high);
+    // recurse
+    int pi = find_pivotal_index(arr, low, high);
 
-    if (pi > low + 1) {
+    if ((size_t)pi > low + 1) {
       quick_recurse(arr, low, pi - 1);
     }
-    if (pi < high - 1) {
+    if ((size_t)pi < high - 1) {
       quick_recurse(arr, pi + 1, high);
     }
   }
 }
 
 int *quick(int *arr, size_t size) {
-  if (size == 0) {
-    return arr;
-  }
   quick_recurse(arr, 0, size - 1);
-
   return arr;
 }

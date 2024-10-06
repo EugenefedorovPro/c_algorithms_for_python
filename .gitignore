@@ -13,8 +13,6 @@ __pycache__/
 *.pyc
 *.pyo
 
-.cache/
-
 # Temporary and log files
 *.log
 *.tmp
