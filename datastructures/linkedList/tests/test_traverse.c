@@ -1,0 +1,32 @@
+#include <CUnit/CUnit.h>
+#include <CUnit/Basic.h>
+#include <CUnit/TestDB.h>
+#include "../declarations.h"
+#include "../functions/get_length.c"
+#include "../functions/traverse.c"
+#include "../functions/insert_at_beginning.c"
+
+void test_traverse() {
+    Node *head = NULL;
+    
+    insertAtBeginning(&head, 30);
+    insertAtBeginning(&head, 20);
+    insertAtBeginning(&head, 10);
+    traverse(head);
+    CU_ASSERT(get_length(head) == 3);
+    
+
+}
+
+
+int main() {
+    CU_initialize_registry();
+    CU_pSuite suite = CU_add_suite("Linked List Suite", NULL, NULL);
+    CU_add_test(suite, "test of traverse()\n", test_traverse);
+
+    CU_basic_set_mode(CU_BRM_VERBOSE);
+    CU_basic_run_tests();
+    CU_cleanup_registry();
+
+    return 0;
+}

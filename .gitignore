@@ -23,7 +23,9 @@ __pycache__/
 *~
 
 # Test executables
-test_*
+# test_*
+tests_execs/
+execs/
 
 tree.txt
 
