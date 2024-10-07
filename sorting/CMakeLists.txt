@@ -10,7 +10,7 @@ find_package(Python3 REQUIRED COMPONENTS Development)
 include_directories(/usr/include/CUnit)
 
 # Set the source files for the module and the C executable
-set(SOURCE_FILES ./functions/quick.c ./functions/merge.c ./functions/insertion.c ./functions/selection.c ./functions/bubble.c ./functions/factory.c)
+set(SOURCE_FILES ./functions/merge_inplace.c ./functions/quick.c ./functions/merge.c ./functions/insertion.c ./functions/selection.c ./functions/bubble.c ./functions/factory.c)
 
 # Define the shared library for the Python extension
 add_library(sorting MODULE python_api.c ${SOURCE_FILES})
@@ -41,4 +41,6 @@ add_test_executable(test_selection)
 add_test_executable(test_bubble)
 add_test_executable(test_insertion)
 add_test_executable(test_merge)
+add_test_executable(test_merge_inplace)
 add_test_executable(test_quick)
+

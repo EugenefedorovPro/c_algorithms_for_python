@@ -13,6 +13,7 @@ typedef struct SortingType {
 int *bubble(int *arr, size_t size);
 int *insertion(int *arr, size_t size);
 int *merge(int *arr, size_t size);
+int *merge_inplace(int *arr, size_t size);
 int *quick(int *arr, size_t size);
 int *selection(int *arr, size_t size);
 
