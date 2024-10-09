@@ -16,7 +16,7 @@ void swap(int *arr, size_t i, size_t j) {
 }
 
 // set_pivotal_point
-int find_pivotal_index(int *arr, size_t low, size_t high) {
+size_t find_pivotal_index(int *arr, size_t low, size_t high) {
   int pivot = arr[high];
   size_t pivotal_idx = low;
 
@@ -38,18 +38,21 @@ void quick_recurse(int *arr, size_t low, size_t high) {
   // exit condition
   if (low < high) {
     // recurse
-    int pi = find_pivotal_index(arr, low, high);
+    size_t pi = find_pivotal_index(arr, low, high);
 
-    if ((size_t)pi > low + 1) {
+    if (pi > low) {
       quick_recurse(arr, low, pi - 1);
     }
-    if ((size_t)pi < high - 1) {
+    if (pi < high) {
       quick_recurse(arr, pi + 1, high);
     }
   }
 }
 
 int *quick(int *arr, size_t size) {
+  if (arr == NULL || size == 0) {
+    return NULL;
+  }
   quick_recurse(arr, 0, size - 1);
   return arr;
 }

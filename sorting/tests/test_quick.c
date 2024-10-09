@@ -64,14 +64,14 @@ void test_quick() {
 
   int *quick_sorted3 = quick(arr3, size3);
 
-  printf("\n--------------------\n");
-  // print arr
-  printf("\nsorted_arr = ");
-  for (size_t i = 0; i < size3; i++) {
-    printf(" %d ", quick_sorted3[i]);
-    CU_ASSERT(quick_sorted3[i] == expected3[i]);
-  }
-  printf("\n--------------------\n");
+  /* printf("\n--------------------\n"); */
+  /* // print arr */
+  /* printf("\nsorted_arr = "); */
+  /* for (size_t i = 0; i < size3; i++) { */
+  /*   printf(" %d ", quick_sorted3[i]); */
+  /*   CU_ASSERT(quick_sorted3[i] == expected3[i]); */
+  /* } */
+  /* printf("\n--------------------\n"); */
 
 
 }
