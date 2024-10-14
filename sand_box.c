@@ -1,63 +1,31 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void swap(int *arr, size_t i, size_t j) {
-    int temp = arr[i];
-    arr[i] = arr[j];
-    arr[j] = temp;
+int fac_recur(int n) {
+    if (n == 1) {
+        return 1;
+    }
+    return n * fac_recur(n - 1);
 }
 
-size_t find_pivot_idx(int *arr, size_t low, size_t high) {
-    size_t pivot_idx = low;
-    int pivot = arr[high];
-
-    for (size_t i = low; i < high; i++) {
-        if (arr[i] < pivot) {
-            swap(arr, i, pivot_idx);
-            pivot_idx++;
-        }
+int tail(int result_so_far, int n) {
+    if (n == 0) {
+        return result_so_far;
     }
-    swap(arr, pivot_idx, high);
-
-    return pivot_idx;
+    return tail(result_so_far * n, n - 1);
 }
 
-void quick(int *arr, size_t low, size_t high) {
-    if (low >= high) {
-        return;
-    }
-
-    size_t pi = find_pivot_idx(arr, low, high);
-
-    if (pi > low) {
-        quick(arr, low, pi - 1);
-    }
-
-    if (pi < high) {
-        quick(arr, pi + 1, high);
-    }
+int fac_recur_tail(int n) {
+    return tail(1, n);
 }
 
 int main() {
-    size_t size = 7;
-    int arr[7] = {
-        3,
-        4,
-        2,
-        0,
-        5,
-        2,
-        -1
+    int n = 5;
+    int result_fac_recur = fac_recur(n);
+    int result_fac_recur_tail = fac_recur_tail(n);
 
-    };
+    printf("\nresult_fac_recur = %d\n", result_fac_recur);
+    printf("\nresult_fac_recur_tail = %d\n", result_fac_recur_tail);
 
-    quick(arr, 0, size - 1);
-
-    // print arr
-    printf("\narr = ");
-    for (size_t i = 0; i < size; i++) {
-        printf(" %d ", arr[i]);
-    }
-    printf("\n--------------------\n");
     return 0;
 }

@@ -1,0 +1,43 @@
+cmake_minimum_required(VERSION 3.5)
+
+# Set the project name and specify the language as C
+project(tree C)
+
+# Find Python3 and include the necessary directories and libraries
+find_package(Python3 REQUIRED COMPONENTS Development)
+
+# Add CUnit include directory
+include_directories(/usr/include/CUnit)
+
+# Set the source files for the module and the C executable
+set(SOURCE_FILES ./functions/queue.c ./functions/create_binary_tree.c ./functions/free_tree.c ./functions/traverse_preorder.c ./functions/heapify.c ./functions/traverse_level_order.c)
+
+# Define the shared library for the Python extension
+add_library(tree MODULE python_api.c ${SOURCE_FILES})
+
+# Link the necessary libraries for the Python extension
+target_include_directories(tree PRIVATE ${Python3_INCLUDE_DIRS})
+target_link_libraries(tree PRIVATE ${Python3_LIBRARIES})
+
+# Set properties for the shared library output
+set_target_properties(tree PROPERTIES PREFIX "" SUFFIX ".so")
+
+# Define the executable target (standalone C executable)
+add_executable(tree_exe main.c ${SOURCE_FILES})
+
+# Link libraries for the standalone executable
+target_include_directories(tree_exe PRIVATE ${Python3_INCLUDE_DIRS})
+target_link_libraries(tree_exe PRIVATE ${Python3_LIBRARIES})
+
+# Function to add test executables with common settings
+macro(add_test_executable test_name)
+    add_executable(${test_name} tests/${test_name}.c ${SOURCE_FILES})
+    target_link_libraries(${test_name} PRIVATE /usr/lib/x86_64-linux-gnu/libcunit.so)
+endmacro()
+
+# Add test executables
+add_test_executable(test_traverse_preorder)
+add_test_executable(test_heapify)
+add_test_executable(test_traverse_level_order)
+add_test_executable(test_queue)
+
