@@ -1,30 +1,29 @@
 #include "../declarations.h"
 
-void traverse(NodesQueue *nodes_queue) {
-    if (is_empty(nodes_queue)) {
-        return;
-    }
+void traverse(NodesQueue *nodes_queue, size_t *idx) {
+    while (!is_empty(nodes_queue)) {
+        Node *dequeued_node = dequeue(nodes_queue);
+        int data = dequeued_node->data;
 
-    Node *dequeued_node = dequeue(nodes_queue);
-    size_t index = dequeued_node->index;
-    int data = dequeued_node->data;
-    printf("\nindex = %zu, data = %d\n", index, data);
+        printf("\nindex = %zu, data = %d\n", (*idx)++, data);
 
-    if (dequeued_node->left != NULL) {
-        enqueue(nodes_queue, dequeued_node->left);
+        if (dequeued_node->left != NULL) {
+            enqueue(nodes_queue, dequeued_node->left);
+        }
+        if (dequeued_node->right != NULL) {
+            enqueue(nodes_queue, dequeued_node->right);
+        }
     }
-    if (dequeued_node->right != NULL) {
-        enqueue(nodes_queue, dequeued_node->right);
-    }
-
-    traverse(nodes_queue);
 
 }
 
 void traverse_level_order(Node *root) {
+    printf("\nTraverse level order: \n");
+    size_t idx = 0;
     NodesQueue *nodes_queue = initiate_queue();
     // add root to nodes_queue
     enqueue(nodes_queue, root);
-    traverse(nodes_queue);
+    traverse(nodes_queue, &idx);
     free_queue(nodes_queue);
+    printf("\nnumber of nodes by traverse level order = %zu \n", idx);
 }

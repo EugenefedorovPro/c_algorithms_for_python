@@ -10,7 +10,18 @@ find_package(Python3 REQUIRED COMPONENTS Development)
 include_directories(/usr/include/CUnit)
 
 # Set the source files for the module and the C executable
-set(SOURCE_FILES ./functions/queue.c ./functions/create_binary_tree.c ./functions/free_tree.c ./functions/traverse_preorder.c ./functions/heapify.c ./functions/traverse_level_order.c)
+set(SOURCE_FILES
+ ../../sorting/functions/quick.c
+ ./functions/insert_bst.c
+ ./functions/create_node.c
+ ./functions/create_binary_search_tree.c
+ ./functions/queue.c
+ ./functions/create_binary_tree.c
+ ./functions/free_tree.c
+ ./functions/traverse_preorder.c
+ ./functions/heapify.c
+ ./functions/traverse_level_order.c
+)
 
 # Define the shared library for the Python extension
 add_library(tree MODULE python_api.c ${SOURCE_FILES})
@@ -29,10 +40,15 @@ add_executable(tree_exe main.c ${SOURCE_FILES})
 target_include_directories(tree_exe PRIVATE ${Python3_INCLUDE_DIRS})
 target_link_libraries(tree_exe PRIVATE ${Python3_LIBRARIES})
 
+# Include CTest module
+include(CTest)
+enable_testing()
+
 # Function to add test executables with common settings
 macro(add_test_executable test_name)
-    add_executable(${test_name} tests/${test_name}.c ${SOURCE_FILES})
-    target_link_libraries(${test_name} PRIVATE /usr/lib/x86_64-linux-gnu/libcunit.so)
+  add_executable(${test_name} tests/${test_name}.c ${SOURCE_FILES})
+  target_link_libraries(${test_name} PRIVATE /usr/lib/x86_64-linux-gnu/libcunit.so)
+  add_test(${test_name} ${test_name}) # Add the test to CTest
 endmacro()
 
 # Add test executables
@@ -40,4 +56,5 @@ add_test_executable(test_traverse_preorder)
 add_test_executable(test_heapify)
 add_test_executable(test_traverse_level_order)
 add_test_executable(test_queue)
-
+add_test_executable(test_create_binary_search_tree)
+add_test_executable(test_insert_bst)
