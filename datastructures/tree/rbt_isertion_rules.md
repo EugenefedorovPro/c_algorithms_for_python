@@ -1,92 +1,53 @@
-# Insertion in a Red-Black Tree
+# Balancing a Red-Black Tree After Insertion
 
-To insert a node into a red-black tree, you must follow specific rules and steps to ensure the tree maintains its balancing properties.
+In the Red-Black Tree, after inserting a new node, you must balance the tree if any of the Red-Black Tree properties are violated. Here’s a high-level overview of the next steps to balance the Red-Black Tree after insertion:
 
-## General Properties of a Red-Black Tree
+## Key Red-Black Tree Properties to Maintain:
 
-Before diving into the insertion rules, here are the key properties that a red-black tree must satisfy:
+1. **Property 1**: Every node is either red or black.
+2. **Property 2**: The root is always black.
+3. **Property 3**: All leaves (null nodes) are black.
+4. **Property 4**: Red nodes cannot have red children (no two consecutive red nodes).
+5. **Property 5**: Every path from a node to its descendant leaves has the same number of black nodes.
 
-- **Red/Black Property:** Every node is either red or black.
-- **Root Property:** The root node is always black.
-- **Leaf Property:** All leaf nodes (NULL nodes) are black.
-- **Red Property:** If a node is red, then both its children must be black.
-- **Depth Property:** For any node, all paths from the node to its descendant leaves contain the same number of black nodes.
+## Steps to Balance the Tree After Insertion:
 
-## Steps for Insertion in a Red-Black Tree
+When a new node is inserted, it is always red. To maintain the Red-Black Tree properties, especially the no two consecutive red nodes rule, you may need to perform the following steps:
 
-### 1. Check if the Tree is Empty
+### Case 1: Parent is Black
 
-- If the tree is empty, insert the new node as the root node and color it black.
+If the parent of the new node is black, the tree remains valid, and no further actions are needed.
 
-### 2. Perform Standard BST Insertion
+### Case 2: Parent is Red, and Uncle is Red
 
-- Insert the new node as a leaf node using the standard binary search tree (BST) insertion algorithm.
-- Color the new node red.
+- **Recoloring**: If the parent and the uncle of the new node are both red, you recolor the parent and the uncle to black, and recolor the grandparent to red. This may cause a violation further up the tree (if the grandparent's parent is also red), so you may need to recursively check and balance the tree from the grandparent upwards.
 
-### 3. Assign Parent and Children
+  This process ensures that no two consecutive red nodes exist but may propagate a violation up to the root.
 
-- Assign the parent of the leaf node as the parent of the new node.
-- If the leaf key is greater than the new key, make the new node the left child; otherwise, make it the right child.
-- Assign NULL to the left and right children of the new node.
+### Case 3: Parent is Red, and Uncle is Black (or NULL)
 
-### 4. Check and Fix Red-Black Properties
+- **Rotations**: If the parent is red and the uncle is black (or does not exist), you will need to perform rotations to fix the violation.
 
-After insertion, check if the red-black properties are violated. Specifically, check if the parent of the new node is red.
+  - **Left-Left Case**: If the new node is a left child of its parent, and its parent is also a left child of the grandparent, a **right rotation** around the grandparent is required.
+  - **Right-Right Case**: If the new node is a right child of its parent, and its parent is also a right child of the grandparent, a **left rotation** around the grandparent is required.
+  - **Left-Right or Right-Left Case**: If the new node is on the opposite side of its parent (e.g., the new node is a right child of a left parent), you perform a **double rotation**: first rotate the parent and child, and then rotate the grandparent and new parent.
 
-#### Case 1: Parent is Black
+### Recoloring After Rotations
 
-- If the parent of the new node is black, the tree is still valid, and no further action is needed.
+After performing rotations, you typically recolor the nodes to maintain the Red-Black Tree properties. This usually involves coloring the parent black and the grandparent red.
 
-#### Case 2: Parent is Red
+### Ensure the Root is Black
 
-- If the parent of the new node is red, this violates the red property.
-  - **Case 2a: Uncle is Red**
-    - If the uncle of the new node (the sibling of the parent) is red, recolor the parent and the uncle to black, and recolor the grandparent to red.
-    - Move up the tree by setting the new node to the grandparent and repeat the process if necessary.
-  - **Case 2b: Uncle is Black or NULL**
-    - If the uncle is black or NULL, there are two subcases based on the position of the new node relative to its parent and grandparent.
-      - **Left-Left Case:**
-        - If the new node is the left child of its parent and the parent is the left child of the grandparent, perform a right rotation at the grandparent.
-        - Recolor the parent to black and the grandparent to red.
-      - **Left-Right Case:**
-        - If the new node is the right child of its parent and the parent is the left child of the grandparent, perform a left rotation at the parent followed by a right rotation at the grandparent.
-        - Recolor the new node (which is now the left child of the grandparent) to black and the grandparent to red.
-      - **Right-Right Case:**
-        - If the new node is the right child of its parent and the parent is the right child of the grandparent, perform a left rotation at the grandparent.
-        - Recolor the parent to black and the grandparent to red.
-      - **Right-Left Case:**
-        - If the new node is the left child of its parent and the parent is the right child of the grandparent, perform a right rotation at the parent followed by a left rotation at the grandparent.
-        - Recolor the new node (which is now the right child of the grandparent) to black and the grandparent to red.
+After all adjustments, if the root has been recolored to red during balancing, you need to recolor it black to satisfy **Property 2**.
 
-### 5. Final Check and Adjustment
+## Example
 
-After fixing any violations, ensure the root of the tree is black. If it is not, recolor it to black.
+From the `tree.dot` file you provided, let’s consider inserting a new node with data `25`:
 
-## Algorithm Summary
+- The parent (`n20`) is red, and the uncle (`null2`) is black (a null pointer is considered black).
+- You will need to perform a rotation at the grandparent (`n15`) to fix the violation of two consecutive red nodes.
+- After this, the tree will be balanced, and recoloring will occur based on the rotations performed.
 
-Here is a concise summary of the steps:
+## Conclusion
 
-### 1. Check if Tree is Empty
-   - If empty, insert as root and color black.
-
-### 2. Perform BST Insertion
-   - Insert as a red leaf node.
-
-### 3. Assign Parent and Children
-   - Set parent and children accordingly.
-
-### 4. Check and Fix Red-Black Properties
-   - If parent is black, exit.
-   - If parent is red, handle violations using Cases 2a and 2b.
-
-### 5. Final Check and Adjustment
-   - Ensure the root is black.
-
-By following these steps, you ensure that the red-black tree remains balanced and satisfies all its properties after each insertion.
-
-## Example Walkthrough
-
-To illustrate this process, consider inserting the elements 1, 2, 3, 4, 5, 6, and 7 into an empty red-black tree.
-
-### Inserting 1
-- The tree is empty, so insert 1 as the root node and color it black.
+To balance a Red-Black Tree after insertion, you must check the color of the parent and uncle, and then either recolor or rotate depending on the scenario. These steps ensure that the Red-Black Tree properties are maintained, keeping the tree balanced for efficient operations.

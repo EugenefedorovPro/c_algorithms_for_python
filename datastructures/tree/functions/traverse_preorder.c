@@ -4,17 +4,22 @@
 
 #include "../declarations.h"
 
-
-void traverse_preorder(Node *root) {
+void do_traverse_preorder(Node *root, size_t *idx) {
     if (root == NULL) return;
 
-    printf("\ndata = %d\n", root->data);
+    printf("\nidx = %zu - data = %d\n", *idx, root->data);
 
     if (root->left != NULL) {
-        traverse_preorder(root->left);
+        (*idx)++;
+        do_traverse_preorder(root->left, idx);
     }
     if (root->right != NULL) {
-        traverse_preorder(root->right);
+        do_traverse_preorder(root->right, idx);
     }
 }
 
+void traverse_preorder(Node *root) {
+    size_t idx = 0;
+    printf("\nTraverse preorder:\n");
+    do_traverse_preorder(root, &idx);
+}

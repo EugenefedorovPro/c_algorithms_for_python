@@ -9,6 +9,10 @@ find_package(Python3 REQUIRED COMPONENTS Development)
 # Add CUnit include directory
 include_directories(/usr/include/CUnit)
 
+# Manually specify cJSON include directory and library
+include_directories(/usr/local/include/cjson)
+link_directories(/usr/local/lib)
+
 # Set the source files for the module and the C executable
 set(SOURCE_FILES
  ../../sorting/functions/quick.c
@@ -21,14 +25,17 @@ set(SOURCE_FILES
  ./functions/traverse_preorder.c
  ./functions/heapify.c
  ./functions/traverse_level_order.c
+ ./functions/tree_to_dot.c
+ ./functions/insert_rbt.c
+ ./functions/stack.c
 )
 
 # Define the shared library for the Python extension
 add_library(tree MODULE python_api.c ${SOURCE_FILES})
 
 # Link the necessary libraries for the Python extension
-target_include_directories(tree PRIVATE ${Python3_INCLUDE_DIRS})
-target_link_libraries(tree PRIVATE ${Python3_LIBRARIES})
+target_include_directories(tree PRIVATE ${Python3_INCLUDE_DIRS} /usr/local/include/cjson)
+target_link_libraries(tree PRIVATE ${Python3_LIBRARIES} cjson)
 
 # Set properties for the shared library output
 set_target_properties(tree PROPERTIES PREFIX "" SUFFIX ".so")
@@ -37,8 +44,8 @@ set_target_properties(tree PROPERTIES PREFIX "" SUFFIX ".so")
 add_executable(tree_exe main.c ${SOURCE_FILES})
 
 # Link libraries for the standalone executable
-target_include_directories(tree_exe PRIVATE ${Python3_INCLUDE_DIRS})
-target_link_libraries(tree_exe PRIVATE ${Python3_LIBRARIES})
+target_include_directories(tree_exe PRIVATE ${Python3_INCLUDE_DIRS} /usr/local/include/cjson)
+target_link_libraries(tree_exe PRIVATE ${Python3_LIBRARIES} cjson m) # Add 'm' for math library
 
 # Include CTest module
 include(CTest)
@@ -47,7 +54,7 @@ enable_testing()
 # Function to add test executables with common settings
 macro(add_test_executable test_name)
   add_executable(${test_name} tests/${test_name}.c ${SOURCE_FILES})
-  target_link_libraries(${test_name} PRIVATE /usr/lib/x86_64-linux-gnu/libcunit.so)
+  target_link_libraries(${test_name} PRIVATE /usr/lib/x86_64-linux-gnu/libcunit.so cjson m) # Add 'm' for math library
   add_test(${test_name} ${test_name}) # Add the test to CTest
 endmacro()
 
@@ -57,4 +64,6 @@ add_test_executable(test_heapify)
 add_test_executable(test_traverse_level_order)
 add_test_executable(test_queue)
 add_test_executable(test_create_binary_search_tree)
+add_test_executable(test_insert_rbt)
+add_test_executable(test_stack)
 add_test_executable(test_insert_bst)

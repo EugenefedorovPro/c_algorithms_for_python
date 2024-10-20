@@ -5,7 +5,7 @@
 
 void insert_bst(Node **node, int data) {
     if (*node == NULL) {
-        *node = create_node(data);
+        *node = create_node(data, NO_COLOR);
         return;
         
     }
@@ -17,7 +17,7 @@ void insert_bst(Node **node, int data) {
 
     if (data < (*node)->data) {
         if ((*node)->left == NULL) {
-            (*node)->left = create_node(data);
+            (*node)->left = create_node(data, NO_COLOR);
             return;
         }
         insert_bst(&(*node)->left, data);
@@ -25,7 +25,7 @@ void insert_bst(Node **node, int data) {
 
     if (data > (*node)->data) {
         if ((*node)->right == NULL) {
-            (*node)->right = create_node(data);
+            (*node)->right = create_node(data, NO_COLOR);
             return;
         }
         insert_bst(&(*node)->right, data);

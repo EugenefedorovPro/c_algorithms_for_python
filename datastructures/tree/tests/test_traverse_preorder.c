@@ -8,7 +8,7 @@
 #include "../declarations.h"
 
 void test_traverse_preorder() {
-    size_t size = 6;
+    size_t size = 17;
     int arr[6] = {3, 9, 2, 1, 4, 5};
     // print initial arr
     for (size_t i = 0; i < size; i++) {
@@ -27,8 +27,8 @@ void test_traverse_preorder() {
     CU_ASSERT(root->left->left->data == 1);
     CU_ASSERT(root->left->right->data == 4);
     // check right subtree
-    CU_ASSERT(root->right->left->data == 5);
     CU_ASSERT(root->right->data == 2);
+    CU_ASSERT(root->right->left->data == 5);
     free_tree(root);
 }
 

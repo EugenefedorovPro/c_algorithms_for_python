@@ -1,44 +1,34 @@
-#include <cjson/cJSON.h>
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "declarations.h"
-
+#include "../declarations.h"
 
 void print_nodes(Node *node, FILE *stream, size_t *idx) {
     if (node == NULL) return;
 
-    if (node->color == -1) {
-        fprintf(stream, "\n    n%d [label=\"%d\", style=filled];\n", node->data, node->data);
-    }
+    // Determine the color and style for the node
+    const char *color = (node->color == BLACK)? "black" : "red";
+    const char *fillcolor = (node->color == BLACK)? "black" : "red";
 
-    if (node->color == 0) {
-        fprintf(stream,
-                "\n    n%d [label=\"%d\", color=\"black\", style=filled];\n",
-                node->data,
-                node->data);
-    }
+    fprintf(stream, "    n%d [label=\"%d\", color=\"%s\", fillcolor=\"%s\", style=filled];\n",
+            node->data, node->data, color, fillcolor);
 
-    if (node->color == 1) {
-        fprintf(stream,
-                "\n    n%d [label=\"%d\", color=\"red\", style=filled];\n",
-                node->data,
-                node->data);
-    }
-
+    // Handle left child
     if (node->left) {
         fprintf(stream, "    n%d -> n%d\n", node->data, node->left->data);
         print_nodes(node->left, stream, idx);
-
     } else {
         fprintf(stream, "    null%zu [shape=point];\n", (*idx)++);
+        fprintf(stream, "    n%d -> null%zu\n", node->data, *idx - 1);
     }
 
+    // Handle right child
     if (node->right) {
         fprintf(stream, "    n%d -> n%d\n", node->data, node->right->data);
         print_nodes(node->right, stream, idx);
     } else {
         fprintf(stream, "    null%zu [shape=point];\n", (*idx)++);
+        fprintf(stream, "    n%d -> null%zu\n", node->data, *idx - 1);
     }
 }
 
@@ -60,28 +50,4 @@ void tree_to_dot(Node *root) {
     fprintf(stream, "\n}");
 
     fclose(stream);
-}
-
-int main() {
-    size_t size = 6;
-    int *arr = malloc(sizeof(int) * size);
-    if (arr == NULL) {
-        fprintf(stderr, "memory allocation failed for arr");
-        return -1;
-    }
-    for (size_t i = 0; i < size; i++) {
-        arr[i] = i + 1;
-    }
-    print_arr(arr, size);
-
-    Node *root = create_binary_search_tree(arr, size);
-
-    tree_to_dot(root);
-
-    traverse_level_order(root);
-    printf("color = %d", root->color);
-
-    free(arr);
-    free_tree(root);
-    return 0;
 }

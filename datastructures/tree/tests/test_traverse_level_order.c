@@ -8,18 +8,31 @@
 #include "../declarations.h"
 
 void test_traverse_level_order() {
-    size_t size = 6;
-    int arr[6] = {3, 9, 2, 1, 4, 5};
-    // print initial arr
+    size_t size = 15;
+    int *arr = malloc(sizeof(int) * size);
     for (size_t i = 0; i < size; i++) {
-        printf("\narr number = %d\n", arr[i]);
+        arr[i] = i + 1;
     }
-    printf("\n--------------------\n");
+    /* // print arr */
+    /* printf("\narr = "); */
+    /* for (size_t i = 0; i < size; i++) { */
+    /*     printf(" %d ", arr[i]); */
+    /* } */
+    /* printf("\n--------------------\n"); */
 
-    Node *root = create_binary_tree(arr, size);
+    /* // print initial arr */
+    /* for (size_t i = 0; i < size; i++) { */
+    /*     printf("\narr number = %d\n", arr[i]); */
+    /* } */
+    /* printf("\n--------------------\n"); */
+
+    Node *root = create_binary_search_tree(arr, size);
 
     traverse_level_order(root);
+    tree_to_dot(root);
 
+
+    free(arr);
     free_tree(root);
 }
 
