@@ -51,7 +51,6 @@ void traverse_preorder(Node *root);
 void traverse_level_order(Node *root);
 
 void insert_bst(Node **node, int data);
-void insert_rbt(Node **node, int data);
 
 // queue
 NodesQueue *initiate_queue();
@@ -68,5 +67,24 @@ Stack *create_stack_item(Node *node);
 void s_append(Stack **stack, Node *node);
 Node *s_pop(Stack **stack);
 int is_stack_empty(Stack **stack);
+void print_all_stack(Stack **stack);
+size_t get_stack_size(Stack **stack);
+Node *s_peek(Stack **stack);
+
+// red black tree
+// insert
+void balance(Stack **stack, Node **node);
+void insert_rbt(Node **node, int data);
+void insert_recurse(Node **node, int data, Stack **stack);
+void check_above(Node **node, int data, Stack **stack);
+void right_right_rotation(Node **grandparent, Node **parent);
+void left_left_rotation(Node **grandparent, Node **parent);
+void right_uncle_red(Node **parent, Node **grandparent, Stack **stack);
+void right_uncle_black(Node **parent, Node **grandparent, Stack **stack);
+//
+// delete
+void remove_rbt(Node **root, int data);
+void find_node(Node **node, int data, Stack **stack);
+void simple_remove(Node **node, int data);
 
 #endif

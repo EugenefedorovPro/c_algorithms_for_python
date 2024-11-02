@@ -1,34 +1,56 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "../declarations.h"
+
+// turn negative integer (-30) to string with prepending anderscore ("_30")
+// if int is positive or 0 returns int as string
+char *get_node_name(int number) {
+    char *str = malloc(sizeof(char) * 30);
+    if (str == NULL) {
+        fprintf(stderr, "memory allocation failed for str");
+        return NULL;
+    }
+    if (number < 0) {
+        sprintf(str, "_%d", abs(number));
+    } else {
+        sprintf(str, "%d", number);
+    }
+
+    return str;
+}
 
 void print_nodes(Node *node, FILE *stream, size_t *idx) {
     if (node == NULL) return;
 
     // Determine the color and style for the node
-    const char *color = (node->color == BLACK)? "black" : "red";
-    const char *fillcolor = (node->color == BLACK)? "black" : "red";
+    const char *color = (node->color == BLACK) ? "black" : "red";
+    const char *fillcolor = (node->color == BLACK) ? "black" : "red";
 
-    fprintf(stream, "    n%d [label=\"%d\", color=\"%s\", fillcolor=\"%s\", style=filled];\n",
-            node->data, node->data, color, fillcolor);
+    fprintf(stream,
+            "    n%s [label=\"%d\", color=\"%s\", fillcolor=\"%s\", style=filled];\n",
+            get_node_name(node->data),
+            node->data,
+            color,
+            fillcolor);
 
     // Handle left child
     if (node->left) {
-        fprintf(stream, "    n%d -> n%d\n", node->data, node->left->data);
+        fprintf(stream, "    n%s -> n%s\n", get_node_name(node->data), get_node_name(node->left->data));  //
         print_nodes(node->left, stream, idx);
     } else {
         fprintf(stream, "    null%zu [shape=point];\n", (*idx)++);
-        fprintf(stream, "    n%d -> null%zu\n", node->data, *idx - 1);
+        fprintf(stream, "    n%s -> null%zu\n", get_node_name(node->data), *idx - 1);
     }
 
     // Handle right child
     if (node->right) {
-        fprintf(stream, "    n%d -> n%d\n", node->data, node->right->data);
+        fprintf(stream, "    n%s -> n%s\n", get_node_name(node->data), get_node_name(node->right->data));  //
         print_nodes(node->right, stream, idx);
     } else {
         fprintf(stream, "    null%zu [shape=point];\n", (*idx)++);
-        fprintf(stream, "    n%d -> null%zu\n", node->data, *idx - 1);
+        fprintf(stream, "    n%s -> null%zu\n", get_node_name(node->data), *idx - 1);
     }
 }
 

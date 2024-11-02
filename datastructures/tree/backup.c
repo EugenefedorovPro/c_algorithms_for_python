@@ -8,32 +8,87 @@ void right_left_rotation(Node **grandparent, Node **parent, Stack **stack) {
            (*grandparent)->data,
            (*parent)->data);
 
-    Node *temp_parent = malloc(sizeof(Node));
-    if (temp_parent == NULL) {
-        fprintf(stderr, "memory allocation failed for temp_parent");
+    Node *sibling = NULL;
+    if ((*parent)->right != NULL) {
+        sibling = (*parent)->right;
+    }
+
+    Node *temp = malloc(sizeof(Node));
+    if (temp == NULL) {
+        fprintf(stderr, "memory allocation failed for temp");
         return;
     }
 
     // shift from left to right
     Node *new_parent = (*parent)->left;
-    Node *node_right_child = NULL;
-    if ((*parent)->left->right != NULL) {
-        node_right_child = (*parent)->left->right;
-    }
-    new_parent->right = NULL;
 
-    *temp_parent = **parent;
-    temp_parent->left = NULL;
-    if (node_right_child != NULL) {
-        temp_parent->left = node_right_child;
-    }
+    *temp = **parent;
+    temp->left = NULL;
 
     (*grandparent)->right = new_parent;
-    new_parent->right = temp_parent;
 
-    free(*parent);
+    if (new_parent->right == NULL) {
+        new_parent->right = temp;
+    } else if (new_parent->right->right == NULL) {
+        new_parent->right->right = temp;
+    } else if (new_parent->right->right->right == NULL) {
+        new_parent->right->right->right = temp;
+    }
 
-    right_right_rotation(grandparent, &new_parent);
+    // change grandparent (root)
+
+    Node *temp_old_grandp = malloc(sizeof(Node));
+    if (temp_old_grandp == NULL) {
+        fprintf(stderr, "memory allocation failed for temp");
+        return;
+    }
+
+    *temp_old_grandp = **grandparent;
+    temp_old_grandp->right = NULL;
+
+    **grandparent = *new_parent;
+    (*grandparent)->color = BLACK;
+
+    if ((*grandparent)->left == NULL) {
+        (*grandparent)->left = temp_old_grandp;
+        (*grandparent)->left->color = RED;
+    } else if ((*grandparent)->left->left == NULL) {
+        (*grandparent)->left->left = temp_old_grandp;
+        (*grandparent)->left->left->color = RED;
+
+    } else if ((*grandparent)->left->left->left == NULL) {
+        (*grandparent)->left->left->left = temp_old_grandp;
+        (*grandparent)->left->left->left->color = RED;
+    }
+
+    // new in right - left
+    /* if (((*grandparent)->right->right != NULL && (*grandparent)->right->right->color == BLACK) ||
+     */
+    /*     ((*grandparent)->right->left != NULL && (*grandparent)->right->left->color == BLACK)) {
+     */
+    /*     if ((*grandparent)->left != NULL) { */
+    /*         (*grandparent)->left->color = BLACK; */
+    /*     } */
+    /* } */
+
+    /* // right - left rotation */
+    /* printf("\ngrandparent = %d\n", (*grandparent)->data); */
+    /* if ((*grandparent)->right->right != NULL && (*grandparent)->right->right->right != NULL && */
+    /*     (*grandparent)->right->right->right->color == BLACK) { */
+    /*     if ((*grandparent)->right->left != NULL) { */
+    /*         (*grandparent)->right->left->color = BLACK; */
+    /*     } */
+    /* } */
+
+    /* if ((*grandparent)->left->left != NULL && (*grandparent)->left->left->left != NULL && */
+    /*     (*grandparent)->left->left->left->color == BLACK) { */
+    /*     if ((*grandparent)->left->right != NULL) { */
+    /*         (*grandparent)->left->right->color = BLACK; */
+    /*     } */
+    /* } */
+
+    s_append(stack, *grandparent);  // ???
+    check_above(grandparent, temp_old_grandp->data, stack);
 }
 
 void left_right_rotation(Node **grandparent, Node **parent, Stack **stack) {
@@ -41,32 +96,84 @@ void left_right_rotation(Node **grandparent, Node **parent, Stack **stack) {
            (*grandparent)->data,
            (*parent)->data);
 
-    Node *temp_parent = malloc(sizeof(Node));
-    if (temp_parent == NULL) {
-        fprintf(stderr, "memory allocation failed for temp_parent");
+    Node *sibling = NULL;
+    if ((*parent)->left != NULL) {
+        sibling = (*parent)->left;
+    }
+
+    Node *temp = malloc(sizeof(Node));
+    if (temp == NULL) {
+        fprintf(stderr, "memory allocation failed for temp");
         return;
     }
 
     // shift from left to right
     Node *new_parent = (*parent)->right;
-    Node *node_left_child = NULL;
-    if ((*parent)->right->left != NULL) {
-        node_left_child = (*parent)->right->left;
-    }
-    new_parent->left = NULL;
 
-    *temp_parent = **parent;
-    temp_parent->right = NULL;
-    if (node_left_child != NULL) {
-        temp_parent->right = node_left_child;
-    }
+    *temp = **parent;
+    temp->right = NULL;
 
     (*grandparent)->left = new_parent;
-    new_parent->left = temp_parent;
 
-    free(*parent);
+    if (new_parent->left == NULL) {
+        new_parent->left = temp;
+    } else if (new_parent->left->left == NULL) {
+        new_parent->left->left = temp;
+    } else if (new_parent->left->left->left == NULL) {
+        new_parent->left->left->left = temp;
+    }
 
-    left_left_rotation(grandparent, &new_parent);
+    // change grandparent (root)
+
+    Node *temp_old_grandp = malloc(sizeof(Node));
+    if (temp_old_grandp == NULL) {
+        fprintf(stderr, "memory allocation failed for temp");
+        return;
+    }
+
+    *temp_old_grandp = **grandparent;
+    temp_old_grandp->left = NULL;
+
+    **grandparent = *new_parent;
+    (*grandparent)->color = BLACK;
+
+    if ((*grandparent)->right == NULL) {
+        (*grandparent)->right = temp_old_grandp;
+        (*grandparent)->right->color = RED;
+    } else if ((*grandparent)->right->right == NULL) {
+        (*grandparent)->right->right = temp_old_grandp;
+        (*grandparent)->right->right->color = RED;
+
+    } else if ((*grandparent)->right->right->right == NULL) {
+        (*grandparent)->right->right->right = temp_old_grandp;
+        (*grandparent)->right->right->right->color = RED;
+    }
+
+    /* // new in left - left */
+    /* if (((*grandparent)->left->left != NULL && (*grandparent)->left->left->color == BLACK) || */
+    /*     ((*grandparent)->left->right != NULL && (*grandparent)->left->right->color == BLACK)) {
+     */
+    /*     if ((*grandparent)->right != NULL) { */
+    /*         (*grandparent)->right->color = BLACK; */
+    /*     } */
+    /* } */
+
+    /* if ((*grandparent)->left->left != NULL && (*grandparent)->left->left->left != NULL && */
+    /*     (*grandparent)->left->left->left->color == BLACK) { */
+    /*     if ((*grandparent)->left->right != NULL) { */
+    /*         (*grandparent)->left->right->color = BLACK; */
+    /*     } */
+    /* } */
+
+    /* if ((*grandparent)->right->right != NULL && (*grandparent)->right->right->right != NULL && */
+    /*     (*grandparent)->right->right->right->color == BLACK) { */
+    /*     if ((*grandparent)->right->left != NULL) { */
+    /*         (*grandparent)->right->left->color = BLACK; */
+    /*     } */
+    /* } */
+
+    s_append(stack, (*grandparent));  // ???
+    check_above(grandparent, temp_old_grandp->data, stack);
 }
 
 void left_left_rotation(Node **grandparent, Node **parent) {
@@ -103,6 +210,28 @@ void left_left_rotation(Node **grandparent, Node **parent) {
 
     (*grandparent)->right->color = RED;
     (*grandparent)->color = BLACK;
+
+    /* if ((*grandparent)->left->left != NULL && */
+    /*     (*grandparent)->left->left->color == BLACK) {  // ????????????????????????? */
+    /*     (*grandparent)->right->color = BLACK; */
+    /* } */
+    (*grandparent)->right->color = RED;
+
+    /* /1* printf("\ngrandparent in left_left = %d\n", (*grandparent)->data); *1/ */
+    /* if (((*grandparent)->left->left != NULL && (*grandparent)->left->left->color == BLACK) || */
+    /*     (((*grandparent)->left->right != NULL) && (*grandparent)->left->right->color == BLACK)) {
+     */
+    /*     if ((*grandparent)->right != NULL) { */
+    /*         (*grandparent)->right->color = BLACK;  // ????? */
+    /*     } */
+    /* } else { */
+    /*     if ((*grandparent)->right != NULL) { */
+    /*         (*grandparent)->right->color = RED;  // ????? */
+    /*         /1* } *1/ */
+    /*     } */
+    /* } */
+
+    /* free(*parent); */
 }
 
 void right_right_rotation(Node **grandparent, Node **parent) {
@@ -135,8 +264,31 @@ void right_right_rotation(Node **grandparent, Node **parent) {
     **grandparent = **parent;
     (*grandparent)->left = temp;
 
+    /* printf("\nright_uncle_black right - right rotation\n"); */
     (*grandparent)->left->color = RED;
     (*grandparent)->color = BLACK;
+
+    /* if ((*grandparent)->right->right != NULL && */
+    /*     (*grandparent)->right->right->color == BLACK) {  // ????????????????????????? */
+    /*     (*grandparent)->left->color = BLACK; */
+    /* } */
+    (*grandparent)->left->color = RED;
+
+    /* if (((*grandparent)->right->right != NULL && (*grandparent)->right->right->color == BLACK) ||
+     */
+    /*     (((*grandparent)->right->left != NULL) && (*grandparent)->right->left->color == BLACK)) {
+     */
+    /*     if ((*grandparent)->left != NULL) { */
+    /*         (*grandparent)->left->color = BLACK;  // ????? */
+    /*     } */
+    /* } else { */
+    /*     if ((*grandparent)->left != NULL) { */
+    /*         (*grandparent)->left->color = RED;  // ????? */
+    /*         /1* } *1/ */
+    /*     } */
+    /* } */
+
+    /* free(*parent); */
 }
 
 void check_above(Node **node, int data, Stack **stack) {
@@ -147,8 +299,10 @@ void check_above(Node **node, int data, Stack **stack) {
     if (data < (*node)->data) {
         if ((*node)->left->data == data) {
             Node *base_node = (*node)->left;
+            /* printf("\n base_node = %d\n", base_node->data); */
             balance(stack, &base_node);
         } else {
+            /* s_append(stack, *node); */
             s_append(stack, (*node)->left);
             check_above(&((*node)->left), data, stack);
         }
@@ -166,9 +320,6 @@ void check_above(Node **node, int data, Stack **stack) {
 }
 
 void left_uncle_red(Node **parent, Node **grandparent, Node **uncle, Stack **stack) {
-    printf(
-        "\nleft_uncle_red, grandparent = %d, parent = %d\n", (*grandparent)->data, (*parent)->data);
-
     (*uncle)->color = BLACK;
     (*parent)->color = BLACK;
 
@@ -191,9 +342,6 @@ void left_uncle_red(Node **parent, Node **grandparent, Node **uncle, Stack **sta
 }
 
 void right_uncle_red(Node **parent, Node **grandparent, Stack **stack) {
-    printf("\nright_uncle_red, grandparent = %d, parent = %d\n",
-           (*grandparent)->data,
-           (*parent)->data);
     Node *uncle = (*grandparent)->left;
 
     uncle->color = BLACK;
@@ -351,3 +499,4 @@ void insert_rbt(Node **root, int data) {
     }
     insert_recurse(root, data, &stack);
 }
+

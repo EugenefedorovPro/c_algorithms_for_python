@@ -1,3 +1,51 @@
+## rotation rules
+
+# left - right rotation
+
+         50(B)
+        /    
+	41(R)    
+	   \ 
+     44(R) 
+
+
+      44(B)
+     /    \
+   41(R)  50(R)
+
+
+# right - left rotation
+
+
+         50(B)
+            \
+	        55(R)
+            /
+        54(R)
+
+
+      54(B)
+     /    \
+   50(R)  55(R)
+
+
+
+What type of rotation is this?
+Balance the rb tree.
+
+         50(B)
+        /   \ 
+	41(R)  55(R)    
+	   \ 
+     44(R) 
+
+What type of rotation is this?
+Balance the rb tree.
+
+
+
+
+
 # Balancing a Red-Black Tree After Insertion
 
 In the Red-Black Tree, after inserting a new node, you must balance the tree if any of the Red-Black Tree properties are violated. Here’s a high-level overview of the next steps to balance the Red-Black Tree after insertion:

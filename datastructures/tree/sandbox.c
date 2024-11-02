@@ -1,87 +1,32 @@
-#include <cjson/cJSON.h>
-#include <stdio.h>
-#include <stdlib.h>
+void right_left_rotation(Node **grandparent, Node **parent, Stack **stack) {
+    printf("\nright_left_rotation, grandparent = %d, parent = %d\n",
+           (*grandparent)->data,
+           (*parent)->data);
 
-#include "declarations.h"
-
-
-void print_nodes(Node *node, FILE *stream, size_t *idx) {
-    if (node == NULL) return;
-
-    if (node->color == -1) {
-        fprintf(stream, "\n    n%d [label=\"%d\", style=filled];\n", node->data, node->data);
-    }
-
-    if (node->color == 0) {
-        fprintf(stream,
-                "\n    n%d [label=\"%d\", color=\"black\", style=filled];\n",
-                node->data,
-                node->data);
-    }
-
-    if (node->color == 1) {
-        fprintf(stream,
-                "\n    n%d [label=\"%d\", color=\"red\", style=filled];\n",
-                node->data,
-                node->data);
-    }
-
-    if (node->left) {
-        fprintf(stream, "    n%d -> n%d\n", node->data, node->left->data);
-        print_nodes(node->left, stream, idx);
-
-    } else {
-        fprintf(stream, "    null%zu [shape=point];\n", (*idx)++);
-    }
-
-    if (node->right) {
-        fprintf(stream, "    n%d -> n%d\n", node->data, node->right->data);
-        print_nodes(node->right, stream, idx);
-    } else {
-        fprintf(stream, "    null%zu [shape=point];\n", (*idx)++);
-    }
-}
-
-void tree_to_dot(Node *root) {
-    FILE *stream = fopen("tree.dot", "w");
-    if (stream == NULL) {
-        fprintf(stderr, "ERROR: stream failed to open");
+    Node *temp_parent = malloc(sizeof(Node));
+    if (temp_parent == NULL) {
+        fprintf(stderr, "memory allocation failed for temp_parent");
         return;
     }
 
-    fprintf(stream, "digraph BinaryTree {\n");
-    fprintf(stream,
-            "    node [shape=box, style=filled, fontname=Helvetica, fontweight=bold, "
-            "fontcolor=white, fontsize=24];\n");
-
-    size_t idx = 0;
-    print_nodes(root, stream, &idx);
-
-    fprintf(stream, "\n}");
-
-    fclose(stream);
-}
-
-int main() {
-    size_t size = 6;
-    int *arr = malloc(sizeof(int) * size);
-    if (arr == NULL) {
-        fprintf(stderr, "memory allocation failed for arr");
-        return -1;
+    // shift from left to right
+    Node *new_parent = (*parent)->left; // 15
+    Node *node_right_child = NULL; // 16
+    if ((*parent)->left->right != NULL) {
+        node_right_child = (*parent)->left->right;
     }
-    for (size_t i = 0; i < size; i++) {
-        arr[i] = i + 1;
+    new_parent->right = NULL;
+
+    *temp_parent = **parent; // 18
+    temp_parent->left = NULL;
+    if (node_right_child != NULL) {
+        temp_parent->left = node_right_child;
     }
-    print_arr(arr, size);
 
-    Node *root = create_binary_search_tree(arr, size);
+    (*grandparent)->right = new_parent; // 10 - 15 
+    new_parent->right = temp_parent; // 15 - 18
 
-    tree_to_dot(root);
+    // change grandparent (root) == right - right rotation with temp_parent as base
+    right_right_rotation(grandparent, &new_parent);
 
-    traverse_level_order(root);
-    printf("color = %d", root->color);
-
-    free(arr);
-    free_tree(root);
-    return 0;
 }

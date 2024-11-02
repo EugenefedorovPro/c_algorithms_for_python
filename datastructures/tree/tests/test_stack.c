@@ -12,6 +12,8 @@ void test_stack() {
 
     Node *node1 = create_node(10, RED);
     s_append(&stack, node1);
+    size_t size = get_stack_size(&stack);
+    CU_ASSERT(size == 1);
 
     Node *node2 = create_node(20, RED);
     s_append(&stack, node2);
@@ -19,20 +21,35 @@ void test_stack() {
     Node *node3 = create_node(30, RED);
     s_append(&stack, node3);
 
-    printf("\nstack data 1 = %d\n", stack->node->data);
-    printf("\nstack data 2 = %d\n", stack->next->node->data);
+    Node *peeked_node = s_peek(&stack);
+    CU_ASSERT(peeked_node->data == 30);
+    Node *peeked_node2 = s_peek(&stack);
+    CU_ASSERT(peeked_node2->data == 30);
+
+    print_all_stack(&stack);
+
+
+    size_t size1 = get_stack_size(&stack);
+    printf("\nstack size1 = %zu\n", size1);
+    CU_ASSERT(size1 == 3);
+    
 
     Node *top_node = s_pop(&stack);
     printf("\ntop_node = %d\n", top_node->data);
+    CU_ASSERT(top_node->data == 30);
 
     Node *next_node = s_pop(&stack);
     printf("\nnext_node = %d\n", next_node->data);
+    CU_ASSERT(next_node->data == 20);
 
     Node *last_node = s_pop(&stack);
     printf("\nlast_node = %d\n", last_node->data);
+    CU_ASSERT(last_node->data == 10);
 
     Node *empty_node = s_pop(&stack);
-
+    CU_ASSERT(empty_node == NULL);
+    size_t size2 = get_stack_size(&stack);
+    CU_ASSERT(size2 == 0);
 
 }
 
