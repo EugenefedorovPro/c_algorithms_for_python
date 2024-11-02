@@ -119,8 +119,8 @@ void right_right_rotation(Node **grandparent, Node **parent) {
     if (temp == NULL) {
         fprintf(stderr, "memory allocation failed for temp");
         return;
-    }
-    *temp = **grandparent;
+        }
+        *temp = **grandparent;
 
     if (sibling != NULL) {
         temp->right = sibling;

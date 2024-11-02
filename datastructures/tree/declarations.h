@@ -85,6 +85,6 @@ void right_uncle_black(Node **parent, Node **grandparent, Stack **stack);
 // delete
 void remove_rbt(Node **root, int data);
 void find_node(Node **node, int data, Stack **stack);
-void simple_remove(Node **node, int data);
+void simple_remove(Node **node, Stack **stack);
 
 #endif
