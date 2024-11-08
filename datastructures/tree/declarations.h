@@ -49,6 +49,7 @@ Node *create_binary_search_tree(int *arr, size_t size);
 void free_tree(Node *root);
 void traverse_preorder(Node *root);
 void traverse_level_order(Node *root);
+Node *copy_tree(Node *root);
 
 void insert_bst(Node **node, int data);
 
@@ -81,10 +82,31 @@ void right_right_rotation(Node **grandparent, Node **parent);
 void left_left_rotation(Node **grandparent, Node **parent);
 void right_uncle_red(Node **parent, Node **grandparent, Stack **stack);
 void right_uncle_black(Node **parent, Node **grandparent, Stack **stack);
-//
-// delete
+
+// remove
 void remove_rbt(Node **root, int data);
 void find_node(Node **node, int data, Stack **stack);
-void simple_remove(Node **node, Stack **stack);
+void propagate_and_recolor(Node **node, Stack **stack);
+void find_node(Node **node, int data, Stack **stack);
+Node *get_sibling(Node **node, Node **parent);
+void recolor_sibling_black(Node **node, Node **parent, Node **sibling, Stack **stack);
+void recolor_sibling_red(Node **node, Node **parent, Node **sibling, Stack **stack);
+void right_siblings_far_child_is_black(Node **parent, Node **sibling);
+void right_siblings_far_child_is_red(Node **parent, Node **sibling);
+void left_siblings_far_child_is_red(Node **parent, Node **sibling);
+
+// rb tree utils
+int *rand_numbers(size_t number);
+void create_rand_rbt(Node **root, int **arr_rand_numbers, size_t number);
+int check_inserts_in_multiple_trees(
+    Node **root, size_t number_nodes, size_t number_trees, int is_random);
+int check_removes_in_multiple_trees(
+    Node **root, size_t number_nodes, size_t number_trees, size_t *count);
+int is_rb_tree(Node *node);
+typedef struct CheckResult {
+    int n_black_nodes;
+    int is_valid;
+} CheckResult;
+CheckResult check_red_black_properties(Node *node);
 
 #endif

@@ -316,6 +316,11 @@ void insert_recurse(Node **node, int data, Stack **stack) {
         return;
     }
 
+    if (data == (*node)->data) {
+        printf("\nYou try to add data %d, which already exists in the rb tree\n", data);
+        return;
+    }  
+
     if (data < (*node)->data) {
         if ((*node)->left == NULL) {
             (*node)->left = create_node(data, RED);
@@ -345,7 +350,7 @@ void insert_recurse(Node **node, int data, Stack **stack) {
 
 void insert_rbt(Node **root, int data) {
     Stack *stack = NULL;
-    // root is added to stack only it it's not single node in a tree
+    // root is added to stack only if it's not a single node in a tree
     if (*root != NULL) {
         s_append(&stack, *root);
     }

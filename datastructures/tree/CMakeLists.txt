@@ -16,6 +16,8 @@ link_directories(/usr/local/lib)
 # Set the source files for the module and the C executable
 set(SOURCE_FILES
  ../../sorting/functions/quick.c
+ ./functions/copy_tree.c
+ ./functions/rbt_utils.c
  ./functions/remove_rbt.c
  ./functions/insert_bst.c
  ./functions/create_node.c
@@ -69,3 +71,5 @@ add_test_executable(test_insert_rbt)
 add_test_executable(test_stack)
 add_test_executable(test_insert_bst)
 add_test_executable(test_remove_rbt)
+add_test_executable(test_rbt_utils)
+add_test_executable(test_copy_tree)

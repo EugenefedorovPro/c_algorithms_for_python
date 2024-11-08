@@ -19,8 +19,9 @@ void traverse(NodesQueue *nodes_queue, size_t *idx) {
     while (!is_empty(nodes_queue)) {
         Node *dequeued_node = dequeue(nodes_queue);
         int data = dequeued_node->data;
+        int color = dequeued_node->color;
 
-        printf("level = %zu, ids = %zu, data = %d\n", get_level(*idx + 1), *idx, data);
+        printf("level = %zu, ids = %zu, data = %d, color = %d\n", get_level(*idx + 1), *idx, data, color);
 
         (*idx)++;
 

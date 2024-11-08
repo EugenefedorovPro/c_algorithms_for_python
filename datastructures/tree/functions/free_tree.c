@@ -10,3 +10,4 @@ void free_tree(Node *root) {
     free_tree(root->right);
     free(root);
 }
+
