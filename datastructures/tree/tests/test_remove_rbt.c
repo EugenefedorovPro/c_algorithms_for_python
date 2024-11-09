@@ -28,6 +28,7 @@ void test_remove_rbt() {
 
     /*  // ************************* RB TREE BALANCE *1/ **************************** */
 
+    char *issue = NULL;
     if (is_test_all) {
         // red leaf node
         root = NULL;
@@ -48,7 +49,7 @@ void test_remove_rbt() {
         CU_ASSERT(root->left->left->data == 2);
         CU_ASSERT(root->left->right->data == 9);
         CU_ASSERT(root->right->right->left == NULL);
-        CU_ASSERT(is_rb_tree(root) == 1);
+        CU_ASSERT(is_rb_tree(root, &issue) == 1);
         free_tree(root);
 
         // DB sibling's black and  DB's sibling's children are black (or null)
@@ -72,7 +73,7 @@ void test_remove_rbt() {
         CU_ASSERT(root->right->right->data == 30);
         CU_ASSERT(root->right->right->color == RED);
         CU_ASSERT(root->right->left == NULL);
-        CU_ASSERT(is_rb_tree(root) == 1);
+        CU_ASSERT(is_rb_tree(root, &issue) == 1);
         free_tree(root);
 
         // DB sibling's black and  DB's sibling's children are black (or null) and parent is red
@@ -98,7 +99,7 @@ void test_remove_rbt() {
         CU_ASSERT(root->right->left->data == 15);
         CU_ASSERT(root->right->left->color == RED);
         CU_ASSERT(root->right->right->data == 31);
-        CU_ASSERT(is_rb_tree(root) == 1);
+        CU_ASSERT(is_rb_tree(root, &issue) == 1);
         /* free_tree(root); */
 
         // DB sibling's black and  DB's sibling's children are black (or null) and parent is red
@@ -124,7 +125,7 @@ void test_remove_rbt() {
         CU_ASSERT(root->right->left->data == 15);
         CU_ASSERT(root->right->left->color == RED);
         CU_ASSERT(root->right->right->data == 29);
-        CU_ASSERT(is_rb_tree(root) == 1);
+        CU_ASSERT(is_rb_tree(root, &issue) == 1);
         free_tree(root);
 
         // DB sibling's black and  DB's sibling's children are black (or null) and parent is red
@@ -154,7 +155,7 @@ void test_remove_rbt() {
         CU_ASSERT(root->right->right->color == BLACK);
         CU_ASSERT(root->right->right->left->data == 29);
         CU_ASSERT(root->right->right->left->color == RED);
-        CU_ASSERT(is_rb_tree(root) == 1);
+        CU_ASSERT(is_rb_tree(root, &issue) == 1);
         free_tree(root);
 
         // DB sibling's black and  DB's sibling's children are black (or null)
@@ -184,7 +185,7 @@ void test_remove_rbt() {
         CU_ASSERT(root->right->right->data == 30);
         CU_ASSERT(root->right->right->color == RED);
         CU_ASSERT(root->right->left == NULL);
-        CU_ASSERT(is_rb_tree(root) == 1);
+        CU_ASSERT(is_rb_tree(root, &issue) == 1);
         free_tree(root);
 
         // DB's sibling is red
@@ -223,7 +224,7 @@ void test_remove_rbt() {
         CU_ASSERT(root->right->left->right->data == 25);
         CU_ASSERT(root->right->left->right->color == RED);
         CU_ASSERT(root->right->left->left == NULL);
-        CU_ASSERT(is_rb_tree(root) == 1);
+        CU_ASSERT(is_rb_tree(root, &issue) == 1);
         free_tree(root);
 
         // DB's sibling is red
@@ -266,7 +267,7 @@ void test_remove_rbt() {
         CU_ASSERT(root->right->left->right->color == RED);
         CU_ASSERT(root->right->left->left->data == 16);
         CU_ASSERT(root->right->left->left->color == RED);
-        CU_ASSERT(is_rb_tree(root) == 1);
+        CU_ASSERT(is_rb_tree(root, &issue) == 1);
         free_tree(root);
 
         // DB's sibling is red
@@ -308,7 +309,7 @@ void test_remove_rbt() {
         CU_ASSERT(root->right->left->right->color == RED);
         CU_ASSERT(root->right->left->left->data == 14);
         CU_ASSERT(root->right->left->left->color == RED);
-        CU_ASSERT(is_rb_tree(root) == 1);
+        CU_ASSERT(is_rb_tree(root, &issue) == 1);
         free_tree(root);
 
         // DB's sibling is red
@@ -353,7 +354,7 @@ void test_remove_rbt() {
         CU_ASSERT(root->right->right->left->color == BLACK);
         CU_ASSERT(root->right->right->right->data == 40);
         CU_ASSERT(root->right->right->right->color == BLACK);
-        CU_ASSERT(is_rb_tree(root) == 1);
+        CU_ASSERT(is_rb_tree(root, &issue) == 1);
         free_tree(root);
 
         // DB's sibling is red
@@ -394,7 +395,7 @@ void test_remove_rbt() {
         CU_ASSERT(root->right->left->color == BLACK);
         CU_ASSERT(root->left->right->left->data == 1);
         CU_ASSERT(root->left->right->left->color == RED);
-        CU_ASSERT(is_rb_tree(root) == 1);
+        CU_ASSERT(is_rb_tree(root, &issue) == 1);
         free_tree(root);
 
         // node_to_del has right child
@@ -436,7 +437,7 @@ void test_remove_rbt() {
         CU_ASSERT(root->left->right->left->color == RED);
         CU_ASSERT(root->left->right->right->data == 8);
         CU_ASSERT(root->left->right->right->color == RED);
-        CU_ASSERT(is_rb_tree(root) == 1);
+        CU_ASSERT(is_rb_tree(root, &issue) == 1);
         free_tree(root);
 
         // DB's sibling is red
@@ -480,7 +481,7 @@ void test_remove_rbt() {
         CU_ASSERT(root->left->right->left->color == RED);
         CU_ASSERT(root->left->right->right->data == 6);
         CU_ASSERT(root->left->right->right->color == RED);
-        CU_ASSERT(is_rb_tree(root) == 1);
+        CU_ASSERT(is_rb_tree(root, &issue) == 1);
         free_tree(root);
 
         // DB's sibling is red
@@ -520,7 +521,7 @@ void test_remove_rbt() {
         CU_ASSERT(root->right->left->color == BLACK);
         CU_ASSERT(root->left->left->right->data == 7);
         CU_ASSERT(root->left->left->right->color == RED);
-        CU_ASSERT(is_rb_tree(root) == 1);
+        CU_ASSERT(is_rb_tree(root, &issue) == 1);
         free_tree(root);
 
         // DB's sibling is red
@@ -561,7 +562,7 @@ void test_remove_rbt() {
         CU_ASSERT(root->left->right->color == BLACK);
         CU_ASSERT(root->right->right->left->data == 25);
         CU_ASSERT(root->right->right->left->color == RED);
-        CU_ASSERT(is_rb_tree(root) == 1);
+        CU_ASSERT(is_rb_tree(root, &issue) == 1);
         /* free_tree(root); */
     }
 
@@ -583,7 +584,7 @@ void test_remove_rbt() {
     root->left->right->left->color = BLACK;
     root->left->right->right->color = BLACK;
     remove_rbt(&root, 10);
-    CU_ASSERT(is_rb_tree(root) == 1);
+    CU_ASSERT(is_rb_tree(root, &issue) == 1);
 
     /* /1* free_tree(root); *1/ */
 

@@ -50,6 +50,7 @@ void free_tree(Node *root);
 void traverse_preorder(Node *root);
 void traverse_level_order(Node *root);
 Node *copy_tree(Node *root);
+int *copy_array_int(int *original_arr, size_t size);
 
 void insert_bst(Node **node, int data);
 
@@ -96,17 +97,24 @@ void right_siblings_far_child_is_red(Node **parent, Node **sibling);
 void left_siblings_far_child_is_red(Node **parent, Node **sibling);
 
 // rb tree utils
-int *rand_numbers(size_t number);
-void create_rand_rbt(Node **root, int **arr_rand_numbers, size_t number);
-int check_inserts_in_multiple_trees(
-    Node **root, size_t number_nodes, size_t number_trees, int is_random);
-int check_removes_in_multiple_trees(
-    Node **root, size_t number_nodes, size_t number_trees, size_t *count);
-int is_rb_tree(Node *node);
 typedef struct CheckResult {
     int n_black_nodes;
     int is_valid;
 } CheckResult;
-CheckResult check_red_black_properties(Node *node);
+typedef struct TreeDebug {
+    Node *tree_root;
+    int *arr_tree_data;
+    char *issue;
+    int n_failed_rbt;
+
+} TreeDebug;
+TreeDebug *initiate_tree_debug();
+int *rand_numbers(size_t number);
+void create_rand_rbt(Node **root, int **arr_rand_numbers, size_t number);
+TreeDebug *check_inserts_in_multiple_trees(
+    TreeDebug **tree_debug,  size_t number_nodes, size_t number_trees, int is_random);
+int is_rb_tree(Node *root, char **issue);
+CheckResult check_red_black_properties(Node *node, char **issue);
+void free_tree_debug(TreeDebug *tree_debug);
 
 #endif
