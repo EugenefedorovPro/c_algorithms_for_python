@@ -5,6 +5,11 @@
 
 #include "../declarations.h"
 
+// calculate both positive and negative numbers in approximately equal ratio
+int get_rand_number(int number) {
+    return (number / 2) - (rand() % (number + 1));
+}
+
 CheckResult check_red_black_properties(Node *node, char **issue) {
     // set explanations of a problem in rbt
     char *double_red_violation = "\ndouble red violation: parent %d is red, and child %d is red\n";
@@ -119,7 +124,7 @@ int *rand_numbers(size_t number) {
     }
 
     for (size_t i = 0; i < number; i++) {
-        arr[i] = (number / 2) - (rand() % (number + 1));
+        arr[i] = get_rand_number(number);
         printf("\nrand number = %d\n", arr[i]);
     }
     return arr;
@@ -130,6 +135,15 @@ void create_rand_rbt(Node **root, int **arr_rand_numbers, size_t number) {
         insert_rbt(root, (*arr_rand_numbers)[i]);
     }
 }
+
+// number - number of nodes to remove from the tree
+void remove_rand_nodes_from_rbt(Node **root, int **arr_rand_numbers, size_t size, size_t n_nodes_to_rm) {
+    for (size_t i = 0; i < n_nodes_to_rm; i++) {
+        // get one of indexes within the size of arr_rand_number
+        int idx = rand() % (size + 1);
+        remove_rbt(root, (*arr_rand_numbers)[idx]);
+    }
+};
 
 // the foo checks insert_rbt function
 // by generating multiple trees with a certain number of nodes

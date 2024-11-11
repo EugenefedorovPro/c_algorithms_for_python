@@ -100,7 +100,7 @@ void test_remove_rbt() {
         CU_ASSERT(root->right->left->color == RED);
         CU_ASSERT(root->right->right->data == 31);
         CU_ASSERT(is_rb_tree(root, &issue) == 1);
-        /* free_tree(root); */
+        free_tree(root);
 
         // DB sibling's black and  DB's sibling's children are black (or null) and parent is red
         // remove right sibling
@@ -563,10 +563,39 @@ void test_remove_rbt() {
         CU_ASSERT(root->right->right->left->data == 25);
         CU_ASSERT(root->right->right->left->color == RED);
         CU_ASSERT(is_rb_tree(root, &issue) == 1);
+        free_tree(root);
+
+        // remove root */
+        // root has no children
+        root = NULL;
+        insert_rbt(&root, 10);
+        remove_rbt(&root, 10);
+        CU_ASSERT(root == NULL);
+        free_tree(root);
+
+        // remove root */
+        // root has one left child
+        root = NULL;
+        insert_rbt(&root, 10);
+        insert_rbt(&root, 5);
+        remove_rbt(&root, 10);
+        CU_ASSERT(root->data == 5);
+        CU_ASSERT(root->color == BLACK);
+        free_tree(root);
+
+        // remove root */
+        // root has one right child
+        root = NULL;
+        insert_rbt(&root, 10);
+        insert_rbt(&root, 20);
+        remove_rbt(&root, 10);
+        CU_ASSERT(root->data == 20);
+        CU_ASSERT(root->color == BLACK);
         /* free_tree(root); */
     }
 
     // remove root
+    // root has two children
     root = NULL;
     insert_rbt(&root, 10);
     insert_rbt(&root, 5);
@@ -586,17 +615,15 @@ void test_remove_rbt() {
     remove_rbt(&root, 10);
     CU_ASSERT(is_rb_tree(root, &issue) == 1);
 
-    /* /1* free_tree(root); *1/ */
-
     tree_to_dot(root);
 
-    free(root);
+    free_tree(root);
 }
 
 int main() {
     CU_initialize_registry();
     CU_pSuite suite = CU_add_suite("Tree Suite", NULL, NULL);
-    CU_add_test(suite, "test of insert_rbt()", test_remove_rbt);
+    CU_add_test(suite, "test of remove_rbt()", test_remove_rbt);
 
     CU_basic_set_mode(CU_BRM_VERBOSE);
     CU_basic_run_tests();

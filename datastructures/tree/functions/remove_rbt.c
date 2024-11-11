@@ -4,6 +4,11 @@
 #include "../declarations.h"
 
 Node *get_sibling(Node **node, Node **parent) {
+    if ((*parent) == NULL) {
+        // parent is NULL when node = root
+        return NULL;
+    }
+
     Node *sibling = NULL;
     if ((*parent)->left != NULL && (*parent)->left->data == (*node)->data) {
         if ((*parent)->right != NULL) {
@@ -24,7 +29,7 @@ Node *get_sibling(Node **node, Node **parent) {
 
 void propagate_and_recolor(Node **node, Stack **stack) {
     // DB sibling's black and  DB's sibling's children are black (or null)
-    printf("\npropagate and recolor");
+    printf("\npropagate and recolor from node = %d of color = %d\n", (*node)->data, (*node)->color);
     // stack keeps all nodes above the node_to_delete
 
     // get parent without deleting it from stack to find sibling to find
@@ -33,7 +38,7 @@ void propagate_and_recolor(Node **node, Stack **stack) {
     // get sibling
     Node *sibling = get_sibling(node, &parent);
 
-    if (sibling->color == BLACK) {
+    if (sibling == NULL || sibling->color == BLACK) {
         Node *prev_node = *node;
         while (!is_stack_empty(stack)) {
             Node *parent = s_pop(stack);
@@ -56,7 +61,7 @@ void propagate_and_recolor(Node **node, Stack **stack) {
         return;
     }
 
-    if (sibling->color == RED) {
+    if (sibling != NULL && sibling->color == RED) {
         Node *parent = s_pop(stack);
         recolor_sibling_red(node, &parent, &sibling, stack);
         return;
@@ -185,12 +190,14 @@ void recolor_sibling_black(Node **node, Node **parent, Node **sibling, Stack **s
            (*parent)->data,
            (*sibling)->data);
 
+    // case 3
     // node_to_delete's sibling is black
-    // and its siblings are black, then recolor
+    // and its children are black, then recolor
     if (((*sibling)->left == NULL || (*sibling)->left->color == BLACK) &&
         ((*sibling)->right == NULL || (*sibling)->right->color == BLACK)) {
         (*parent)->color = BLACK;
         (*sibling)->color = RED;
+        return;
     }
 
     // case 5
@@ -398,9 +405,47 @@ int find_min_in_left_subtree(Node *node) {
 void remove_recolor(Node **node, Stack **stack) {
     printf("\nnode to be deleted = %d\n", (*node)->data);
 
+    if (is_stack_empty(stack)) {
+        printf("\nnode to remove is a root node\n");
+        // root has no children
+        if ((*node)->left == NULL && (*node)->right == NULL) {
+            free(*node);
+            *node = NULL;
+            return;
+        }
+
+        // root has one left child
+        if ((*node)->left != NULL && (*node)->right == NULL) {
+            printf("\nroot to remove has only left child\n");
+            Node *temp = (*node)->left;
+            free(*node);
+            *node = temp;
+            (*node)->color = BLACK;
+            return;
+        }
+
+        // root has one right child
+        if ((*node)->right != NULL && (*node)->left == NULL) {
+            printf("\nroot to remove has only right child\n");
+            Node *temp = (*node)->right;
+            free(*node);
+            *node = temp;
+            (*node)->color = BLACK;
+            return;
+        }
+
+        // root has two children
+        if ((*node)->right != NULL && (*node)->left != NULL) {
+            printf("\nroot to remove has two children\n");
+            return;
+        }
+
+        return;
+    }
+
     // node has no children
     if ((*node)->left == NULL && (*node)->right == NULL) {
-        printf("\nred left node with no children\n");
+        printf("\nleft node with no children\n");
         // *** if red leaf node just delete it
         if ((*node)->color == RED) {
             free(*node);
@@ -442,12 +487,6 @@ void remove_recolor(Node **node, Stack **stack) {
     // node has two children
     if ((*node)->left != NULL && (*node)->right != NULL) {
         // get parent of the node
-        if (is_stack_empty(stack)) {
-            // if stack is empty, then the node_to_del is a root node
-            printf("\nroot node to be removed\n");
-
-            return;
-        }
 
         Node *parent = s_peek(stack);
 
@@ -498,7 +537,6 @@ void find_node(Node **node, int data, Stack **stack) {
 void remove_rbt(Node **root, int data) {
     Stack *stack = NULL;
 
-    // root is added to stack only it it's not single node in a tree
     if (*root == NULL) {
         printf("\nTree is empty\n");
     }

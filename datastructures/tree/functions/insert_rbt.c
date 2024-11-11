@@ -34,6 +34,8 @@ void right_left_rotation(Node **grandparent, Node **parent, Stack **stack) {
     free(*parent);
 
     right_right_rotation(grandparent, &new_parent);
+
+    printf("\nexited right_left_rotation\n");
 }
 
 void left_right_rotation(Node **grandparent, Node **parent, Stack **stack) {
@@ -119,8 +121,8 @@ void right_right_rotation(Node **grandparent, Node **parent) {
     if (temp == NULL) {
         fprintf(stderr, "memory allocation failed for temp");
         return;
-        }
-        *temp = **grandparent;
+    }
+    *temp = **grandparent;
 
     if (sibling != NULL) {
         temp->right = sibling;
@@ -137,6 +139,7 @@ void right_right_rotation(Node **grandparent, Node **parent) {
 
     (*grandparent)->left->color = RED;
     (*grandparent)->color = BLACK;
+    printf("\nexited right_right_rotation \n");
 }
 
 void check_above(Node **node, int data, Stack **stack) {
@@ -148,6 +151,7 @@ void check_above(Node **node, int data, Stack **stack) {
         if ((*node)->left->data == data) {
             Node *base_node = (*node)->left;
             balance(stack, &base_node);
+            return;
         } else {
             s_append(stack, (*node)->left);
             check_above(&((*node)->left), data, stack);
@@ -157,7 +161,7 @@ void check_above(Node **node, int data, Stack **stack) {
         if ((*node)->right->data == data) {
             Node *base_node = (*node)->right;
             balance(stack, &base_node);
-
+            return;
         } else {
             s_append(stack, (*node)->right);
             check_above(&((*node)->right), data, stack);
@@ -236,6 +240,7 @@ void left_uncle_black(Node **parent, Node **grandparent, Stack **stack) {
     }
     if ((*grandparent)->right != NULL && (*grandparent)->right->data == (*parent)->data) {
         right_left_rotation(grandparent, parent, stack);
+        printf("\nexited left_uncle_black\n");
         return;
     }
 }
@@ -295,6 +300,7 @@ void balance(Stack **stack, Node **node) {
             // right - right
             if (parent->left != NULL && parent->left->data == (*node)->data) {
                 left_uncle_black(&parent, &grandparent, stack);
+                printf("\nexited balance \n");
                 return;
             }
         }
@@ -319,18 +325,20 @@ void insert_recurse(Node **node, int data, Stack **stack) {
     if (data == (*node)->data) {
         printf("\nYou try to add data %d, which already exists in the rb tree\n", data);
         return;
-    }  
+    }
 
     if (data < (*node)->data) {
         if ((*node)->left == NULL) {
             (*node)->left = create_node(data, RED);
             Node *new_node = (*node)->left;
             balance(stack, &new_node);
+            printf("\nfirst low mark where error occurs \n");
             return;
 
         } else {
             s_append(stack, (*node)->left);
             insert_recurse(&((*node)->left), data, stack);
+            return;
         }
     }
 
@@ -339,11 +347,13 @@ void insert_recurse(Node **node, int data, Stack **stack) {
             (*node)->right = create_node(data, RED);
             Node *new_node = (*node)->right;
             balance(stack, &new_node);
+            printf("\nsecond low mark where error occurs \n");
             return;
 
         } else {
             s_append(stack, (*node)->right);
             insert_recurse(&((*node)->right), data, stack);
+            return;
         }
     }
 }

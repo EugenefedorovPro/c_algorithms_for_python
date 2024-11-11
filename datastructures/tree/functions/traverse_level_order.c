@@ -21,7 +21,7 @@ void traverse(NodesQueue *nodes_queue, size_t *idx) {
         int data = dequeued_node->data;
         int color = dequeued_node->color;
 
-        printf("level = %zu, ids = %zu, data = %d, color = %d\n", get_level(*idx + 1), *idx, data, color);
+        printf("level = %zu, ids = %zu, color = %d, data = %d\n", get_level(*idx + 1), *idx, color, data);
 
         (*idx)++;
 
@@ -36,6 +36,10 @@ void traverse(NodesQueue *nodes_queue, size_t *idx) {
 
 void traverse_level_order(Node *root) {
     printf("\nTraverse level order: \n");
+    if (root == NULL) {
+        printf("\nTree is empty, root = NULL\n");
+        return;
+    }
     size_t idx = 0;
     NodesQueue *nodes_queue = initiate_queue();
     // add root to nodes_queue

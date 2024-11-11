@@ -116,5 +116,6 @@ TreeDebug *check_inserts_in_multiple_trees(
 int is_rb_tree(Node *root, char **issue);
 CheckResult check_red_black_properties(Node *node, char **issue);
 void free_tree_debug(TreeDebug *tree_debug);
+void remove_rand_nodes_from_rbt(Node **root, int **arr_rand_numbers, size_t size, size_t n_nodes_to_rm);
 
 #endif
