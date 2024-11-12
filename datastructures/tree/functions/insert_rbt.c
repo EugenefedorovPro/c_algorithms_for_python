@@ -332,7 +332,6 @@ void insert_recurse(Node **node, int data, Stack **stack) {
             (*node)->left = create_node(data, RED);
             Node *new_node = (*node)->left;
             balance(stack, &new_node);
-            printf("\nfirst low mark where error occurs \n");
             return;
 
         } else {
@@ -347,7 +346,6 @@ void insert_recurse(Node **node, int data, Stack **stack) {
             (*node)->right = create_node(data, RED);
             Node *new_node = (*node)->right;
             balance(stack, &new_node);
-            printf("\nsecond low mark where error occurs \n");
             return;
 
         } else {

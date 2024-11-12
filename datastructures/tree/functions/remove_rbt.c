@@ -52,6 +52,7 @@ void propagate_and_recolor(Node **node, Stack **stack) {
             // recolor
             recolor_sibling_black(&prev_node, &parent, &sibling, stack);
             prev_node = parent;
+
             // if parent color is RED, it is just recolored to BLACK (not DB) and no up
             // propagation of recoloring
             if (prev_node_color == RED) {
@@ -248,14 +249,14 @@ void recolor_sibling_black(Node **node, Node **parent, Node **sibling, Stack **s
 }
 
 void recolor_sibling_red(Node **node, Node **parent, Node **sibling, Stack **stack) {
-    printf("\nrecolor_sibling_red: node = %d, parent = %d\n, sibling = %d",
+    printf("\nrecolor_sibling_red: node = %d, parent = %d\n, sibling = %d\n",
            (*node)->data,
            (*parent)->data,
            (*sibling)->data);
 
     // node is right of the parent
     if ((*parent)->left->data == (*node)->data) {
-        printf("\nnode is left child of parent and sibling is red\n");
+        printf("node is left child of parent and sibling is red\n");
         // Swap DB’s parent’s color with DB’s sibling’s color
         Color temp_parent_color = (*parent)->color;
         (*parent)->color = (*sibling)->color;
@@ -287,6 +288,7 @@ void recolor_sibling_red(Node **node, Node **parent, Node **sibling, Stack **sta
         s_append(stack, *sibling);
 
         recolor_sibling_black(&((*parent)->left), parent, &((*parent)->right), stack);
+        return;
     }
 
     if ((*parent)->right->data == (*node)->data) {
@@ -321,10 +323,13 @@ void recolor_sibling_red(Node **node, Node **parent, Node **sibling, Stack **sta
         s_append(stack, *sibling);
 
         recolor_sibling_black(&((*parent)->right), parent, &((*parent)->left), stack);
+        return;
     }
 }
 
 void rm_min_in_right_subtree(Node *node, Node *parent, int min_data) {
+    printf("\nremove minimal node = %d in the right subtree\n", node->data);
+
     if (node == NULL) return;
 
     // if top node of subtree does not have left child
@@ -355,91 +360,122 @@ void rm_min_in_right_subtree(Node *node, Node *parent, int min_data) {
     }
 }
 
-void rm_min_in_left_subtree(Node *node, Node *parent, int min_data) {
-    if (node == NULL) return;
-    // if top node of subtree does not have right child
-    if (node->right == NULL) {
-        if (node->left != NULL) {
-            Node *temp = node->left;
-            free(node);
-            if (parent != NULL) {
-                parent->left = temp;
-            }
-            return;
-        } else {
-            free(node);
-            if (parent != NULL) {
-                parent->left = NULL;
-            }
-            return;
-        }
-    }
+void rm_min_in_left_subtree(Node **node, Stack **stack) {
+    printf("\nremove node with minimal data = %d in left subtree\n", (*node)->data);
+    /* // node = root in this case */
+    /* find_node(node, min_data, stack); */
 
-    // if top node of subtree has right child
-    if (node->right->data == min_data) {
-        free(node->right);
-        node->right = NULL;
-    } else {
-        rm_min_in_left_subtree(node->right, parent, min_data);
-    }
+    remove_recolor(node, stack);
+
+    // add stack in the foo
+    // add remove_recolor
+
+    /* // if top node of subtree does not have right child */
+    /* if (node->right == NULL) { */
+    /*     if (node->left != NULL) { */
+    /*         Node *temp = node->left; */
+    /*         free(node); */
+    /*         if (parent != NULL) { */
+    /*             parent->left = temp; */
+    /*         } */
+    /*         return; */
+    /*     } else { */
+    /*         free(node); */
+    /*         if (parent != NULL) { */
+    /*             parent->left = NULL; */
+    /*         } */
+    /*         return; */
+    /*     } */
+    /* } */
+
+    /* // if top node of subtree has right child */
+    /* if (node->right->data == min_data) { */
+    /*     free(node->right); */
+    /*     node->right = NULL; */
+    /* } else { */
+    /*     rm_min_in_left_subtree(node->right, parent, min_data); */
+    /* } */
 }
 
 // node = top node of the right subtree
 int find_min_in_right_subtree(Node *node) {
-    if (node->left == NULL) {
+    if (node->right == NULL) {
         return node->data;
     } else {
-        return find_min_in_right_subtree(node->left);
+        return find_min_in_right_subtree(node->right);
     }
 }
 
 // node = top node of the right subtree
-int find_min_in_left_subtree(Node *node) {
-    if (node->right == NULL) {
-        return node->data;
+Node *find_min_in_left_subtree(Node **node, Stack **stack) {
+    if ((*node)->left == NULL) {
+        return *node;
     } else {
-        return find_min_in_left_subtree(node->right);
+        s_append(stack, *node);
+        return find_min_in_left_subtree(&((*node)->left), stack);
     }
+}
+
+void remove_root_node(Node **node, Stack **stack) {
+    // root has no children
+    if ((*node)->left == NULL && (*node)->right == NULL) {
+        free(*node);
+        *node = NULL;
+        return;
+    }
+
+    // root has one left child
+    if ((*node)->left != NULL && (*node)->right == NULL) {
+        printf("\nroot to remove has only left child\n");
+        Node *temp = (*node)->left;
+        free(*node);
+        *node = temp;
+        (*node)->color = BLACK;
+        return;
+    }
+
+    // root has one right child
+    if ((*node)->right != NULL && (*node)->left == NULL) {
+        printf("\nroot to remove has only right child\n");
+        Node *temp = (*node)->right;
+        free(*node);
+        *node = temp;
+        (*node)->color = BLACK;
+        return;
+    }
+
+    // root has two children
+    if ((*node)->right != NULL && (*node)->left != NULL) {
+        printf("\nroot to remove has two children\n");
+        // get min in left or max in right
+
+        free_stack(stack);
+
+        Node *min_data_left = find_min_in_left_subtree(node, stack);
+        /* int min_data_right = find_min_in_right_subtree(*node); */
+        printf("\nmin_data_left = %d", min_data_left->data);
+        /* printf("\nmin_data_right = %d", min_data_right); */
+
+        printf("\nnew root data = %d\n", (*node)->data);
+        print_all_stack(stack);
+
+        // node = next node after the new root in a left subtree
+        rm_min_in_left_subtree(node, stack);
+        (*node)->data = min_data_left->data;
+
+        return;
+    }
+
+    return;
 }
 
 void remove_recolor(Node **node, Stack **stack) {
     printf("\nnode to be deleted = %d\n", (*node)->data);
+    print_all_stack(stack);
 
     if (is_stack_empty(stack)) {
         printf("\nnode to remove is a root node\n");
-        // root has no children
-        if ((*node)->left == NULL && (*node)->right == NULL) {
-            free(*node);
-            *node = NULL;
-            return;
-        }
-
-        // root has one left child
-        if ((*node)->left != NULL && (*node)->right == NULL) {
-            printf("\nroot to remove has only left child\n");
-            Node *temp = (*node)->left;
-            free(*node);
-            *node = temp;
-            (*node)->color = BLACK;
-            return;
-        }
-
-        // root has one right child
-        if ((*node)->right != NULL && (*node)->left == NULL) {
-            printf("\nroot to remove has only right child\n");
-            Node *temp = (*node)->right;
-            free(*node);
-            *node = temp;
-            (*node)->color = BLACK;
-            return;
-        }
-
-        // root has two children
-        if ((*node)->right != NULL && (*node)->left != NULL) {
-            printf("\nroot to remove has two children\n");
-            return;
-        }
-
+        remove_root_node(node, stack);
         return;
     }
 
@@ -450,17 +486,23 @@ void remove_recolor(Node **node, Stack **stack) {
         if ((*node)->color == RED) {
             free(*node);
             *node = NULL;
+
+            // get parent
+            Node *parent = s_pop(stack);
+            // set NULL link from parent to removed node
+            parent->left = NULL;
+
             return;
         }
 
-        // other cases
-        propagate_and_recolor(node, stack);
+        /* // other cases */
+        /* propagate_and_recolor(node, stack); */
 
-        // delete node_to_delete
-        free(*node);
-        *node = NULL;
+        /* // delete node_to_delete */
+        /* free(*node); */
+        /* *node = NULL; */
 
-        return;
+        /* return; */
     }
 
     // node has one right child
@@ -488,28 +530,35 @@ void remove_recolor(Node **node, Stack **stack) {
     if ((*node)->left != NULL && (*node)->right != NULL) {
         // get parent of the node
 
-        Node *parent = s_peek(stack);
+        /* Node *parent = s_peek(stack); */
 
-        // no propagate and recolor as node_to_del is a red leaf node
+        /* // no propagate and recolor as node_to_del is a red leaf node */
 
-        // node is a right node of the parent
-        if (parent->right->data == (*node)->data) {
-            printf("\nparent->right->data\n");
-            int min_data = find_min_in_right_subtree(((*node)->right));
-            (*node)->data = min_data;
-            rm_min_in_right_subtree((*node)->right, *node, min_data);
-            return;
-        }
+        /* // node is a right node of the parent */
+        /* if (parent->right->data == (*node)->data) { */
+        /*     printf("\nparent->right->data\n"); */
+        /*     int min_data = find_min_in_right_subtree(((*node)->right)); */
+        /*     (*node)->data = min_data; */
+        /*     rm_min_in_right_subtree((*node)->right, *node, min_data); */
+        /*     return; */
+        /* } */
 
         // node is a left node of the parent
-        if (parent->left->data == (*node)->data) {
-            printf("\nparent->left->data\n");
-            int min_data = find_min_in_left_subtree(((*node)->left));
-            printf("\nmin_data = %d\n", min_data);
-            (*node)->data = min_data;
-            rm_min_in_left_subtree((*node)->left, *node, min_data);
-            return;
-        }
+        /* if (parent->left->data == (*node)->data) { */
+        printf("\nparent->left->data\n");
+
+        /* free_stack(stack); */
+
+        Node *min_data_node = find_min_in_left_subtree(node, stack);
+        int min_data = min_data_node->data;
+        printf("\nmin_data = %d\n", min_data_node->data);
+
+
+        remove_recolor(&min_data_node, stack);
+        // change node data for min data of the left subtree
+        (*node)->data = min_data;
+        return;
+        /* } */
     }
 }
 

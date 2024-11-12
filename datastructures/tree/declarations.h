@@ -72,6 +72,7 @@ int is_stack_empty(Stack **stack);
 void print_all_stack(Stack **stack);
 size_t get_stack_size(Stack **stack);
 Node *s_peek(Stack **stack);
+void free_stack(Stack **stack);
 
 // red black tree
 // insert
@@ -117,5 +118,6 @@ int is_rb_tree(Node *root, char **issue);
 CheckResult check_red_black_properties(Node *node, char **issue);
 void free_tree_debug(TreeDebug *tree_debug);
 void remove_rand_nodes_from_rbt(Node **root, int **arr_rand_numbers, size_t size, size_t n_nodes_to_rm);
+void remove_recolor(Node **node, Stack **stack);
 
 #endif

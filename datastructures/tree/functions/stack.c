@@ -10,6 +10,12 @@ Stack *create_stack_item(Node *node) {
     return item;
 }
 
+void free_stack(Stack **stack) {
+    while (*stack) {
+        s_pop(stack);
+    }
+}
+
 void s_append(Stack **stack, Node *node) {
     if (*stack == NULL) {
         *stack = create_stack_item(node);

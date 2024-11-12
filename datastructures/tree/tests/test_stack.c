@@ -51,6 +51,16 @@ void test_stack() {
     size_t size2 = get_stack_size(&stack);
     CU_ASSERT(size2 == 0);
 
+    // free_stack() test
+    Node *node4 = create_node(10, RED);
+    s_append(&stack, node4);
+    Node *node5 = create_node(20, RED);
+    s_append(&stack, node5);
+
+    CU_ASSERT(get_stack_size(&stack) == 2);
+    free_stack(&stack);
+    CU_ASSERT(stack == NULL);
+
 }
 
 int main() {
