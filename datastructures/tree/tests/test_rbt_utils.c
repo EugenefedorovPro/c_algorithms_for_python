@@ -10,6 +10,7 @@
 
 void test_rbt_utils() {
     int is_test_all = 0;
+
     Node *root = NULL;
     char *issue = NULL;
 

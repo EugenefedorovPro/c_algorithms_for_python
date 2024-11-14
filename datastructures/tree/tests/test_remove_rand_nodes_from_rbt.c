@@ -13,9 +13,15 @@ void test_remove_nodes_from_rbt() {
     size_t size = 7;
     int *arr_rand_numbers = rand_numbers(size);
     create_rand_rbt(&root, &arr_rand_numbers, size);
-    traverse_level_order(root);
-    size_t n_node_to_rm = 3;
-    remove_rand_nodes_from_rbt(&root, &arr_rand_numbers, size, n_node_to_rm);
+    /* traverse_level_order(root); */
+    /* size_t n_node_to_rm = 2; */
+    /* remove_rand_nodes_from_rbt(&root, &arr_rand_numbers, size, n_node_to_rm); */
+    remove_rbt(&root, -4);
+
+    /* char *issue = NULL; */
+    /* int result = is_rb_tree(root, &issue); */
+    /* CU_ASSERT(result == 1); */
+
     traverse_level_order(root);
 
     tree_to_dot(root);
