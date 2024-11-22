@@ -88,11 +88,11 @@ void right_uncle_black(Node **parent, Node **grandparent, Stack **stack);
 // remove
 void remove_rbt(Node **root, int data);
 void find_node(Node **node, int data, Stack **stack);
-void propagate_and_recolor(Node **node, Stack **stack);
+void propagate_and_recolor(Node **parent, Node **sibling, Stack **stack, int node_position_to_parent);
 void find_node(Node **node, int data, Stack **stack);
 Node *get_sibling(Node **node, Node **parent);
-void recolor_sibling_black(Node **node, Node **parent, Node **sibling, Stack **stack);
-void recolor_sibling_red(Node **node, Node **parent, Node **sibling, Stack **stack);
+void recolor_sibling_black(Node **parent, Node **sibling, Stack **stack, int node_position_to_parent);
+void recolor_sibling_red(Node **parent, Node **sibling, Stack **stack, int node_position_to_parent);
 void right_siblings_far_child_is_black(Node **parent, Node **sibling);
 void right_siblings_far_child_is_red(Node **parent, Node **sibling);
 void left_siblings_far_child_is_red(Node **parent, Node **sibling);
@@ -105,9 +105,10 @@ typedef struct CheckResult {
 typedef struct TreeDebug {
     Node *tree_root;
     int *arr_tree_data;
+    int *arr_of_removed_numbers;
+    size_t size_of_removed_numbers;
     char *issue;
     int n_failed_rbt;
-
 } TreeDebug;
 TreeDebug *initiate_tree_debug();
 int *rand_numbers(size_t number);
@@ -119,5 +120,10 @@ CheckResult check_red_black_properties(Node *node, char **issue);
 void free_tree_debug(TreeDebug *tree_debug);
 void remove_rand_nodes_from_rbt(Node **root, int **arr_rand_numbers, size_t size, size_t n_nodes_to_rm);
 void remove_recolor(Node **node, Stack **stack);
+TreeDebug *check_removes_in_multiple_trees(TreeDebug **tree_debug,
+                                           size_t number_nodes,
+                                           size_t number_trees,
+                                           int is_random);
+void refresh_arr_of_removed_numbers(int **arr_of_removed_numbers, size_t *size, int n_to_remove);
 
 #endif

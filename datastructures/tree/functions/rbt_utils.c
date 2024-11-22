@@ -10,6 +10,12 @@ int get_rand_number(int number) {
     return (number / 2) - (rand() % (number + 1));
 }
 
+void create_rand_rbt(Node **root, int **arr_rand_numbers, size_t number) {
+    for (size_t i = 0; i < number; i++) {
+        insert_rbt(root, (*arr_rand_numbers)[i]);
+    }
+}
+
 CheckResult check_red_black_properties(Node *node, char **issue) {
     // set explanations of a problem in rbt
     char *double_red_violation = "\ndouble red violation: parent %d is red, and child %d is red\n";
@@ -71,6 +77,7 @@ CheckResult check_red_black_properties(Node *node, char **issue) {
                right_result.n_black_nodes);
         snprintf(*issue, 100, black_rule_violation, node->data);
         result.is_valid = 0;
+        return result;
     }
 
     // check binary search tree key principle for the adjacent nodes only
@@ -78,6 +85,7 @@ CheckResult check_red_black_properties(Node *node, char **issue) {
         printf(left_bst_violation, node->left->data, node->data);
         snprintf(*issue, 100, left_bst_violation, node->data, node->left->data);
         result.is_valid = 0;
+        return result;
     }
 
     if (node->right != NULL && node->right->data < node->data) {
@@ -85,6 +93,7 @@ CheckResult check_red_black_properties(Node *node, char **issue) {
         snprintf(*issue, 100, right_bst_violation, node->data, node->left->data);
 
         result.is_valid = 0;
+        return result;
     }
 
     return result;
@@ -130,14 +139,113 @@ int *rand_numbers(size_t number) {
     return arr;
 }
 
-void create_rand_rbt(Node **root, int **arr_rand_numbers, size_t number) {
-    for (size_t i = 0; i < number; i++) {
-        insert_rbt(root, (*arr_rand_numbers)[i]);
+void refresh_arr_of_removed_numbers(int **arr_of_removed_numbers, size_t *size, int n_to_remove) {
+    if (*arr_of_removed_numbers == NULL && (*size) == 0) {
+        *arr_of_removed_numbers = malloc(sizeof(int));
+        (*arr_of_removed_numbers)[0] = n_to_remove;
+        (*size)++;
+        return;
     }
+
+    int *new_arr = realloc((*arr_of_removed_numbers), sizeof(int) * ((*size) + 1));
+    if (!new_arr) {
+        fprintf(stderr, "\nERR: memory allocation for new_arr failed\n");
+        return;
+    }
+
+    *arr_of_removed_numbers = new_arr;
+
+    (*arr_of_removed_numbers)[*size] = n_to_remove;
+    (*size)++;
+}
+
+TreeDebug *check_removes_in_multiple_trees(TreeDebug **tree_debug,
+                                           size_t number_nodes,
+                                           size_t number_trees,
+                                           int is_random) {
+    // if to generate genuine random numbers with changing seed or not
+    if (is_random) {
+        srand(time(NULL));
+    }
+
+    // status of red black tree is 1 if the tree is rbt and 0 if it is not
+    int status_rbt = 1;
+
+    // initialize main
+    Node *root = NULL;
+    int *arr_of_removed_numbers = NULL;
+    size_t size_arr_of_removed_numbers = 0;
+
+    char *issue = malloc(100);
+    if (!issue) return NULL;
+    strcpy(issue, "no issues");
+
+    // create multiple trees
+    for (size_t i = 0; i < number_trees; i++) {
+        // exit with the last saves state of the tree if tree has appeared to violate rbt rules
+        if (!status_rbt) {
+            break;
+        }
+
+        // reset base variables to NULL
+        if (root) {
+            free_tree(root);
+            root = NULL;
+        }
+        if (arr_of_removed_numbers) {
+            free(arr_of_removed_numbers);
+            arr_of_removed_numbers = NULL;
+        }
+        size_arr_of_removed_numbers = 0;
+
+        strcpy(issue, "no issues");
+
+        // make arr of random numbers
+        int *arr_rand_numbers = rand_numbers(number_nodes);
+        (*tree_debug)->arr_tree_data = arr_rand_numbers;
+
+        // create tree
+        create_rand_rbt(&root, &arr_rand_numbers, number_nodes);
+
+        // remove approximately all nodes from one tree
+        for (size_t i = 0; i < number_nodes; i++) {
+            strcpy(issue, "no issues");
+
+            // get one rand number to remove
+            int idx = rand() % (number_nodes + 1);
+            refresh_arr_of_removed_numbers(
+                &arr_of_removed_numbers, &size_arr_of_removed_numbers, arr_rand_numbers[idx]);
+
+            // save state of tree before one node removal is actually done, as it may crash the
+            // program
+            (*tree_debug)->tree_root = root;
+            (*tree_debug)->issue = issue;
+            (*tree_debug)->arr_of_removed_numbers = arr_of_removed_numbers;
+            (*tree_debug)->size_of_removed_numbers = size_arr_of_removed_numbers;
+
+            // remove on node
+            remove_rbt(&root, arr_rand_numbers[idx]);
+
+            // check if tree is rbt
+            status_rbt = is_rb_tree(root, &issue);
+
+            // add 1 to number of failed trees if status is 0;
+            // and break exit program with the last saves state of tree
+            if (!status_rbt) {
+                (*tree_debug)->n_failed_rbt++;
+                break;
+            }
+        }
+    }
+
+    return *tree_debug;
 }
 
 // number - number of nodes to remove from the tree
-void remove_rand_nodes_from_rbt(Node **root, int **arr_rand_numbers, size_t size, size_t n_nodes_to_rm) {
+void remove_rand_nodes_from_rbt(Node **root,
+                                int **arr_rand_numbers,
+                                size_t size,
+                                size_t n_nodes_to_rm) {
     for (size_t i = 0; i < n_nodes_to_rm; i++) {
         // get one of indexes within the size of arr_rand_number
         int idx = rand() % (size + 1);

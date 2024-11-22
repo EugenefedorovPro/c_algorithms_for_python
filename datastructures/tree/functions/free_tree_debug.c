@@ -19,5 +19,10 @@ void free_tree_debug(TreeDebug *tree_debug) {
         tree_debug->issue = NULL;
     }
 
+    if (tree_debug->arr_of_removed_numbers) {
+        free(tree_debug->arr_of_removed_numbers);
+    }
+
     tree_debug->n_failed_rbt = 0;
+    tree_debug->size_of_removed_numbers = 0;
 }
