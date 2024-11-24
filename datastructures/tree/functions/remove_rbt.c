@@ -3,6 +3,8 @@
 
 #include "../declarations.h"
 
+int double_black;
+
 enum NodePositionToParent {
     RIGHT = 1,
     LEFT = 0,
@@ -24,7 +26,10 @@ int get_node_position_to_parent(Node *node, Node *parent) {
     if (parent->right && parent->right == node) {
         node_position_to_parent = RIGHT;
     }
-    printf("\nnode = %d, position = %d to parent = %d\n", node->data, node_position_to_parent, parent->data);
+    printf("\nnode = %d, position = %d to parent = %d\n",
+           node->data,
+           node_position_to_parent,
+           parent->data);
     return node_position_to_parent;
 }
 
@@ -71,38 +76,40 @@ void propagate_and_recolor(Node **parent,
 
         Node *prev_node = *parent;  // save parent
 
-        // if case #3 propagate it upwards
-        while (((*sibling)->right == NULL || (*sibling)->right->color == BLACK) && ((*sibling)->left == NULL || (*sibling)->left->color == BLACK)) {
-            Color prev_parent_color = (*parent)->color;
+        Color prev_parent_color = (*parent)->color;
 
-            // recolor
-            recolor_sibling_black(parent, sibling, stack, node_position_to_parent);
+        // recolor
+        recolor_sibling_black(parent, sibling, stack, node_position_to_parent);
 
-            // if no upward propagation, break while
-            if (is_stack_empty(stack)) {
-                break;
-            }
-
-            // if parent color is RED, it is just recolored to BLACK (not DB) and no up
-            // propagation of recoloring
-            if (prev_parent_color == RED) {
-                break;
-            }
-
-            /* break; */
-
-            *parent = s_pop(stack);
-            printf("\nparent = %d\n", (*parent)->data);
-
-            // when parent changed, so we need to redefine siblings
-            *sibling = get_sibling(&prev_node, parent);
-            node_position_to_parent = get_node_position_to_parent(prev_node, *parent);
-
-            // renew prev_node with new parent
-            prev_node = *parent;
+        // if double_black = 0, stop propagation and exit program as the tree is balanced
+        if (double_black == 0) {
+            return;
         }
 
-        recolor_sibling_black(parent, sibling, stack, node_position_to_parent);
+        // if no upward propagation, break while
+        if (is_stack_empty(stack)) {
+            return;
+        }
+
+        // if parent color is RED, it is just recolored to BLACK (not DB) and no up
+        // propagation of recoloring
+        if (prev_parent_color == RED) {
+            return;
+        }
+
+        *parent = s_pop(stack);
+        printf("\nparent = %d\n", (*parent)->data);
+
+        // when parent changed, so we need to redefine siblings
+        *sibling = get_sibling(&prev_node, parent);
+        node_position_to_parent = get_node_position_to_parent(prev_node, *parent);
+
+        // renew prev_node with new parent
+        prev_node = *parent;
+
+        // it does the same as inside while even if condition in while is false - ?????
+        /* recolor_sibling_black(parent, sibling, stack, node_position_to_parent); */
+        propagate_and_recolor(parent, sibling, stack, node_position_to_parent);
         return;
     }
 
@@ -138,6 +145,9 @@ void right_siblings_far_child_is_black(Node **parent, Node **sibling) {
     (*parent)->right->right = temp_sibling;
 
     temp_sibling->left = temp_right_child_of_siblings_left_child;
+
+    // if double_black = 0, stop propagation and exit program as the tree is balanced
+    double_black = 0;
 }
 
 void left_siblings_far_child_is_black(Node **parent, Node **sibling) {
@@ -164,6 +174,9 @@ void left_siblings_far_child_is_black(Node **parent, Node **sibling) {
     (*parent)->left->left = temp_sibling;
 
     temp_sibling->right = temp_left_child_of_siblings_right_child;
+
+    // if double_black = 0, stop propagation and exit program as the tree is balanced
+    double_black = 0;
 }
 
 void right_siblings_far_child_is_red(Node **parent, Node **sibling) {
@@ -173,7 +186,6 @@ void right_siblings_far_child_is_red(Node **parent, Node **sibling) {
 
     // redefine sibling according to new tree structure
     printf("\ncase #6: right sibling is black, sibling's = %d far child is red", (*sibling)->data);
-    printf("\nfar child = %d, color = %d\n", (*sibling)->right->data, (*sibling)->right->color);
 
     // swap colors of DB's parent with DB's sibling's color
     Color temp_parent_color = (*parent)->color;
@@ -266,8 +278,7 @@ void recolor_sibling_black(Node **parent,
         (*sibling)->left->color == RED) {
         printf(
             "\ncase #5: right sibling is black, sibling's far child is black, siblings near child "
-            "is "
-            "red\n");
+            "is red\n");
 
         right_siblings_far_child_is_black(parent, sibling);
 
@@ -277,7 +288,6 @@ void recolor_sibling_black(Node **parent,
 
         // redefine sibling according to new tree structure
         sibling = &((*parent)->right);
-        /* sibling = &((*parent)->right); */
         if ((*sibling)->color == BLACK && (*sibling)->right != NULL &&
             (*sibling)->right->color == RED) {
             right_siblings_far_child_is_red(parent, sibling);
@@ -305,18 +315,19 @@ void recolor_sibling_black(Node **parent,
 
     if ((node_position_to_parent = RIGHT && (*sibling)->left && (*sibling)->left->color == RED) ||
         (node_position_to_parent == LEFT && (*sibling)->right && (*sibling)->right->color == RED)) {
-        /* printf("\ncase #6: sibling's = %d far child is red = %d\n", (*sibling)->data,
-         * (*sibling)->right->color); */
         // case 6
         // DB's sibling is black
         // DB's sibling's far child is red
-        // redefine sibling according to new tree structure
 
+        // redefine sibling according to new tree structure
         if ((*parent)->right && (*parent)->right->data == (*sibling)->data) {
             right_siblings_far_child_is_red(parent, sibling);
         } else {
             left_siblings_far_child_is_red(parent, sibling);
         }
+
+        // if double_black = 0, stop propagation and exit program as the tree is balanced
+        double_black = 0;
 
         return;
     }
@@ -433,7 +444,7 @@ void recolor_sibling_red(Node **parent,
         }
         if (grandparent && grandparent->right->data == (*parent)->data) {
             grandparent->right = *sibling;
-            (*sibling)->left = temp_parent;
+            (*sibling)->right = temp_parent;
         }
 
         if (!grandparent) {
@@ -454,19 +465,6 @@ void recolor_sibling_red(Node **parent,
 
         recolor_sibling_black(&temp_parent, &(temp_parent->left), stack, node_position_to_parent);
         return;
-
-        /* grandparent->left = *sibling; */
-        /* (*sibling)->right = temp_parent; */
-        /* (*parent)->left = temp_left_node_of_sibling; */
-
-        /* printf("parent = %d", (*parent)->data); */
-
-        /* // add parent and grandparent to stack */
-        /* s_append(stack, *parent); */
-        /* s_append(stack, *sibling); */
-
-        /* recolor_sibling_black(parent, &((*parent)->left), stack, node_position_to_parent); */
-        /* return; */
     }
 }
 
@@ -677,16 +675,21 @@ void find_node(Node **node, int data, Stack **stack) {
     if (data > (*node)->data) {
         s_append(stack, *node);
         find_node(&((*node)->right), data, stack);
+        return;
     }
 
     if (data < (*node)->data) {
         s_append(stack, *node);
         find_node(&((*node)->left), data, stack);
+        return;
     }
 }
 
 void remove_rbt(Node **root, int data) {
     printf("\n***** remove_rbt *****\n");
+
+    double_black = 1;
+
     Stack *stack = NULL;
 
     if (*root == NULL) {

@@ -105,13 +105,13 @@ int is_rb_tree(Node *root, char **issue) {
 
     if (root == NULL) {
         printf("%s", empty);
-        *issue = empty;
+        strcpy(*issue, empty);
         return 1;
     }
 
     if (root->color != BLACK) {
         printf("%s", root_red);
-        *issue = root_red;
+        strcpy(*issue, root_red);
         return 0;
     }
 
@@ -228,6 +228,8 @@ TreeDebug *check_removes_in_multiple_trees(TreeDebug **tree_debug,
 
             // check if tree is rbt
             status_rbt = is_rb_tree(root, &issue);
+
+            /* tree_to_dot(root); */
 
             // add 1 to number of failed trees if status is 0;
             // and break exit program with the last saves state of tree

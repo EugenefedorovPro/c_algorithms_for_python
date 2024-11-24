@@ -704,14 +704,29 @@ void test_remove_rbt() {
         CU_ASSERT(is_rb_tree(root, &issue) == 1);
         free_tree(root);
 
+
         root = NULL;
-        size_t size = 13;
+        int tree_arr[] = {-1, -3, 2, -5, -2, 1, 8, 6, -4};
+        for (size_t i = 0; i < 9; i++) {
+            insert_rbt(&root, tree_arr[i]);
+        }
+        root->left->color = BLACK;
+        root->right->color = BLACK;
+        remove_rbt(&root, 1);
+        /* free_tree(root); */
+        CU_ASSERT(is_rb_tree(root, &issue) == 1);
+        free_tree(root);
+
+        root = NULL;
         int arr_nodes[] = {7, 4, 13, 2, 5, 10, 17, 1, 9, 11, 15, 18, 12};
-        for (size_t i = 0; i < size; i++) {
+        for (size_t i = 0; i < 13; i++) {
             insert_rbt(&root, arr_nodes[i]);
         }
         remove_rbt(&root, 5);
+        CU_ASSERT(is_rb_tree(root, &issue) == 1);
         /* free_tree(root); */
+        
+
     }
 
     tree_to_dot(root);

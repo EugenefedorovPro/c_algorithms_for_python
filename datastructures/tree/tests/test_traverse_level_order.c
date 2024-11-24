@@ -8,32 +8,20 @@
 #include "../declarations.h"
 
 void test_traverse_level_order() {
-    size_t size = 15;
-    int *arr = malloc(sizeof(int) * size);
-    for (size_t i = 0; i < size; i++) {
-        arr[i] = i + 1;
-    }
-    /* // print arr */
-    /* printf("\narr = "); */
-    /* for (size_t i = 0; i < size; i++) { */
-    /*     printf(" %d ", arr[i]); */
-    /* } */
-    /* printf("\n--------------------\n"); */
+/* int *rand_numbers(size_t number); */
+/* void create_rand_rbt(Node **root, int **arr_rand_numbers, size_t number); */
 
-    /* // print initial arr */
-    /* for (size_t i = 0; i < size; i++) { */
-    /*     printf("\narr number = %d\n", arr[i]); */
-    /* } */
-    /* printf("\n--------------------\n"); */
+    size_t size = 10;
+    int *nodes = rand_numbers(size);
 
-    Node *root = create_binary_search_tree(arr, size);
+    Node *root = NULL;
+    create_rand_rbt(&root, &nodes, size);
 
     traverse_level_order(root);
     tree_to_dot(root);
 
-
-    free(arr);
     free_tree(root);
+    free(nodes);
 }
 
 int main() {
