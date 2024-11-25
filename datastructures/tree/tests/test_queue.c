@@ -8,6 +8,7 @@
 #include "../declarations.h"
 
 void test_queue() {
+    // when level is not used, it takes 0 level
     size_t size = 6;
     int arr[6] = {3, 9, 2, 1, 4, 5};
     Node *root = create_binary_tree(arr, size);
@@ -21,12 +22,15 @@ void test_queue() {
     
 
     // case #2 - enqueue
+    size_t level_right = 0;
+    size_t level_left = 0;
+    Position position = IGNORE;
     printf("\ncase #2 - enqueue\n");
-    enqueue(nodes_queue, root);
-    enqueue(nodes_queue, root->left);
-    enqueue(nodes_queue, root->right);
-    enqueue(nodes_queue, root->left->left);
-    enqueue(nodes_queue, root->left->right);
+    enqueue(nodes_queue, root, level_left, level_right, &position);
+    enqueue(nodes_queue, root->left, level_left, level_right, &position);
+    enqueue(nodes_queue, root->right, level_left, level_right, &position);
+    enqueue(nodes_queue, root->left->left, level_left, level_right, &position);
+    enqueue(nodes_queue, root->left->right, level_left, level_right, &position);
 
     printf("\nfirst = %d\n", nodes_queue->first->node->data);
     printf("\nsecond = %d\n", nodes_queue->first->link->node->data);
@@ -53,7 +57,7 @@ void test_queue() {
 
     size_t number_elements = nodes_queue->count;
     for (size_t i = 0; i < number_elements; i++) {
-        int dequeued_element = dequeue(nodes_queue)->data;
+        int dequeued_element = dequeue(nodes_queue)->node->data;
         printf("\ndequeued data = %d\n", dequeued_element);
         CU_ASSERT(expected_deque[i] == dequeued_element);
     }

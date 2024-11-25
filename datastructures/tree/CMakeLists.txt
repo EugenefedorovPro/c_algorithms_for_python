@@ -34,6 +34,7 @@ set(SOURCE_FILES
  ./functions/tree_to_dot.c
  ./functions/insert_rbt.c
  ./functions/stack.c
+ ./functions/search_rbt.c
 )
 
 # Define the shared library for the Python extension
@@ -80,3 +81,4 @@ add_test_executable(test_copy_array_int)
 add_test_executable(test_remove_rand_nodes_from_rbt)
 add_test_executable(test_check_removes_in_multiple_trees)
 add_test_executable(test_refresh_arr_of_removed_numbers)
+add_test_executable(test_search_rbt)

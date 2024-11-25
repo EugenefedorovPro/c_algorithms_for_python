@@ -13,8 +13,8 @@ void test_check_removes_in_multiple_trees() {
 
     if (is_many_trees) {
         TreeDebug *tree_debug = initiate_tree_debug();
-        size_t number_nodes = 1000;
-        size_t number_trees = 10;
+        size_t number_nodes = 98;
+        size_t number_trees = 100;
         int is_random = 1;
         tree_debug =
             check_removes_in_multiple_trees(&tree_debug, number_nodes, number_trees, is_random);

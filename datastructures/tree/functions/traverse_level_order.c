@@ -1,35 +1,54 @@
-#include <math.h>
-
 #include "../declarations.h"
 
-// calculated level of any node used only as a part of level order traversal
-size_t get_level(size_t idx) {
-    if (idx == 1) {
-        return 0;
-    }
-    if (idx == 2 || idx == 3) {
-        return 1;
-    }
-    return ceil((log(idx + 1) / log(2)) - 1);
-}
-
-int current_level = -1;
+size_t level_left;
+size_t level_right;
+Position position;
 
 void traverse(NodesQueue *nodes_queue, size_t *idx) {
     while (!is_empty(nodes_queue)) {
-        Node *dequeued_node = dequeue(nodes_queue);
-        int data = dequeued_node->data;
-        int color = dequeued_node->color;
+        Q_node *dequeued_node = dequeue(nodes_queue);
+        int data = dequeued_node->node->data;
+        int color = dequeued_node->node->color;
+        position = dequeued_node->position;
+        size_t node_level_left = dequeued_node->level_left;
+        size_t node_level_right = dequeued_node->level_right;
 
-        printf("level = %zu, ids = %zu, color = %d, data = %d\n", get_level(*idx + 1), *idx, color, data);
+        size_t parent_node_level = (position == LEFT) ? node_level_left : node_level_right;
+
+        switch (position) {
+            case ROOT:
+                printf("level = %d, ids = %zu, color = %d, data = %d\n", 0, *idx, color, data);
+                break;
+            case LEFT:
+                printf("level = %zu, ids = %zu, color = %d, data = %d\n",
+                       node_level_left,
+                       *idx,
+                       color,
+                       data);
+                break;
+            case RIGHT:
+                printf("level = %zu, ids = %zu, color = %d, data = %d\n",
+                       node_level_right,
+                       *idx,
+                       color,
+                       data);
+                break;
+            case IGNORE:
+                printf("\nposition is ignored\n");
+                break;
+        }
 
         (*idx)++;
 
-        if (dequeued_node->left != NULL) {
-            enqueue(nodes_queue, dequeued_node->left);
+        if (dequeued_node->node->left != NULL) {
+            level_left = parent_node_level + 1;
+            position = LEFT;
+            enqueue(nodes_queue, dequeued_node->node->left, level_left, level_right, &position);
         }
-        if (dequeued_node->right != NULL) {
-            enqueue(nodes_queue, dequeued_node->right);
+        if (dequeued_node->node->right != NULL) {
+            level_right = parent_node_level + 1;
+            position = RIGHT;
+            enqueue(nodes_queue, dequeued_node->node->right, level_left, level_right, &position);
         }
     }
 }
@@ -40,10 +59,13 @@ void traverse_level_order(Node *root) {
         printf("\nTree is empty, root = NULL\n");
         return;
     }
+    level_left = 0;
+    level_right = 0;
     size_t idx = 0;
+    position = ROOT;
     NodesQueue *nodes_queue = initiate_queue();
     // add root to nodes_queue
-    enqueue(nodes_queue, root);
+    enqueue(nodes_queue, root, level_left, level_right, &position);
     traverse(nodes_queue, &idx);
     free_queue(nodes_queue);
     printf("\nnumber of nodes by traverse level order = %zu \n", idx);

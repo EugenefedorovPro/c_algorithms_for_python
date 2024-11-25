@@ -4,12 +4,36 @@
 #include "declarations.h"
 
 int main() {
-    size_t size = 6;
-    int arr[6] = {3, 9, 2, 1, 4, 5};
-    Node *root = create_binary_tree(arr, size);
-    traverse_preorder(root);
+    Node *root = NULL;
+    // insert_rbt
+    insert_rbt(&root, 1);
+    insert_rbt(&root, 2);
+    insert_rbt(&root, 3);
+    insert_rbt(&root, 4);
+    insert_rbt(&root, 5);
+
+    // traverse_level_order
+    traverse_level_order(root);
+
+
+    // remove_rbt
+    remove_rbt(&root, 2);
+    remove_rbt(&root, 1);
+    remove_rbt(&root, 5);
+
+    traverse_level_order(root);
+
+    // is_rb_tree
+    char *issue = malloc(100);
+    is_rb_tree(root, &issue);
+
+    tree_to_dot(root);
     free_tree(root);
-    /* printf("\ndata = %p\n", root->right->right); */
+    free(issue);
+
+    printf("\nsizeof int = %zu\n", sizeof(int) * 8);
+
+
 
     return 0;
 }

@@ -5,10 +5,10 @@
 
 int double_black;
 
-enum NodePositionToParent {
-    RIGHT = 1,
-    LEFT = 0,
-};
+/* enum NodePositionToParent { */
+/*     RIGHT = 1, */
+/*     LEFT = 0, */
+/* }; */
 
 void null_link_from_parent_of_removed_node(int node_position_to_parent, Node *parent) {
     if (node_position_to_parent == LEFT) {

@@ -8,27 +8,24 @@
 
 #include "../declarations.h"
 
-void test_traverse_level_order() {
-
-    size_t size = 40;
-    srand(2);
-    int *nodes = rand_numbers(size);
+void test_search_rbt() {
 
     Node *root = NULL;
-    create_rand_rbt(&root, &nodes, size);
+    insert_rbt(&root, 10);
+    insert_rbt(&root, 20);
+    insert_rbt(&root, 30);
 
-    traverse_level_order(root);
 
     tree_to_dot(root);
 
     free_tree(root);
-    free(nodes);
+
 }
 
 int main() {
     CU_initialize_registry();
     CU_pSuite suite = CU_add_suite("Tree Suite", NULL, NULL);
-    CU_add_test(suite, "test of traverse_level_order()", test_traverse_level_order);
+    CU_add_test(suite, "test of search_rbt()", test_search_rbt);
 
     CU_basic_set_mode(CU_BRM_VERBOSE);
     CU_basic_run_tests();

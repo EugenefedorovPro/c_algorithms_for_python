@@ -17,16 +17,6 @@ typedef struct Node {
     Color color;
 } Node;
 
-typedef struct Q_node {
-    Node *node;
-    struct Q_node *link;
-} Q_node;
-
-typedef struct NodesQueue {
-    Q_node *first;
-    Q_node *rear;
-    size_t count;
-} NodesQueue;
 
 typedef struct Stack {
     Node *node;
@@ -54,11 +44,32 @@ int *copy_array_int(int *original_arr, size_t size);
 
 void insert_bst(Node **node, int data);
 
+typedef enum {
+    ROOT = 2,
+    LEFT = 0,
+    RIGHT = 1,
+    IGNORE = -1
+} Position;
+
 // queue
+typedef struct Q_node {
+    Node *node;
+    struct Q_node *link;
+    size_t level_left;
+    size_t level_right;
+    Position position;
+} Q_node;
+
+typedef struct NodesQueue {
+    Q_node *first;
+    Q_node *rear;
+    size_t count;
+} NodesQueue;
+
 NodesQueue *initiate_queue();
 int is_empty(NodesQueue *nodes_queue);
-Node *dequeue(NodesQueue *nodes_queue);
-void enqueue(NodesQueue *nodes_queue, Node *node);
+Q_node *dequeue(NodesQueue *nodes_queue);
+void enqueue(NodesQueue *nodes_queue, Node *node, size_t level_left, size_t level_right, Position *position);
 void free_queue(NodesQueue *nodes_queue);
 
 // heapify

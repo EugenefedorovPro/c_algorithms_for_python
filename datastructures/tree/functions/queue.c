@@ -3,7 +3,6 @@
 
 #include "../declarations.h"
 
-
 NodesQueue *initiate_queue() {
     NodesQueue *nodes_queue = malloc(sizeof(NodesQueue));
     if (nodes_queue == NULL) {
@@ -20,7 +19,7 @@ int is_empty(NodesQueue *nodes_queue) {
     return nodes_queue->first == NULL;
 };
 
-Node *dequeue(NodesQueue *nodes_queue) {
+Q_node *dequeue(NodesQueue *nodes_queue) {
     // check if queue is_empty
     if (is_empty(nodes_queue)) {
         printf("You cannot dequeue from empty queue");
@@ -29,9 +28,8 @@ Node *dequeue(NodesQueue *nodes_queue) {
     // get link of the first q_node pointing to the next node
     Q_node *temp_link = nodes_queue->first->link;
     // get node to return
-    Node *first_node = nodes_queue->first->node;
-    // remove the first q_node
-    free(nodes_queue->first);
+    Q_node *first_q_node = nodes_queue->first;
+
     // assign extracted link to first
     nodes_queue->first = temp_link;
 
@@ -42,10 +40,10 @@ Node *dequeue(NodesQueue *nodes_queue) {
 
     // decrease count
     nodes_queue->count--;
-    return first_node;
+    return first_q_node;
 };
 
-void enqueue(NodesQueue *nodes_queue, Node *node) {
+void enqueue(NodesQueue *nodes_queue, Node *node, size_t level_left, size_t level_right, Position *position) {
     // create new q_node
     Q_node *q_node = malloc(sizeof(Q_node));
     if (q_node == NULL) {
@@ -54,6 +52,10 @@ void enqueue(NodesQueue *nodes_queue, Node *node) {
     }
     q_node->node = node;
     q_node->link = NULL;
+    q_node->level_left = level_left;
+    q_node->level_right = level_right;
+    q_node->position = *position;
+
 
     // if queue is empty make new q_node the first and the last element
     if (is_empty(nodes_queue)) {
@@ -75,4 +77,3 @@ void free_queue(NodesQueue *nodes_queue) {
         dequeue(nodes_queue);
     }
 }
-
