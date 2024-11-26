@@ -5,8 +5,8 @@
 
 void right_left_rotation(Node **grandparent, Node **parent, Stack **stack) {
     printf("\nright_left_rotation, grandparent = %d, parent = %d\n",
-           (*grandparent)->data,
-           (*parent)->data);
+           (*grandparent)->key,
+           (*parent)->key);
 
     Node *temp_parent = malloc(sizeof(Node));
     if (temp_parent == NULL) {
@@ -39,8 +39,8 @@ void right_left_rotation(Node **grandparent, Node **parent, Stack **stack) {
 
 void left_right_rotation(Node **grandparent, Node **parent, Stack **stack) {
     printf("\nleft_right_rotation, grandparent = %d, parent = %d\n",
-           (*grandparent)->data,
-           (*parent)->data);
+           (*grandparent)->key,
+           (*parent)->key);
 
     Node *temp_parent = malloc(sizeof(Node));
     if (temp_parent == NULL) {
@@ -72,8 +72,8 @@ void left_right_rotation(Node **grandparent, Node **parent, Stack **stack) {
 
 void left_left_rotation(Node **grandparent, Node **parent) {
     printf("\nleft_left_rotation, grandparent = %d, parent = %d\n",
-           (*grandparent)->data,
-           (*parent)->data);
+           (*grandparent)->key,
+           (*parent)->key);
 
     Node *sibling = NULL;
     if ((*parent)->right != NULL) {
@@ -108,8 +108,8 @@ void left_left_rotation(Node **grandparent, Node **parent) {
 
 void right_right_rotation(Node **grandparent, Node **parent) {
     printf("\nright_right_rotation, grandparent = %d, parent = %d\n",
-           (*grandparent)->data,
-           (*parent)->data);
+           (*grandparent)->key,
+           (*parent)->key);
 
     Node *sibling = NULL;
     if ((*parent)->left != NULL) {
@@ -140,36 +140,36 @@ void right_right_rotation(Node **grandparent, Node **parent) {
     (*grandparent)->color = BLACK;
 }
 
-void check_above(Node **node, int data, Stack **stack) {
+void check_above(Node **node, int key, Stack **stack) {
     if (*node == NULL) {
         return;
     }
 
-    if (data < (*node)->data) {
-        if ((*node)->left->data == data) {
+    if (key < (*node)->key) {
+        if ((*node)->left->key == key) {
             Node *base_node = (*node)->left;
             balance(stack, &base_node);
             return;
         } else {
             s_append(stack, (*node)->left);
-            check_above(&((*node)->left), data, stack);
+            check_above(&((*node)->left), key, stack);
         }
     }
-    if (data > (*node)->data) {
-        if ((*node)->right->data == data) {
+    if (key > (*node)->key) {
+        if ((*node)->right->key == key) {
             Node *base_node = (*node)->right;
             balance(stack, &base_node);
             return;
         } else {
             s_append(stack, (*node)->right);
-            check_above(&((*node)->right), data, stack);
+            check_above(&((*node)->right), key, stack);
         }
     }
 }
 
 void left_uncle_red(Node **parent, Node **grandparent, Node **uncle, Stack **stack) {
     printf(
-        "\nleft_uncle_red, grandparent = %d, parent = %d\n", (*grandparent)->data, (*parent)->data);
+        "\nleft_uncle_red, grandparent = %d, parent = %d\n", (*grandparent)->key, (*parent)->key);
 
     (*uncle)->color = BLACK;
     (*parent)->color = BLACK;
@@ -188,14 +188,14 @@ void left_uncle_red(Node **parent, Node **grandparent, Node **uncle, Stack **sta
 
         // add grandparent_of_grandparent to stack
         s_append(stack, grandparent_of_grandparent);
-        check_above(&grandparent_of_grandparent, (*grandparent)->data, stack);
+        check_above(&grandparent_of_grandparent, (*grandparent)->key, stack);
     }
 }
 
 void right_uncle_red(Node **parent, Node **grandparent, Stack **stack) {
     printf("\nright_uncle_red, grandparent = %d, parent = %d\n",
-           (*grandparent)->data,
-           (*parent)->data);
+           (*grandparent)->key,
+           (*parent)->key);
     Node *uncle = (*grandparent)->left;
 
     uncle->color = BLACK;
@@ -215,28 +215,28 @@ void right_uncle_red(Node **parent, Node **grandparent, Stack **stack) {
 
         // add grandparent_of_grandparent to stack
         s_append(stack, grandparent_of_grandparent);
-        check_above(&grandparent_of_grandparent, (*grandparent)->data, stack);
+        check_above(&grandparent_of_grandparent, (*grandparent)->key, stack);
     }
 }
 
 void right_uncle_black(Node **parent, Node **grandparent, Stack **stack) {
-    if ((*grandparent)->right != NULL && (*grandparent)->right->data == (*parent)->data) {
+    if ((*grandparent)->right != NULL && (*grandparent)->right->key == (*parent)->key) {
         right_right_rotation(grandparent, parent);
         return;
     }
 
-    if ((*grandparent)->left != NULL && (*grandparent)->left->data == (*parent)->data) {
+    if ((*grandparent)->left != NULL && (*grandparent)->left->key == (*parent)->key) {
         left_right_rotation(grandparent, parent, stack);
         return;
     }
 }
 
 void left_uncle_black(Node **parent, Node **grandparent, Stack **stack) {
-    if ((*grandparent)->left != NULL && (*grandparent)->left->data == (*parent)->data) {
+    if ((*grandparent)->left != NULL && (*grandparent)->left->key == (*parent)->key) {
         left_left_rotation(grandparent, parent);
         return;
     }
-    if ((*grandparent)->right != NULL && (*grandparent)->right->data == (*parent)->data) {
+    if ((*grandparent)->right != NULL && (*grandparent)->right->key == (*parent)->key) {
         right_left_rotation(grandparent, parent, stack);
         return;
     }
@@ -259,22 +259,22 @@ void balance(Stack **stack, Node **node) {
         Node *uncle = NULL;
 
         // define uncle for node in the right subtree
-        if (parent->right != NULL && parent->right->data == (*node)->data) {
-            if (grandparent->left != NULL && grandparent->left->data != parent->data) {
+        if (parent->right != NULL && parent->right->key == (*node)->key) {
+            if (grandparent->left != NULL && grandparent->left->key != parent->key) {
                 uncle = grandparent->left;
             } else {
-                if (grandparent->right != NULL && grandparent->right->data != parent->data) {
+                if (grandparent->right != NULL && grandparent->right->key != parent->key) {
                     uncle = grandparent->right;
                 }
             }
         }
 
         // define uncle for node in the left subtree
-        if (parent->left != NULL && parent->left->data == (*node)->data) {
-            if (grandparent->right != NULL && grandparent->right->data != parent->data) {
+        if (parent->left != NULL && parent->left->key == (*node)->key) {
+            if (grandparent->right != NULL && grandparent->right->key != parent->key) {
                 uncle = grandparent->right;
             } else {
-                if (grandparent->left != NULL && grandparent->left->data != parent->data) {
+                if (grandparent->left != NULL && grandparent->left->key != parent->key) {
                     uncle = grandparent->left;
                 }
             }
@@ -295,7 +295,7 @@ void balance(Stack **stack, Node **node) {
         // uncle is black or null on the left subtree
         if (uncle == NULL || uncle->color == BLACK) {
             // right - right
-            if (parent->left != NULL && parent->left->data == (*node)->data) {
+            if (parent->left != NULL && parent->left->key == (*node)->key) {
                 left_uncle_black(&parent, &grandparent, stack);
                 return;
             }
@@ -304,7 +304,7 @@ void balance(Stack **stack, Node **node) {
         // uncle is black or null on the right subtree
         if (uncle == NULL || uncle->color == BLACK) {
             // right - right
-            if (parent->right != NULL && parent->right->data == (*node)->data) {
+            if (parent->right != NULL && parent->right->key == (*node)->key) {
                 right_uncle_black(&parent, &grandparent, stack);
                 return;
             }
@@ -312,51 +312,51 @@ void balance(Stack **stack, Node **node) {
     }
 }
 
-void insert_recurse(Node **node, int data, Stack **stack) {
+void insert_recurse(Node **node, int key, Stack **stack) {
     if (*node == NULL) {
-        *node = create_node(data, BLACK);
+        *node = create_node(key, BLACK);
         return;
     }
 
-    if (data == (*node)->data) {
-        printf("\nYou try to add data %d, which already exists in the rb tree\n", data);
+    if (key == (*node)->key) {
+        printf("\nYou try to add key %d, which already exists in the rb tree\n", key);
         return;
     }
 
-    if (data < (*node)->data) {
+    if (key < (*node)->key) {
         if ((*node)->left == NULL) {
-            (*node)->left = create_node(data, RED);
+            (*node)->left = create_node(key, RED);
             Node *new_node = (*node)->left;
             balance(stack, &new_node);
             return;
 
         } else {
             s_append(stack, (*node)->left);
-            insert_recurse(&((*node)->left), data, stack);
+            insert_recurse(&((*node)->left), key, stack);
             return;
         }
     }
 
-    if (data > (*node)->data) {
+    if (key > (*node)->key) {
         if ((*node)->right == NULL) {
-            (*node)->right = create_node(data, RED);
+            (*node)->right = create_node(key, RED);
             Node *new_node = (*node)->right;
             balance(stack, &new_node);
             return;
 
         } else {
             s_append(stack, (*node)->right);
-            insert_recurse(&((*node)->right), data, stack);
+            insert_recurse(&((*node)->right), key, stack);
             return;
         }
     }
 }
 
-void insert_rbt(Node **root, int data) {
+void insert_rbt(Node **root, int key) {
     Stack *stack = NULL;
     // root is added to stack only if it's not a single node in a tree
     if (*root != NULL) {
         s_append(&stack, *root);
     }
-    insert_recurse(root, data, &stack);
+    insert_recurse(root, key, &stack);
 }

@@ -32,17 +32,17 @@ void test_queue() {
     enqueue(nodes_queue, root->left->left, level_left, level_right, &position);
     enqueue(nodes_queue, root->left->right, level_left, level_right, &position);
 
-    printf("\nfirst = %d\n", nodes_queue->first->node->data);
-    printf("\nsecond = %d\n", nodes_queue->first->link->node->data);
-    printf("\nthird = %d\n", nodes_queue->first->link->link->node->data);
-    printf("\nfourth = %d\n", nodes_queue->first->link->link->link->node->data);
-    printf("\nfifth = %d\n", nodes_queue->first->link->link->link->link->node->data);
+    printf("\nfirst = %d\n", nodes_queue->first->node->key);
+    printf("\nsecond = %d\n", nodes_queue->first->link->node->key);
+    printf("\nthird = %d\n", nodes_queue->first->link->link->node->key);
+    printf("\nfourth = %d\n", nodes_queue->first->link->link->link->node->key);
+    printf("\nfifth = %d\n", nodes_queue->first->link->link->link->link->node->key);
 
-    CU_ASSERT(3 == nodes_queue->first->node->data);
-    CU_ASSERT(9 == nodes_queue->first->link->node->data);
-    CU_ASSERT(2 == nodes_queue->first->link->link->node->data);
-    CU_ASSERT(1 == nodes_queue->first->link->link->link->node->data);
-    CU_ASSERT(4 == nodes_queue->first->link->link->link->link->node->data);
+    CU_ASSERT(3 == nodes_queue->first->node->key);
+    CU_ASSERT(9 == nodes_queue->first->link->node->key);
+    CU_ASSERT(2 == nodes_queue->first->link->link->node->key);
+    CU_ASSERT(1 == nodes_queue->first->link->link->link->node->key);
+    CU_ASSERT(4 == nodes_queue->first->link->link->link->link->node->key);
 
     // case #3 count
     printf("\n--------------------\n");
@@ -57,8 +57,8 @@ void test_queue() {
 
     size_t number_elements = nodes_queue->count;
     for (size_t i = 0; i < number_elements; i++) {
-        int dequeued_element = dequeue(nodes_queue)->node->data;
-        printf("\ndequeued data = %d\n", dequeued_element);
+        int dequeued_element = dequeue(nodes_queue)->node->key;
+        printf("\ndequeued key = %d\n", dequeued_element);
         CU_ASSERT(expected_deque[i] == dequeued_element);
     }
 

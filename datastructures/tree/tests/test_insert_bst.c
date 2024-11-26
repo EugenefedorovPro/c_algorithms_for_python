@@ -30,17 +30,17 @@ void test_insert_bst() {
     traverse_level_order(root);
 
     // case #0 - add to extreme right
-    int data = 80;
-    insert_bst(&root, data);
-    CU_ASSERT(data == root->right->right->right->data);
+    int key = 80;
+    insert_bst(&root, key);
+    CU_ASSERT(key == root->right->right->right->key);
     // case #1 - add to extreme left
     int data1 = -1;
     insert_bst(&root, data1);
-    CU_ASSERT(data1 == root->left->left->left->data);
+    CU_ASSERT(data1 == root->left->left->left->key);
     // case #2 - add to the middle 
     int data2 = 35;
     insert_bst(&root, data2);
-    CU_ASSERT(data2 == root->left->right->right->data);
+    CU_ASSERT(data2 == root->left->right->right->key);
 
     traverse_level_order(root);
 
@@ -49,7 +49,7 @@ void test_insert_bst() {
     // case #3 - empty root
     Node *root1 = NULL;
     insert_bst(&root1, 10);
-    CU_ASSERT(root1->data == 10);
+    CU_ASSERT(root1->key == 10);
 
 
     traverse_level_order(root1);

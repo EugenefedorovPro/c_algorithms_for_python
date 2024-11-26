@@ -30,27 +30,27 @@ void print_nodes(Node *node, FILE *stream, size_t *idx) {
 
     fprintf(stream,
             "    n%s [label=\"%d\", color=\"%s\", fillcolor=\"%s\", style=filled];\n",
-            get_node_name(node->data),
-            node->data,
+            get_node_name(node->key),
+            node->key,
             color,
             fillcolor);
 
     // Handle left child
     if (node->left) {
-        fprintf(stream, "    n%s -> n%s\n", get_node_name(node->data), get_node_name(node->left->data));  //
+        fprintf(stream, "    n%s -> n%s\n", get_node_name(node->key), get_node_name(node->left->key));  //
         print_nodes(node->left, stream, idx);
     } else {
         fprintf(stream, "    null%zu [shape=point];\n", (*idx)++);
-        fprintf(stream, "    n%s -> null%zu\n", get_node_name(node->data), *idx - 1);
+        fprintf(stream, "    n%s -> null%zu\n", get_node_name(node->key), *idx - 1);
     }
 
     // Handle right child
     if (node->right) {
-        fprintf(stream, "    n%s -> n%s\n", get_node_name(node->data), get_node_name(node->right->data));  //
+        fprintf(stream, "    n%s -> n%s\n", get_node_name(node->key), get_node_name(node->right->key));  //
         print_nodes(node->right, stream, idx);
     } else {
         fprintf(stream, "    null%zu [shape=point];\n", (*idx)++);
-        fprintf(stream, "    n%s -> null%zu\n", get_node_name(node->data), *idx - 1);
+        fprintf(stream, "    n%s -> null%zu\n", get_node_name(node->key), *idx - 1);
     }
 }
 

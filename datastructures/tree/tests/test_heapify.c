@@ -31,14 +31,14 @@ void test_heapify() {
 
     int expected_heapified[] = {-1, 2, 0, 5, 4, 1, 9, 10};
 
-    CU_ASSERT(root->data == expected_heapified[0]);
-    CU_ASSERT(root->left->data == expected_heapified[1]);
-    CU_ASSERT(root->right->data == expected_heapified[2]);
-    CU_ASSERT(root->left->left->data == expected_heapified[3]);
-    CU_ASSERT(root->left->right->data == expected_heapified[4]);
-    CU_ASSERT(root->right->left->data == expected_heapified[5]);
-    CU_ASSERT(root->right->right->data == expected_heapified[6]);
-    CU_ASSERT(root->left->left->left->data == expected_heapified[7]);
+    CU_ASSERT(root->key == expected_heapified[0]);
+    CU_ASSERT(root->left->key == expected_heapified[1]);
+    CU_ASSERT(root->right->key == expected_heapified[2]);
+    CU_ASSERT(root->left->left->key == expected_heapified[3]);
+    CU_ASSERT(root->left->right->key == expected_heapified[4]);
+    CU_ASSERT(root->right->left->key == expected_heapified[5]);
+    CU_ASSERT(root->right->right->key == expected_heapified[6]);
+    CU_ASSERT(root->left->left->left->key == expected_heapified[7]);
 
     free_tree(root);
 }

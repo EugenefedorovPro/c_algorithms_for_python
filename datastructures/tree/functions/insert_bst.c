@@ -3,31 +3,31 @@
 
 #include "../declarations.h"
 
-void insert_bst(Node **node, int data) {
+void insert_bst(Node **node, int key) {
     if (*node == NULL) {
-        *node = create_node(data, NO_COLOR);
+        *node = create_node(key, NO_COLOR);
         return;
         
     }
-    // case #1 data == node data
-    if ((*node)->data == data) {
-        printf("\nThe data is already present in the tree\n");
+    // case #1 key == node key
+    if ((*node)->key == key) {
+        printf("\nThe key is already present in the tree\n");
         return;
     }
 
-    if (data < (*node)->data) {
+    if (key < (*node)->key) {
         if ((*node)->left == NULL) {
-            (*node)->left = create_node(data, NO_COLOR);
+            (*node)->left = create_node(key, NO_COLOR);
             return;
         }
-        insert_bst(&(*node)->left, data);
+        insert_bst(&(*node)->left, key);
     }
 
-    if (data > (*node)->data) {
+    if (key > (*node)->key) {
         if ((*node)->right == NULL) {
-            (*node)->right = create_node(data, NO_COLOR);
+            (*node)->right = create_node(key, NO_COLOR);
             return;
         }
-        insert_bst(&(*node)->right, data);
+        insert_bst(&(*node)->right, key);
     }
 }

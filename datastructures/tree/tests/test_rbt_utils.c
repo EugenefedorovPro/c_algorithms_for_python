@@ -90,14 +90,14 @@ void test_rbt_utils() {
 
         // bst violation
         // left child is greater than parent
-        root->left->data = 10;
+        root->left->key = 10;
         status = is_rb_tree(root, &issue);
         CU_ASSERT(status == 0);
 
         // bst violation
         // right child is less than parent
-        root->left->data = -2;
-        root->right->data = -10;
+        root->left->key = -2;
+        root->right->key = -10;
         root->right->color = BLACK;
         root->left->left->color = BLACK;
         status = is_rb_tree(root, &issue);

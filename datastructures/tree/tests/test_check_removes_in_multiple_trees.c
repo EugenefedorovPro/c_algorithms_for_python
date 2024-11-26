@@ -21,7 +21,7 @@ void test_check_removes_in_multiple_trees() {
 
         printf("\nissue = %s\n", tree_debug->issue);
 
-        printf("\narray of last tree data: ");
+        printf("\narray of last tree key: ");
         if (tree_debug->arr_tree_data) {
             for (size_t i = 0; i < number_nodes; i++) {
                 printf("%d, ", tree_debug->arr_tree_data[i]);
@@ -58,32 +58,32 @@ void test_check_removes_in_multiple_trees() {
         /* /1* remove_rbt(&root, -21); *1/ */
 
         // raversal level order
-        /* level = 0, ids = 0, color = 0, data = -3 */
-        /* level = 1, ids = 1, color = 0, data = -17 */
-        /* level = 1, ids = 2, color = 0, data = 8 */
+        /* level = 0, ids = 0, color = 0, key = -3 */
+        /* level = 1, ids = 1, color = 0, key = -17 */
+        /* level = 1, ids = 2, color = 0, key = 8 */
 
-        /* level = 2, ids = 3, color = 0, data = -21 */
-        /* level = 2, ids = 4, color = 0, data = -11 */
-        /* level = 2, ids = 5, color = 0, data = 6 */
-        /* level = 2, ids = 6, color = 1, data = 15 */
+        /* level = 2, ids = 3, color = 0, key = -21 */
+        /* level = 2, ids = 4, color = 0, key = -11 */
+        /* level = 2, ids = 5, color = 0, key = 6 */
+        /* level = 2, ids = 6, color = 1, key = 15 */
 
-        /* level = 3, ids = 7, color = 0, data = -25 */
-        /* level = 3, ids = 8, color = 0, data = -19 */
-        /* level = 3, ids = 9, color = 0, data = -12 */
-        /* level = 3, ids = 10, color = 0, data = -10 */
-        /* level = 3, ids = 11, color = 0, data = 3 */
-        /* level = 3, ids = 12, color = 0, data = 7 */
-        /* level = 3, ids = 13, color = 0, data = 13 */
-        /* level = 3, ids = 14, color = 0, data = 19 */
+        /* level = 3, ids = 7, color = 0, key = -25 */
+        /* level = 3, ids = 8, color = 0, key = -19 */
+        /* level = 3, ids = 9, color = 0, key = -12 */
+        /* level = 3, ids = 10, color = 0, key = -10 */
+        /* level = 3, ids = 11, color = 0, key = 3 */
+        /* level = 3, ids = 12, color = 0, key = 7 */
+        /* level = 3, ids = 13, color = 0, key = 13 */
+        /* level = 3, ids = 14, color = 0, key = 19 */
 
-        /* level = 4, ids = 15, color = 1, data = -16 */
-        /* level = 4, ids = 16, color = 1, data = -5 */
-        /* level = 4, ids = 17, color = 0, data = 12 */
-        /* level = 4, ids = 18, color = 0, data = 14 */
-        /* level = 4, ids = 19, color = 0, data = 17 */
-        /* level = 4, ids = 20, color = 0, data = 22 */
-        /* level = 4, ids = 21, color = 1, data = 18 */
-        /* level = 4, ids = 22, color = 1, data = 25 */
+        /* level = 4, ids = 15, color = 1, key = -16 */
+        /* level = 4, ids = 16, color = 1, key = -5 */
+        /* level = 4, ids = 17, color = 0, key = 12 */
+        /* level = 4, ids = 18, color = 0, key = 14 */
+        /* level = 4, ids = 19, color = 0, key = 17 */
+        /* level = 4, ids = 20, color = 0, key = 22 */
+        /* level = 4, ids = 21, color = 1, key = 18 */
+        /* level = 4, ids = 22, color = 1, key = 25 */
 
         // Level 0 (root)
         Node *root = create_node(-8, BLACK);

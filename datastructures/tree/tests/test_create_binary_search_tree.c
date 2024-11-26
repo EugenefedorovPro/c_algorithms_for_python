@@ -21,23 +21,23 @@ void test_create_binary_search_tree() {
 
     traverse_level_order(root);
 
-    printf("\ndata = %d\n", root->data);
-    printf("\ndata = %d\n", root->left->data);
-    printf("\ndata = %d\n", root->right->data);
-    printf("\ndata = %d\n", root->left->left->data);
-    printf("\ndata = %d\n", root->left->right->data);
-    printf("\ndata = %d\n", root->right->left->data);
+    printf("\ndata = %d\n", root->key);
+    printf("\ndata = %d\n", root->left->key);
+    printf("\ndata = %d\n", root->right->key);
+    printf("\ndata = %d\n", root->left->left->key);
+    printf("\ndata = %d\n", root->left->right->key);
+    printf("\ndata = %d\n", root->right->left->key);
 
-    CU_ASSERT(root->data == 4);
-    CU_ASSERT(root->left->data == 2);
-    CU_ASSERT(root->right->data == 6);
+    CU_ASSERT(root->key == 4);
+    CU_ASSERT(root->left->key == 2);
+    CU_ASSERT(root->right->key == 6);
 
     // left
-    CU_ASSERT(root->left->left->data == 1);
-    CU_ASSERT(root->left->right->data == 3);
+    CU_ASSERT(root->left->left->key == 1);
+    CU_ASSERT(root->left->right->key == 3);
 
     // right
-    CU_ASSERT(root->right->left->data == 5);
+    CU_ASSERT(root->right->left->key == 5);
     free_tree(root);
 
     // case #1 - uneven number of elements
@@ -52,17 +52,17 @@ void test_create_binary_search_tree() {
     Node *root1 = create_binary_search_tree(arr1, size1);
 
     /* // check root */
-    CU_ASSERT(root1->data == 4);
-    CU_ASSERT(root1->left->data == 2);
-    CU_ASSERT(root1->right->data == 6);
+    CU_ASSERT(root1->key == 4);
+    CU_ASSERT(root1->left->key == 2);
+    CU_ASSERT(root1->right->key == 6);
 
     // left
-    CU_ASSERT(root1->left->left->data == 1);
-    CU_ASSERT(root1->left->right->data == 3);
+    CU_ASSERT(root1->left->left->key == 1);
+    CU_ASSERT(root1->left->right->key == 3);
 
     // right
-    CU_ASSERT(root1->right->left->data == 5);
-    CU_ASSERT(root1->right->right->data == 7);
+    CU_ASSERT(root1->right->left->key == 5);
+    CU_ASSERT(root1->right->right->key == 7);
 
     traverse_preorder(root1);
 

@@ -52,7 +52,7 @@ void print_stack_recurse(Stack **stack) {
         return;
     }
 
-    printf("\ndata = %d, color = %d\n", (*stack)->node->data, (*stack)->node->color);
+    printf("\ndata = %d, color = %d\n", (*stack)->node->key, (*stack)->node->color);
     print_stack_recurse(&((*stack)->next));
 }
 

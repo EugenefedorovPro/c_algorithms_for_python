@@ -18,15 +18,15 @@ void test_copy_tree() {
 
     Node *new_root = copy_tree(root);
     traverse_level_order(root);
-    CU_ASSERT(root->data == new_root->data);
+    CU_ASSERT(root->key == new_root->key);
     CU_ASSERT(root->color == new_root->color);
-    CU_ASSERT(root->left->data == new_root->left->data);
+    CU_ASSERT(root->left->key == new_root->left->key);
     CU_ASSERT(root->left->color == new_root->left->color);
-    CU_ASSERT(root->right->data == new_root->right->data);
+    CU_ASSERT(root->right->key == new_root->right->key);
     CU_ASSERT(root->right->color == new_root->right->color);
-    CU_ASSERT(root->right->right->data == new_root->right->right->data);
+    CU_ASSERT(root->right->right->key == new_root->right->right->key);
     CU_ASSERT(root->right->right->color == new_root->right->right->color);
-    CU_ASSERT(root->left->right->data == new_root->left->right->data);
+    CU_ASSERT(root->left->right->key == new_root->left->right->key);
     CU_ASSERT(root->left->right->color == new_root->left->right->color);
 
 

@@ -1,7 +1,7 @@
 void left_right_rotation(Node **grandparent, Node **parent, Stack **stack) {
     printf("\nleft_right_rotation, grandparent = %d, parent = %d\n",
-           (*grandparent)->data,
-           (*parent)->data);
+           (*grandparent)->key,
+           (*parent)->key);
 
     Node *temp_parent = malloc(sizeof(Node));
     if (temp == NULL) {

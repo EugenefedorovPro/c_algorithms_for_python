@@ -22,9 +22,9 @@ void test_stack() {
     s_append(&stack, node3);
 
     Node *peeked_node = s_peek(&stack);
-    CU_ASSERT(peeked_node->data == 30);
+    CU_ASSERT(peeked_node->key == 30);
     Node *peeked_node2 = s_peek(&stack);
-    CU_ASSERT(peeked_node2->data == 30);
+    CU_ASSERT(peeked_node2->key == 30);
 
     print_all_stack(&stack);
 
@@ -35,16 +35,16 @@ void test_stack() {
     
 
     Node *top_node = s_pop(&stack);
-    printf("\ntop_node = %d\n", top_node->data);
-    CU_ASSERT(top_node->data == 30);
+    printf("\ntop_node = %d\n", top_node->key);
+    CU_ASSERT(top_node->key == 30);
 
     Node *next_node = s_pop(&stack);
-    printf("\nnext_node = %d\n", next_node->data);
-    CU_ASSERT(next_node->data == 20);
+    printf("\nnext_node = %d\n", next_node->key);
+    CU_ASSERT(next_node->key == 20);
 
     Node *last_node = s_pop(&stack);
-    printf("\nlast_node = %d\n", last_node->data);
-    CU_ASSERT(last_node->data == 10);
+    printf("\nlast_node = %d\n", last_node->key);
+    CU_ASSERT(last_node->key == 10);
 
     Node *empty_node = s_pop(&stack);
     CU_ASSERT(empty_node == NULL);

@@ -27,9 +27,9 @@ int get_node_position_to_parent(Node *node, Node *parent) {
         node_position_to_parent = RIGHT;
     }
     printf("\nnode = %d, position = %d to parent = %d\n",
-           node->data,
+           node->key,
            node_position_to_parent,
-           parent->data);
+           parent->key);
     return node_position_to_parent;
 }
 
@@ -40,20 +40,20 @@ Node *get_sibling(Node **node, Node **parent) {
     }
 
     Node *sibling = NULL;
-    if ((*parent)->left != NULL && (*parent)->left->data == (*node)->data) {
+    if ((*parent)->left != NULL && (*parent)->left->key == (*node)->key) {
         if ((*parent)->right != NULL) {
             sibling = (*parent)->right;
         }
     }
 
-    if ((*parent)->right != NULL && (*parent)->right->data == (*node)->data) {
+    if ((*parent)->right != NULL && (*parent)->right->key == (*node)->key) {
         if ((*parent)->left != NULL) {
             sibling = (*parent)->left;
         }
     }
 
     if (sibling == NULL) return NULL;
-    printf("\nsibling = %d\n", sibling->data);
+    printf("\nsibling = %d\n", sibling->key);
     return sibling;
 }
 
@@ -64,9 +64,9 @@ void propagate_and_recolor(Node **parent,
     // DB sibling's black and  DB's sibling's children are black (or null)
     printf(
         "\npropagate and recolor from parent = %d of color = %d and sibling = %d of color = %d\n",
-        (*parent)->data,
+        (*parent)->key,
         (*parent)->color,
-        (*sibling)->data,
+        (*sibling)->key,
         (*sibling)->color);
 
     // stack keeps all nodes above the parent of the node_to_delete
@@ -98,7 +98,7 @@ void propagate_and_recolor(Node **parent,
         }
 
         *parent = s_pop(stack);
-        printf("\nparent = %d\n", (*parent)->data);
+        printf("\nparent = %d\n", (*parent)->key);
 
         // when parent changed, so we need to redefine siblings
         *sibling = get_sibling(&prev_node, parent);
@@ -127,8 +127,8 @@ void right_siblings_far_child_is_black(Node **parent, Node **sibling) {
     // DB's sibling's child, which near to DB is red
 
     printf("\nright_siblings_far_child_is_black: parent = %d, sibling = %d\n",
-           (*parent)->data,
-           (*sibling)->data);
+           (*parent)->key,
+           (*sibling)->key);
 
     // swap color of sibling and sibling's near (left) child
     Color temp_sibling_color = (*sibling)->color;
@@ -156,8 +156,8 @@ void left_siblings_far_child_is_black(Node **parent, Node **sibling) {
     // DB's sibling's child, which is far from DB is black
     // DB's sibling's child, which near to DB is red
     printf("\nleft_siblings_far_child_is_black: parent = %d, sibling = %d\n",
-           (*parent)->data,
-           (*sibling)->data);
+           (*parent)->key,
+           (*sibling)->key);
 
     // swap color of sibling and sibling's near (left) child
     Color temp_sibling_color = (*sibling)->color;
@@ -185,7 +185,7 @@ void right_siblings_far_child_is_red(Node **parent, Node **sibling) {
     // DB's sibling's far child is red
 
     // redefine sibling according to new tree structure
-    printf("\ncase #6: right sibling is black, sibling's = %d far child is red", (*sibling)->data);
+    printf("\ncase #6: right sibling is black, sibling's = %d far child is red", (*sibling)->key);
 
     // swap colors of DB's parent with DB's sibling's color
     Color temp_parent_color = (*parent)->color;
@@ -221,7 +221,7 @@ void left_siblings_far_child_is_red(Node **parent, Node **sibling) {
 
     // redefine sibling according to new tree structure
     printf("\ncase #6: left sibling is black, sibling's far child is red");
-    printf("\nparent = %d, sibling = %d\n", (*parent)->data, (*sibling)->data);
+    printf("\nparent = %d, sibling = %d\n", (*parent)->key, (*sibling)->key);
 
     // swap colors of DB's parent with DB's sibling's color
     Color temp_parent_color = (*parent)->color;
@@ -253,8 +253,8 @@ void recolor_sibling_black(Node **parent,
                            Stack **stack,
                            int node_position_to_parent) {
     printf("\nrecolor_sibling_black: parent = %d, sibling = %d, node_position_to_parent = %d\n",
-           (*parent)->data,
-           (*sibling)->data,
+           (*parent)->key,
+           (*sibling)->key,
            node_position_to_parent);
 
     // case 3
@@ -320,7 +320,7 @@ void recolor_sibling_black(Node **parent,
         // DB's sibling's far child is red
 
         // redefine sibling according to new tree structure
-        if ((*parent)->right && (*parent)->right->data == (*sibling)->data) {
+        if ((*parent)->right && (*parent)->right->key == (*sibling)->key) {
             right_siblings_far_child_is_red(parent, sibling);
         } else {
             left_siblings_far_child_is_red(parent, sibling);
@@ -338,9 +338,9 @@ void recolor_sibling_red(Node **parent,
                          Stack **stack,
                          int node_position_to_parent) {
     printf("\nrecolor_sibling_red: parent = %d color = %d, sibling = %d, color = %d\n",
-           (*parent)->data,
+           (*parent)->key,
            (*parent)->color,
-           (*sibling)->data,
+           (*sibling)->key,
            (*sibling)->color);
 
     // removed node is right of the parent
@@ -356,7 +356,7 @@ void recolor_sibling_red(Node **parent,
         Node *grandparent = NULL;
         if (!is_stack_empty(stack)) {
             grandparent = s_pop(stack);
-            printf("\ngrandparent = %d\n", grandparent->data);
+            printf("\ngrandparent = %d\n", grandparent->key);
         } else {
             printf("\nno grandparent\n");
         }
@@ -372,16 +372,16 @@ void recolor_sibling_red(Node **parent,
         // create deep copy of temp_parent
         Node *temp_parent = malloc(sizeof(Node));
         if (!temp_parent) return;
-        temp_parent->data = (*parent)->data;
+        temp_parent->key = (*parent)->key;
         temp_parent->color = (*parent)->color;
         temp_parent->left = (*parent)->left;
         temp_parent->right = temp_left_node_of_sibling;
 
-        if (grandparent && grandparent->left->data == (*parent)->data) {
+        if (grandparent && grandparent->left->key == (*parent)->key) {
             grandparent->left = *sibling;
             (*sibling)->left = temp_parent;
         }
-        if (grandparent && grandparent->right->data == (*parent)->data) {
+        if (grandparent && grandparent->right->key == (*parent)->key) {
             grandparent->right = *sibling;
             (*sibling)->left = temp_parent;
         }
@@ -417,7 +417,7 @@ void recolor_sibling_red(Node **parent,
         Node *grandparent = NULL;
         if (!is_stack_empty(stack)) {
             grandparent = s_pop(stack);
-            printf("\ngrandparent = %d\n", grandparent->data);
+            printf("\ngrandparent = %d\n", grandparent->key);
         } else {
             printf("\nno grandparent\n");
         }
@@ -433,16 +433,16 @@ void recolor_sibling_red(Node **parent,
         // create deep copy of temp_parent
         Node *temp_parent = malloc(sizeof(Node));
         if (!temp_parent) return;
-        temp_parent->data = (*parent)->data;
+        temp_parent->key = (*parent)->key;
         temp_parent->color = (*parent)->color;
         temp_parent->right = (*parent)->right;
         temp_parent->left = temp_right_node_of_sibling;
 
-        if (grandparent && grandparent->left->data == (*parent)->data) {
+        if (grandparent && grandparent->left->key == (*parent)->key) {
             grandparent->left = *sibling;
             (*sibling)->right = temp_parent;
         }
-        if (grandparent && grandparent->right->data == (*parent)->data) {
+        if (grandparent && grandparent->right->key == (*parent)->key) {
             grandparent->right = *sibling;
             (*sibling)->right = temp_parent;
         }
@@ -469,7 +469,7 @@ void recolor_sibling_red(Node **parent,
 }
 
 void rm_min_in_right_subtree(Node *node, Node *parent, int min_data) {
-    printf("\nremove minimal node = %d in the right subtree\n", node->data);
+    printf("\nremove minimal node = %d in the right subtree\n", node->key);
 
     if (node == NULL) return;
 
@@ -493,7 +493,7 @@ void rm_min_in_right_subtree(Node *node, Node *parent, int min_data) {
     }
 
     // if top node of subtree has left child
-    if (node->left->data == min_data) {
+    if (node->left->key == min_data) {
         free(node->left);
         node->left = NULL;
     } else {
@@ -559,9 +559,9 @@ void remove_root_node(Node **node, Stack **stack) {
         s_append(stack, *node);
 
         Node *max_data_left = find_max_in_left_subtree(&((*node)->left), stack);
-        int max_data = max_data_left->data;
-        (*node)->data = max_data;
-        printf("\nmax_data_left = %d", max_data_left->data);
+        int max_data = max_data_left->key;
+        (*node)->key = max_data;
+        printf("\nmax_data_left = %d", max_data_left->key);
 
         // node = next node after the new root in a left subtree
         remove_recolor(&max_data_left, stack);
@@ -573,7 +573,7 @@ void remove_root_node(Node **node, Stack **stack) {
 }
 
 void remove_recolor(Node **node, Stack **stack) {
-    printf("\nremove_recolor node to be deleted = %d\n", (*node)->data);
+    printf("\nremove_recolor node to be deleted = %d\n", (*node)->key);
 
     if (is_stack_empty(stack)) {
         printf("\nnode to remove is a root node\n");
@@ -623,8 +623,8 @@ void remove_recolor(Node **node, Stack **stack) {
 
         s_append(stack, *node);
         Node *min_node = find_min_in_right_subtree(&((*node)->right), stack);
-        printf("\nmin_node = %d\n", min_node->data);
-        (*node)->data = min_node->data;
+        printf("\nmin_node = %d\n", min_node->key);
+        (*node)->key = min_node->key;
 
         remove_recolor(&min_node, stack);
 
@@ -637,8 +637,8 @@ void remove_recolor(Node **node, Stack **stack) {
 
         s_append(stack, *node);
         Node *max_node = find_max_in_left_subtree(&((*node)->left), stack);
-        printf("\nmax_node = %d\n", max_node->data);
-        (*node)->data = max_node->data;
+        printf("\nmax_node = %d\n", max_node->key);
+        (*node)->key = max_node->key;
 
         remove_recolor(&max_node, stack);
 
@@ -652,9 +652,9 @@ void remove_recolor(Node **node, Stack **stack) {
         // add parent to the stack
         s_append(stack, *node);
         Node *max_node = find_max_in_left_subtree(&(*node)->left, stack);
-        printf("\nmax_node = %d\n", max_node->data);
-        // change node data for min data of the left subtree
-        (*node)->data = max_node->data;
+        printf("\nmax_node = %d\n", max_node->key);
+        // change node key for min key of the left subtree
+        (*node)->key = max_node->key;
 
         /* propagate_and_recolor(&max_node, stack); */
         remove_recolor(&max_node, stack);
@@ -662,30 +662,30 @@ void remove_recolor(Node **node, Stack **stack) {
     }
 }
 
-void find_node(Node **node, int data, Stack **stack) {
+void find_node(Node **node, int key, Stack **stack) {
     if ((*node) == NULL) {
-        printf("\nTree does not contain %d\n", data);
+        printf("\nTree does not contain %d\n", key);
         return;
     }
-    if (data == (*node)->data) {
+    if (key == (*node)->key) {
         remove_recolor(node, stack);
         return;
     }
 
-    if (data > (*node)->data) {
+    if (key > (*node)->key) {
         s_append(stack, *node);
-        find_node(&((*node)->right), data, stack);
+        find_node(&((*node)->right), key, stack);
         return;
     }
 
-    if (data < (*node)->data) {
+    if (key < (*node)->key) {
         s_append(stack, *node);
-        find_node(&((*node)->left), data, stack);
+        find_node(&((*node)->left), key, stack);
         return;
     }
 }
 
-void remove_rbt(Node **root, int data) {
+void remove_rbt(Node **root, int key) {
     printf("\n***** remove_rbt *****\n");
 
     double_black = 1;
@@ -696,5 +696,5 @@ void remove_rbt(Node **root, int data) {
         printf("\nTree is empty\n");
     }
 
-    find_node(root, data, &stack);
+    find_node(root, key, &stack);
 }

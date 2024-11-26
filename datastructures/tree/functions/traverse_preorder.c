@@ -7,7 +7,7 @@
 void do_traverse_preorder(Node *root, size_t *idx) {
     if (root == NULL) return;
 
-    printf("\nidx = %zu - data = %d\n", *idx, root->data);
+    printf("\nidx = %zu - key = %d\n", *idx, root->key);
 
     if (root->left != NULL) {
         (*idx)++;

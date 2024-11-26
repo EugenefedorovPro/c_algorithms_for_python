@@ -21,14 +21,14 @@ void test_traverse_preorder() {
     traverse_preorder(root);
 
     // check root
-    CU_ASSERT(root->data == 3);
+    CU_ASSERT(root->key == 3);
     // check left subtree
-    CU_ASSERT(root->left->data == 9);
-    CU_ASSERT(root->left->left->data == 1);
-    CU_ASSERT(root->left->right->data == 4);
+    CU_ASSERT(root->left->key == 9);
+    CU_ASSERT(root->left->left->key == 1);
+    CU_ASSERT(root->left->right->key == 4);
     // check right subtree
-    CU_ASSERT(root->right->data == 2);
-    CU_ASSERT(root->right->left->data == 5);
+    CU_ASSERT(root->right->key == 2);
+    CU_ASSERT(root->right->left->key == 5);
     free_tree(root);
 }
 

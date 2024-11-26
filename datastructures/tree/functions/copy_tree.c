@@ -6,7 +6,7 @@
 void copy_subtree(Node *old_node, Node **new_node) {
     if (old_node == NULL) return;
 
-    *new_node = create_node(old_node->data, old_node->color);
+    *new_node = create_node(old_node->key, old_node->color);
 
     if (old_node->left) {
         copy_subtree(old_node->left, &((*new_node)->left));
@@ -21,7 +21,7 @@ void copy_subtree(Node *old_node, Node **new_node) {
 Node *copy_tree(Node *root) {
     Node *new_root = NULL;
     if (root) {
-        new_root = create_node(root->data, root->color);
+        new_root = create_node(root->key, root->color);
     } else {
         return NULL;
     }

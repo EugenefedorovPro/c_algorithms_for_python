@@ -11,7 +11,7 @@ typedef enum {
 } Color;
 
 typedef struct Node {
-    int data;
+    int key;
     struct Node *left;
     struct Node *right;
     Color color;

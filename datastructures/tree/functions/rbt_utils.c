@@ -37,7 +37,7 @@ CheckResult check_red_black_properties(Node *node, char **issue) {
         return result;
     }
 
-    printf("\nnode = %d\n", node->data);
+    printf("\nnode = %d\n", node->key);
 
     CheckResult left_result = check_red_black_properties(node->left, issue);
     if (!left_result.is_valid) {
@@ -52,13 +52,13 @@ CheckResult check_red_black_properties(Node *node, char **issue) {
     // check double red
     if (node->color == RED) {
         if (node->left != NULL && node->left->color == RED) {
-            printf(double_red_violation, node->data, node->left->data);
-            snprintf(*issue, 100, double_red_violation, node->data, node->left->data);
+            printf(double_red_violation, node->key, node->left->key);
+            snprintf(*issue, 100, double_red_violation, node->key, node->left->key);
             result.is_valid = 0;
         }
         if (node->right != NULL && node->right->color == RED) {
-            printf(double_red_violation, node->data, node->right->data);
-            snprintf(*issue, 100, double_red_violation, node->data, node->right->data);
+            printf(double_red_violation, node->key, node->right->key);
+            snprintf(*issue, 100, double_red_violation, node->key, node->right->key);
             result.is_valid = 0;
         }
     }
@@ -72,25 +72,25 @@ CheckResult check_red_black_properties(Node *node, char **issue) {
 
     if (left_result.n_black_nodes != right_result.n_black_nodes) {
         printf(black_rule_violation,
-               node->data,
+               node->key,
                left_result.n_black_nodes,
                right_result.n_black_nodes);
-        snprintf(*issue, 100, black_rule_violation, node->data);
+        snprintf(*issue, 100, black_rule_violation, node->key);
         result.is_valid = 0;
         return result;
     }
 
     // check binary search tree key principle for the adjacent nodes only
-    if (node->left != NULL && node->left->data > node->data) {
-        printf(left_bst_violation, node->left->data, node->data);
-        snprintf(*issue, 100, left_bst_violation, node->data, node->left->data);
+    if (node->left != NULL && node->left->key > node->key) {
+        printf(left_bst_violation, node->left->key, node->key);
+        snprintf(*issue, 100, left_bst_violation, node->key, node->left->key);
         result.is_valid = 0;
         return result;
     }
 
-    if (node->right != NULL && node->right->data < node->data) {
-        printf(right_bst_violation, node->right->data, node->data);
-        snprintf(*issue, 100, right_bst_violation, node->data, node->left->data);
+    if (node->right != NULL && node->right->key < node->key) {
+        printf(right_bst_violation, node->right->key, node->key);
+        snprintf(*issue, 100, right_bst_violation, node->key, node->left->key);
 
         result.is_valid = 0;
         return result;
