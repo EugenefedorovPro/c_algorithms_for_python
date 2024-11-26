@@ -35,7 +35,7 @@ void test_remove_nodes_from_rbt() {
     /* size_t size_ins = 5; */
     /* int arr_nodes[] = {5, -6, 14, -2, 13}; */
     /* for (size_t i = 0; i < size_ins; i++) { */
-    /*     insert_rbt(&root, arr_nodes[i]); */
+    /*     insert_rbt(&root, arr_nodes[i], "empty"); */
     /* } */
 
     /* remove_rbt(&root, -6); */

@@ -6,12 +6,12 @@
 Node *create_tree_recurse(int *arr, size_t low, size_t high) {
     if (low <= high) {
         if (low == high) {
-            return create_node(arr[low], NO_COLOR);
+            return create_node(arr[low], "empty", NO_COLOR);
         }
         // get the mid
         size_t mid = low + (high - low + 1) / 2;
 
-        Node *node = create_node(arr[mid], NO_COLOR);
+        Node *node = create_node(arr[mid], "empty",  NO_COLOR);
 
         // left
         if (low < mid) {

@@ -20,7 +20,7 @@ void test_rbt_utils() {
         CU_ASSERT(status == 1);
 
         // root is RED
-        root = create_node(1, RED);
+        root = create_node(1, "empty", RED);
         status = is_rb_tree(root, &issue);
         CU_ASSERT(status == 0);
         root = NULL;
@@ -117,7 +117,7 @@ void test_rbt_utils() {
     // create last tree from tree_debug array of random numbers
     root = NULL;
     for (size_t i = 0; i < number_nodes; i++) {
-        insert_rbt(&root, tree_debug->arr_tree_data[i]);
+        insert_rbt(&root, tree_debug->arr_tree_data[i], "empty");
     }
 
     CU_ASSERT(tree_debug->n_failed_rbt == 0);

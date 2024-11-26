@@ -7,7 +7,7 @@ Node *create_tree(int *arr, size_t idx, size_t size) {
     if (idx >= size) {
         return NULL;
     }
-    Node *root = create_node(arr[idx], NO_COLOR);
+    Node *root = create_node(arr[idx], "empty", NO_COLOR);
     root->left = create_tree(arr, 2 * idx + 1, size);
     root->right = create_tree(arr, 2 * idx + 2, size);
     return root;

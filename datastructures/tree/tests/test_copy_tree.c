@@ -9,11 +9,11 @@
 
 void test_copy_tree() {
     Node *root = NULL;
-    insert_rbt(&root, 10);
-    insert_rbt(&root, 40);
-    insert_rbt(&root, 60);
-    insert_rbt(&root, 70);
-    insert_rbt(&root, 35);
+    insert_rbt(&root, 10, "empty");
+    insert_rbt(&root, 40, "empty");
+    insert_rbt(&root, 60, "empty");
+    insert_rbt(&root, 70, "empty");
+    insert_rbt(&root, 35, "empty");
     traverse_level_order(root);
 
     Node *new_root = copy_tree(root);

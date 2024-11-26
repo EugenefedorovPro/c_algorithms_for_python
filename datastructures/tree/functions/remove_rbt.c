@@ -394,6 +394,7 @@ void recolor_sibling_red(Node **parent,
 
         // free parent
         if (grandparent) {
+            free((*parent)->value);
             free(*parent);
             *parent = NULL;
         }
@@ -455,6 +456,7 @@ void recolor_sibling_red(Node **parent,
 
         // free parent
         if (grandparent) {
+            free((*parent)->value);
             free(*parent);
             *parent = NULL;
         }
@@ -478,12 +480,14 @@ void rm_min_in_right_subtree(Node *node, Node *parent, int min_data) {
         if (node->right != NULL) {
             Node *temp = node->right;
 
+            free(node->value);
             free(node);
             if (parent != NULL) {
                 parent->right = temp;
             }
             return;
         } else {
+            free(node->value);
             free(node);
             if (parent != NULL) {
                 parent->right = NULL;
@@ -494,6 +498,7 @@ void rm_min_in_right_subtree(Node *node, Node *parent, int min_data) {
 
     // if top node of subtree has left child
     if (node->left->key == min_data) {
+        free(node->left->value);
         free(node->left);
         node->left = NULL;
     } else {
@@ -524,6 +529,7 @@ Node *find_min_in_right_subtree(Node **node, Stack **stack) {
 void remove_root_node(Node **node, Stack **stack) {
     // root has no children
     if ((*node)->left == NULL && (*node)->right == NULL) {
+        free((*node)->value);
         free(*node);
         *node = NULL;
         return;
@@ -533,6 +539,7 @@ void remove_root_node(Node **node, Stack **stack) {
     if ((*node)->left != NULL && (*node)->right == NULL) {
         printf("\nroot to remove has only left child\n");
         Node *temp = (*node)->left;
+        free((*node)->value);
         free(*node);
         *node = temp;
         (*node)->color = BLACK;
@@ -543,6 +550,7 @@ void remove_root_node(Node **node, Stack **stack) {
     if ((*node)->right != NULL && (*node)->left == NULL) {
         printf("\nroot to remove has only right child\n");
         Node *temp = (*node)->right;
+        free((*node)->value);
         free(*node);
         *node = temp;
         (*node)->color = BLACK;
@@ -593,7 +601,7 @@ void remove_recolor(Node **node, Stack **stack) {
             Node *parent = s_pop(stack);
 
             int node_position_to_parent = get_node_position_to_parent(*node, parent);
-
+            free((*node)->value);
             free(*node);
             *node = NULL;
 
@@ -608,6 +616,7 @@ void remove_recolor(Node **node, Stack **stack) {
             int node_position_to_parent = get_node_position_to_parent(*node, parent);
 
             // delete node_to_delete
+            free((*node)->value);
             free(*node);
             *node = NULL;
 

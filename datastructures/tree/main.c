@@ -6,11 +6,11 @@
 int main() {
     Node *root = NULL;
     // insert_rbt
-    insert_rbt(&root, 1);
-    insert_rbt(&root, 2);
-    insert_rbt(&root, 3);
-    insert_rbt(&root, 4);
-    insert_rbt(&root, 5);
+    insert_rbt(&root, 1, "empty");
+    insert_rbt(&root, 2, "empty");
+    insert_rbt(&root, 3, "empty");
+    insert_rbt(&root, 4, "empty");
+    insert_rbt(&root, 5, "empty");
 
     // traverse_level_order
     traverse_level_order(root);

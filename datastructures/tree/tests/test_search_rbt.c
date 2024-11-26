@@ -11,9 +11,9 @@
 void test_search_rbt() {
 
     Node *root = NULL;
-    insert_rbt(&root, 10);
-    insert_rbt(&root, 20);
-    insert_rbt(&root, 30);
+    insert_rbt(&root, 10, "empty");
+    insert_rbt(&root, 20, "empty");
+    insert_rbt(&root, 30, "empty");
 
 
     tree_to_dot(root);

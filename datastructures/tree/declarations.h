@@ -12,6 +12,7 @@ typedef enum {
 
 typedef struct Node {
     int key;
+    char *value;
     struct Node *left;
     struct Node *right;
     Color color;
@@ -31,7 +32,7 @@ void tree_to_dot(Node *root);
 int *quick(int *arr, size_t size);
 
 // binary tree
-Node *create_node(int data, Color color);
+Node *create_node(int data, char *value, Color color);
 Node *create_binary_tree(int *arr, size_t size);
 Node *create_binary_search_tree(int *arr, size_t size);
 
@@ -87,8 +88,8 @@ void free_stack(Stack **stack);
 // red black tree
 // insert
 void balance(Stack **stack, Node **node);
-void insert_rbt(Node **node, int data);
-void insert_recurse(Node **node, int data, Stack **stack);
+void insert_rbt(Node **node, int data, char *value);
+void insert_recurse(Node **node, int data, char *value, Stack **stack);
 void check_above(Node **node, int data, Stack **stack);
 void right_right_rotation(Node **grandparent, Node **parent);
 void left_left_rotation(Node **grandparent, Node **parent);

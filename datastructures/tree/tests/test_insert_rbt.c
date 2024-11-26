@@ -41,17 +41,17 @@ void test_insert_rbt() {
     }
 
     /* Node *root = NULL; */
-    /* insert_rbt(&root, -6); */
-    /* insert_rbt(&root, -3); */
-    /* insert_rbt(&root, -4); */
-    /* insert_rbt(&root, 5); */
-    /* insert_rbt(&root, 6); */
-    /* insert_rbt(&root, 4); */
-    /* insert_rbt(&root, -5); */
-    /* insert_rbt(&root, 5); */
-    /* insert_rbt(&root, -6); */
-    /* insert_rbt(&root, 3); */
-    /* insert_rbt(&root, 2); */
+    /* insert_rbt(&root, -6, "empty"); */
+    /* insert_rbt(&root, -3, "empty"); */
+    /* insert_rbt(&root, -4, "empty"); */
+    /* insert_rbt(&root, 5, "empty"); */
+    /* insert_rbt(&root, 6, "empty"); */
+    /* insert_rbt(&root, 4, "empty"); */
+    /* insert_rbt(&root, -5, "empty"); */
+    /* insert_rbt(&root, 5, "empty"); */
+    /* insert_rbt(&root, -6, "empty"); */
+    /* insert_rbt(&root, 3, "empty"); */
+    /* insert_rbt(&root, 2, "empty"); */
 
     /* char *issue = NULL; */
     /* CU_ASSERT(is_rb_tree(root, &issue) == 1); */

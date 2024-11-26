@@ -12,7 +12,7 @@ int get_rand_number(int number) {
 
 void create_rand_rbt(Node **root, int **arr_rand_numbers, size_t number) {
     for (size_t i = 0; i < number; i++) {
-        insert_rbt(root, (*arr_rand_numbers)[i]);
+        insert_rbt(root, (*arr_rand_numbers)[i], "empty");
     }
 }
 

@@ -1,12 +1,20 @@
+#define _POSIX_C_SOURCE 200809L
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "../declarations.h"
 
 void copy_subtree(Node *old_node, Node **new_node) {
     if (old_node == NULL) return;
 
-    *new_node = create_node(old_node->key, old_node->color);
+    char *value_copy = strdup(old_node->value);
+    if (!value_copy) return;
+    *new_node = create_node(old_node->key, value_copy, old_node->color);
+    if (!*new_node) {
+        free(value_copy);
+        return;
+    }
 
     if (old_node->left) {
         copy_subtree(old_node->left, &((*new_node)->left));
@@ -21,7 +29,7 @@ void copy_subtree(Node *old_node, Node **new_node) {
 Node *copy_tree(Node *root) {
     Node *new_root = NULL;
     if (root) {
-        new_root = create_node(root->key, root->color);
+        new_root = create_node(root->key, root->value, root->color);
     } else {
         return NULL;
     }

@@ -10,15 +10,15 @@
 void test_stack() {
     Stack *stack = NULL;
 
-    Node *node1 = create_node(10, RED);
+    Node *node1 = create_node(10, "empty", RED);
     s_append(&stack, node1);
     size_t size = get_stack_size(&stack);
     CU_ASSERT(size == 1);
 
-    Node *node2 = create_node(20, RED);
+    Node *node2 = create_node(20, "empty", RED);
     s_append(&stack, node2);
 
-    Node *node3 = create_node(30, RED);
+    Node *node3 = create_node(30, "empty", RED);
     s_append(&stack, node3);
 
     Node *peeked_node = s_peek(&stack);
@@ -52,9 +52,9 @@ void test_stack() {
     CU_ASSERT(size2 == 0);
 
     // free_stack() test
-    Node *node4 = create_node(10, RED);
+    Node *node4 = create_node(10, "empty", RED);
     s_append(&stack, node4);
-    Node *node5 = create_node(20, RED);
+    Node *node5 = create_node(20, "empty", RED);
     s_append(&stack, node5);
 
     CU_ASSERT(get_stack_size(&stack) == 2);

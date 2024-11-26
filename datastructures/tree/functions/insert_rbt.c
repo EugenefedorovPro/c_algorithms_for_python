@@ -312,9 +312,9 @@ void balance(Stack **stack, Node **node) {
     }
 }
 
-void insert_recurse(Node **node, int key, Stack **stack) {
+void insert_recurse(Node **node, int key, char *value, Stack **stack) {
     if (*node == NULL) {
-        *node = create_node(key, BLACK);
+        *node = create_node(key, value, BLACK);
         return;
     }
 
@@ -325,38 +325,38 @@ void insert_recurse(Node **node, int key, Stack **stack) {
 
     if (key < (*node)->key) {
         if ((*node)->left == NULL) {
-            (*node)->left = create_node(key, RED);
+            (*node)->left = create_node(key, value, RED);
             Node *new_node = (*node)->left;
             balance(stack, &new_node);
             return;
 
         } else {
             s_append(stack, (*node)->left);
-            insert_recurse(&((*node)->left), key, stack);
+            insert_recurse(&((*node)->left), key, value, stack);
             return;
         }
     }
 
     if (key > (*node)->key) {
         if ((*node)->right == NULL) {
-            (*node)->right = create_node(key, RED);
+            (*node)->right = create_node(key, value, RED);
             Node *new_node = (*node)->right;
             balance(stack, &new_node);
             return;
 
         } else {
             s_append(stack, (*node)->right);
-            insert_recurse(&((*node)->right), key, stack);
+            insert_recurse(&((*node)->right), key, value, stack);
             return;
         }
     }
 }
 
-void insert_rbt(Node **root, int key) {
+void insert_rbt(Node **root, int key, char *value) {
     Stack *stack = NULL;
     // root is added to stack only if it's not a single node in a tree
     if (*root != NULL) {
         s_append(&stack, *root);
     }
-    insert_recurse(root, key, &stack);
+    insert_recurse(root, key, value, &stack);
 }

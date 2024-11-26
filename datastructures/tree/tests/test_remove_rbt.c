@@ -32,14 +32,14 @@ void test_remove_rbt() {
     if (is_test_all) {
         // red leaf node
         root = NULL;
-        insert_rbt(&root, 10);
-        insert_rbt(&root, 5);
-        insert_rbt(&root, 2);
-        insert_rbt(&root, 9);
-        insert_rbt(&root, 30);
-        insert_rbt(&root, 25);
-        insert_rbt(&root, 40);
-        insert_rbt(&root, 38);
+        insert_rbt(&root, 10, "empty");
+        insert_rbt(&root, 5, "empty");
+        insert_rbt(&root, 2, "empty");
+        insert_rbt(&root, 9, "empty");
+        insert_rbt(&root, 30, "empty");
+        insert_rbt(&root, 25, "empty");
+        insert_rbt(&root, 40, "empty");
+        insert_rbt(&root, 38, "empty");
         remove_rbt(&root, 38);
         CU_ASSERT(root->key == 10);
         CU_ASSERT(root->left->key == 5);
@@ -55,11 +55,11 @@ void test_remove_rbt() {
         // DB sibling's black and  DB's sibling's children are black (or null)
         // remove left sibling
         root = NULL;
-        insert_rbt(&root, 10);
-        insert_rbt(&root, 5);
-        insert_rbt(&root, 20);
-        insert_rbt(&root, 15);
-        insert_rbt(&root, 30);
+        insert_rbt(&root, 10, "empty");
+        insert_rbt(&root, 5, "empty");
+        insert_rbt(&root, 20, "empty");
+        insert_rbt(&root, 15, "empty");
+        insert_rbt(&root, 30, "empty");
         root->right->color = RED;
         root->right->right->color = BLACK;
         root->right->left->color = BLACK;
@@ -79,12 +79,12 @@ void test_remove_rbt() {
         // remove right sibling
         // node_to_rm has right child
         root = NULL;
-        insert_rbt(&root, 10);
-        insert_rbt(&root, 5);
-        insert_rbt(&root, 20);
-        insert_rbt(&root, 15);
-        insert_rbt(&root, 30);
-        insert_rbt(&root, 31);
+        insert_rbt(&root, 10, "empty");
+        insert_rbt(&root, 5, "empty");
+        insert_rbt(&root, 20, "empty");
+        insert_rbt(&root, 15, "empty");
+        insert_rbt(&root, 30, "empty");
+        insert_rbt(&root, 31, "empty");
         root->right->color = RED;
         root->right->right->color = BLACK;
         root->right->left->color = BLACK;
@@ -105,12 +105,12 @@ void test_remove_rbt() {
         // remove right sibling
         // node_to_rm has right child
         root = NULL;
-        insert_rbt(&root, 10);
-        insert_rbt(&root, 5);
-        insert_rbt(&root, 20);
-        insert_rbt(&root, 15);
-        insert_rbt(&root, 30);
-        insert_rbt(&root, 29);
+        insert_rbt(&root, 10, "empty");
+        insert_rbt(&root, 5, "empty");
+        insert_rbt(&root, 20, "empty");
+        insert_rbt(&root, 15, "empty");
+        insert_rbt(&root, 30, "empty");
+        insert_rbt(&root, 29, "empty");
         root->right->color = RED;
         root->right->right->color = BLACK;
         root->right->left->color = BLACK;
@@ -129,13 +129,13 @@ void test_remove_rbt() {
 
         // DB sibling's black and  DB's sibling's children are black (or null)
         root = NULL;
-        insert_rbt(&root, 10);
-        insert_rbt(&root, 5);
-        insert_rbt(&root, 20);
-        insert_rbt(&root, 1);
-        insert_rbt(&root, 7);
-        insert_rbt(&root, 15);
-        insert_rbt(&root, 30);
+        insert_rbt(&root, 10, "empty");
+        insert_rbt(&root, 5, "empty");
+        insert_rbt(&root, 20, "empty");
+        insert_rbt(&root, 1, "empty");
+        insert_rbt(&root, 7, "empty");
+        insert_rbt(&root, 15, "empty");
+        insert_rbt(&root, 30, "empty");
         root->right->right->color = BLACK;
         root->right->left->color = BLACK;
         root->left->left->color = BLACK;
@@ -160,15 +160,15 @@ void test_remove_rbt() {
         // DB's sibling is red
         // rm left node of a parent
         root = NULL;
-        insert_rbt(&root, 10);
-        insert_rbt(&root, 5);
-        insert_rbt(&root, 20);
-        insert_rbt(&root, 1);
-        insert_rbt(&root, 7);
-        insert_rbt(&root, 15);
-        insert_rbt(&root, 30);
-        insert_rbt(&root, 25);
-        insert_rbt(&root, 40);
+        insert_rbt(&root, 10, "empty");
+        insert_rbt(&root, 5, "empty");
+        insert_rbt(&root, 20, "empty");
+        insert_rbt(&root, 1, "empty");
+        insert_rbt(&root, 7, "empty");
+        insert_rbt(&root, 15, "empty");
+        insert_rbt(&root, 30, "empty");
+        insert_rbt(&root, 25, "empty");
+        insert_rbt(&root, 40, "empty");
         root->left->left->color = BLACK;
         root->left->right->color = BLACK;
         root->right->color = BLACK;
@@ -197,13 +197,13 @@ void test_remove_rbt() {
         /* free_tree(root); */
 
         root = NULL;
-        insert_rbt(&root, -3);
-        insert_rbt(&root, -5);
-        insert_rbt(&root, 1);
-        insert_rbt(&root, -4);
-        insert_rbt(&root, -2);
-        insert_rbt(&root, 3);
-        insert_rbt(&root, 0);
+        insert_rbt(&root, -3, "empty");
+        insert_rbt(&root, -5, "empty");
+        insert_rbt(&root, 1, "empty");
+        insert_rbt(&root, -4, "empty");
+        insert_rbt(&root, -2, "empty");
+        insert_rbt(&root, 3, "empty");
+        insert_rbt(&root, 0, "empty");
         remove_rbt(&root, -3);
         CU_ASSERT(root->key = -4);
         CU_ASSERT(is_rb_tree(root, &issue) == 1);
@@ -213,22 +213,22 @@ void test_remove_rbt() {
         // rm left node of a parent
         // node_to_del has right child
         root = NULL;
-        insert_rbt(&root, 10);
-        insert_rbt(&root, 5);
-        insert_rbt(&root, 20);
-        insert_rbt(&root, 1);
-        insert_rbt(&root, 7);
-        insert_rbt(&root, 15);
-        insert_rbt(&root, 30);
-        insert_rbt(&root, 25);
-        insert_rbt(&root, 40);
+        insert_rbt(&root, 10, "empty");
+        insert_rbt(&root, 5, "empty");
+        insert_rbt(&root, 20, "empty");
+        insert_rbt(&root, 1, "empty");
+        insert_rbt(&root, 7, "empty");
+        insert_rbt(&root, 15, "empty");
+        insert_rbt(&root, 30, "empty");
+        insert_rbt(&root, 25, "empty");
+        insert_rbt(&root, 40, "empty");
         root->left->left->color = BLACK;
         root->left->right->color = BLACK;
         root->right->color = BLACK;
         root->right->right->color = RED;
         root->right->right->right->color = BLACK;
         root->right->right->left->color = BLACK;
-        insert_rbt(&root, 16);
+        insert_rbt(&root, 16, "empty");
         remove_rbt(&root, 15);
         CU_ASSERT(root->key == 10);
         CU_ASSERT(root->color == BLACK);
@@ -255,22 +255,22 @@ void test_remove_rbt() {
         // rm left node of a parent
         // node_to_del has left child
         root = NULL;
-        insert_rbt(&root, 10);
-        insert_rbt(&root, 5);
-        insert_rbt(&root, 20);
-        insert_rbt(&root, 1);
-        insert_rbt(&root, 7);
-        insert_rbt(&root, 15);
-        insert_rbt(&root, 30);
-        insert_rbt(&root, 25);
-        insert_rbt(&root, 40);
+        insert_rbt(&root, 10, "empty");
+        insert_rbt(&root, 5, "empty");
+        insert_rbt(&root, 20, "empty");
+        insert_rbt(&root, 1, "empty");
+        insert_rbt(&root, 7, "empty");
+        insert_rbt(&root, 15, "empty");
+        insert_rbt(&root, 30, "empty");
+        insert_rbt(&root, 25, "empty");
+        insert_rbt(&root, 40, "empty");
         root->left->left->color = BLACK;
         root->left->right->color = BLACK;
         root->right->color = BLACK;
         root->right->right->color = RED;
         root->right->right->right->color = BLACK;
         root->right->right->left->color = BLACK;
-        insert_rbt(&root, 14);
+        insert_rbt(&root, 14, "empty");
         remove_rbt(&root, 15);
         CU_ASSERT(root->key == 10);
         CU_ASSERT(root->color == BLACK);
@@ -297,23 +297,23 @@ void test_remove_rbt() {
         // rm left node of a parent
         // node_to_del has two children
         root = NULL;
-        insert_rbt(&root, 10);
-        insert_rbt(&root, 5);
-        insert_rbt(&root, 20);
-        insert_rbt(&root, 1);
-        insert_rbt(&root, 7);
-        insert_rbt(&root, 15);
-        insert_rbt(&root, 30);
-        insert_rbt(&root, 25);
-        insert_rbt(&root, 40);
+        insert_rbt(&root, 10, "empty");
+        insert_rbt(&root, 5, "empty");
+        insert_rbt(&root, 20, "empty");
+        insert_rbt(&root, 1, "empty");
+        insert_rbt(&root, 7, "empty");
+        insert_rbt(&root, 15, "empty");
+        insert_rbt(&root, 30, "empty");
+        insert_rbt(&root, 25, "empty");
+        insert_rbt(&root, 40, "empty");
         root->left->left->color = BLACK;
         root->left->right->color = BLACK;
         root->right->color = BLACK;
         root->right->right->color = RED;
         root->right->right->right->color = BLACK;
         root->right->right->left->color = BLACK;
-        insert_rbt(&root, 14);
-        insert_rbt(&root, 16);
+        insert_rbt(&root, 14, "empty");
+        insert_rbt(&root, 16, "empty");
         remove_rbt(&root, 15);
         CU_ASSERT(root->key == 10);
         CU_ASSERT(root->color == BLACK);
@@ -342,21 +342,21 @@ void test_remove_rbt() {
         // rm right node of a parent
         // node_to_del has no children
         root = NULL;
-        insert_rbt(&root, 10);
-        insert_rbt(&root, 5);
-        insert_rbt(&root, 20);
-        insert_rbt(&root, 1);
-        insert_rbt(&root, 7);
-        insert_rbt(&root, 15);
-        insert_rbt(&root, 30);
+        insert_rbt(&root, 10, "empty");
+        insert_rbt(&root, 5, "empty");
+        insert_rbt(&root, 20, "empty");
+        insert_rbt(&root, 1, "empty");
+        insert_rbt(&root, 7, "empty");
+        insert_rbt(&root, 15, "empty");
+        insert_rbt(&root, 30, "empty");
         root->left->left->color = BLACK;
         root->left->right->color = BLACK;
         root->right->color = BLACK;
         root->right->right->color = BLACK;
         root->right->color = BLACK;
         root->right->left->color = BLACK;
-        insert_rbt(&root, 0);
-        insert_rbt(&root, -1);
+        insert_rbt(&root, 0, "empty");
+        insert_rbt(&root, -1, "empty");
         root->left->left->color = RED;
         root->left->left->left->color = BLACK;
         root->left->left->right->color = BLACK;
@@ -381,25 +381,25 @@ void test_remove_rbt() {
 
         // node_to_del has right child
         root = NULL;
-        insert_rbt(&root, 10);
-        insert_rbt(&root, 5);
-        insert_rbt(&root, 20);
-        insert_rbt(&root, 1);
-        insert_rbt(&root, 7);
-        insert_rbt(&root, 15);
-        insert_rbt(&root, 30);
+        insert_rbt(&root, 10, "empty");
+        insert_rbt(&root, 5, "empty");
+        insert_rbt(&root, 20, "empty");
+        insert_rbt(&root, 1, "empty");
+        insert_rbt(&root, 7, "empty");
+        insert_rbt(&root, 15, "empty");
+        insert_rbt(&root, 30, "empty");
         root->left->left->color = BLACK;
         root->left->right->color = BLACK;
         root->right->color = BLACK;
         root->right->right->color = BLACK;
         root->right->color = BLACK;
         root->right->left->color = BLACK;
-        insert_rbt(&root, 0);
-        insert_rbt(&root, -1);
+        insert_rbt(&root, 0, "empty");
+        insert_rbt(&root, -1, "empty");
         root->left->left->color = RED;
         root->left->left->left->color = BLACK;
         root->left->left->right->color = BLACK;
-        insert_rbt(&root, 8);
+        insert_rbt(&root, 8, "empty");
         remove_rbt(&root, 7);
         CU_ASSERT(root->key == 10);
         CU_ASSERT(root->left->left->key == 0);
@@ -425,25 +425,25 @@ void test_remove_rbt() {
         // rm right node of a parent
         // node_to_del has left child
         root = NULL;
-        insert_rbt(&root, 10);
-        insert_rbt(&root, 5);
-        insert_rbt(&root, 20);
-        insert_rbt(&root, 1);
-        insert_rbt(&root, 7);
-        insert_rbt(&root, 15);
-        insert_rbt(&root, 30);
+        insert_rbt(&root, 10, "empty");
+        insert_rbt(&root, 5, "empty");
+        insert_rbt(&root, 20, "empty");
+        insert_rbt(&root, 1, "empty");
+        insert_rbt(&root, 7, "empty");
+        insert_rbt(&root, 15, "empty");
+        insert_rbt(&root, 30, "empty");
         root->left->left->color = BLACK;
         root->left->right->color = BLACK;
         root->right->color = BLACK;
         root->right->right->color = BLACK;
         root->right->color = BLACK;
         root->right->left->color = BLACK;
-        insert_rbt(&root, 0);
-        insert_rbt(&root, -1);
+        insert_rbt(&root, 0, "empty");
+        insert_rbt(&root, -1, "empty");
         root->left->left->color = RED;
         root->left->left->left->color = BLACK;
         root->left->left->right->color = BLACK;
-        insert_rbt(&root, 6);
+        insert_rbt(&root, 6, "empty");
         remove_rbt(&root, 7);
         CU_ASSERT(root->key == 10);
         CU_ASSERT(root->left->left->key == 0);
@@ -469,15 +469,15 @@ void test_remove_rbt() {
         // rm right node of a parent
         // node_to_del has right child
         root = NULL;
-        insert_rbt(&root, 10);
-        insert_rbt(&root, 5);
-        insert_rbt(&root, 30);
-        insert_rbt(&root, 1);
-        insert_rbt(&root, 7);
-        insert_rbt(&root, 25);
-        insert_rbt(&root, 40);
-        insert_rbt(&root, 20);
-        insert_rbt(&root, 28);
+        insert_rbt(&root, 10, "empty");
+        insert_rbt(&root, 5, "empty");
+        insert_rbt(&root, 30, "empty");
+        insert_rbt(&root, 1, "empty");
+        insert_rbt(&root, 7, "empty");
+        insert_rbt(&root, 25, "empty");
+        insert_rbt(&root, 40, "empty");
+        insert_rbt(&root, 20, "empty");
+        insert_rbt(&root, 28, "empty");
         root->left->left->color = BLACK;
         root->left->right->color = BLACK;
         root->right->color = BLACK;
@@ -509,15 +509,15 @@ void test_remove_rbt() {
         // rm right node of a parent
         // node_to_del has right child
         root = NULL;
-        insert_rbt(&root, 10);
-        insert_rbt(&root, 5);
-        insert_rbt(&root, 30);
-        insert_rbt(&root, 1);
-        insert_rbt(&root, 7);
-        insert_rbt(&root, 25);
-        insert_rbt(&root, 40);
-        insert_rbt(&root, 8);
-        insert_rbt(&root, 6);
+        insert_rbt(&root, 10, "empty");
+        insert_rbt(&root, 5, "empty");
+        insert_rbt(&root, 30, "empty");
+        insert_rbt(&root, 1, "empty");
+        insert_rbt(&root, 7, "empty");
+        insert_rbt(&root, 25, "empty");
+        insert_rbt(&root, 40, "empty");
+        insert_rbt(&root, 8, "empty");
+        insert_rbt(&root, 6, "empty");
         root->left->color = BLACK;
         root->right->right->color = BLACK;
         root->right->left->color = BLACK;
@@ -549,7 +549,7 @@ void test_remove_rbt() {
         // remove root */
         // root has no children
         root = NULL;
-        insert_rbt(&root, 10);
+        insert_rbt(&root, 10, "empty");
         remove_rbt(&root, 10);
         CU_ASSERT(root == NULL);
         free_tree(root);
@@ -557,8 +557,8 @@ void test_remove_rbt() {
         // remove root */
         // root has one left child
         root = NULL;
-        insert_rbt(&root, 10);
-        insert_rbt(&root, 5);
+        insert_rbt(&root, 10, "empty");
+        insert_rbt(&root, 5, "empty");
         remove_rbt(&root, 10);
         CU_ASSERT(root->key == 5);
         CU_ASSERT(root->color == BLACK);
@@ -567,8 +567,8 @@ void test_remove_rbt() {
         // remove root */
         // root has one right child
         root = NULL;
-        insert_rbt(&root, 10);
-        insert_rbt(&root, 20);
+        insert_rbt(&root, 10, "empty");
+        insert_rbt(&root, 20, "empty");
         remove_rbt(&root, 10);
         CU_ASSERT(root->key == 20);
         CU_ASSERT(root->color == BLACK);
@@ -577,15 +577,15 @@ void test_remove_rbt() {
         // remove root
         // root has two children
         root = NULL;
-        insert_rbt(&root, 10);
-        insert_rbt(&root, 5);
-        insert_rbt(&root, 30);
-        insert_rbt(&root, 1);
-        insert_rbt(&root, 7);
-        insert_rbt(&root, 25);
-        insert_rbt(&root, 40);
-        insert_rbt(&root, 8);
-        insert_rbt(&root, 6);
+        insert_rbt(&root, 10, "empty");
+        insert_rbt(&root, 5, "empty");
+        insert_rbt(&root, 30, "empty");
+        insert_rbt(&root, 1, "empty");
+        insert_rbt(&root, 7, "empty");
+        insert_rbt(&root, 25, "empty");
+        insert_rbt(&root, 40, "empty");
+        insert_rbt(&root, 8, "empty");
+        insert_rbt(&root, 6, "empty");
         root->left->color = BLACK;
         root->right->right->color = BLACK;
         root->right->left->color = BLACK;
@@ -599,11 +599,11 @@ void test_remove_rbt() {
         // sibling's children are both red
         // remove not root
         root = NULL;
-        insert_rbt(&root, -3);
-        insert_rbt(&root, -4);
-        insert_rbt(&root, 1);
-        insert_rbt(&root, 0);
-        insert_rbt(&root, 2);
+        insert_rbt(&root, -3, "empty");
+        insert_rbt(&root, -4, "empty");
+        insert_rbt(&root, 1, "empty");
+        insert_rbt(&root, 0, "empty");
+        insert_rbt(&root, 2, "empty");
         remove_rbt(&root, -4);
         CU_ASSERT(is_rb_tree(root, &issue) == 1);
         free_tree(root);
@@ -611,11 +611,11 @@ void test_remove_rbt() {
         // sibling's children are both red
         // remove root
         root = NULL;
-        insert_rbt(&root, -3);
-        insert_rbt(&root, -4);
-        insert_rbt(&root, 1);
-        insert_rbt(&root, 0);
-        insert_rbt(&root, 2);
+        insert_rbt(&root, -3, "empty");
+        insert_rbt(&root, -4, "empty");
+        insert_rbt(&root, 1, "empty");
+        insert_rbt(&root, 0, "empty");
+        insert_rbt(&root, 2, "empty");
         remove_rbt(&root, -3);
         CU_ASSERT(root->key == 1);
         CU_ASSERT(is_rb_tree(root, &issue) == 1);
@@ -624,11 +624,11 @@ void test_remove_rbt() {
         // sibling's children are both red
         // remove leaf remove root
         root = NULL;
-        insert_rbt(&root, -3);
-        insert_rbt(&root, -4);
-        insert_rbt(&root, 1);
-        insert_rbt(&root, 0);
-        insert_rbt(&root, 2);
+        insert_rbt(&root, -3, "empty");
+        insert_rbt(&root, -4, "empty");
+        insert_rbt(&root, 1, "empty");
+        insert_rbt(&root, 0, "empty");
+        insert_rbt(&root, 2, "empty");
         remove_rbt(&root, 2);
         remove_rbt(&root, -3);
         CU_ASSERT(root->key == 0);
@@ -638,36 +638,36 @@ void test_remove_rbt() {
         // remove root
         // max node to remove has left child
         root = NULL;
-        insert_rbt(&root, -2);
-        insert_rbt(&root, -3);
-        insert_rbt(&root, 1);
-        insert_rbt(&root, -1);
-        insert_rbt(&root, 2);
-        insert_rbt(&root, -5);
+        insert_rbt(&root, -2, "empty");
+        insert_rbt(&root, -3, "empty");
+        insert_rbt(&root, 1, "empty");
+        insert_rbt(&root, -1, "empty");
+        insert_rbt(&root, 2, "empty");
+        insert_rbt(&root, -5, "empty");
         remove_rbt(&root, -2);
         CU_ASSERT(root->key == -3);
         CU_ASSERT(is_rb_tree(root, &issue) == 1);
         free_tree(root);
 
         root = NULL;
-        insert_rbt(&root, 4);
-        insert_rbt(&root, 1);
-        insert_rbt(&root, 5);
-        insert_rbt(&root, 0);
-        insert_rbt(&root, 3);
-        insert_rbt(&root, -5);
+        insert_rbt(&root, 4, "empty");
+        insert_rbt(&root, 1, "empty");
+        insert_rbt(&root, 5, "empty");
+        insert_rbt(&root, 0, "empty");
+        insert_rbt(&root, 3, "empty");
+        insert_rbt(&root, -5, "empty");
         remove_rbt(&root, 4);
         CU_ASSERT(root->key == 3);
         CU_ASSERT(is_rb_tree(root, &issue) == 1);
         free_tree(root);
 
         root = NULL;
-        insert_rbt(&root, -4);
-        insert_rbt(&root, -5);
-        insert_rbt(&root, 2);
-        insert_rbt(&root, 0);
-        insert_rbt(&root, 5);
-        insert_rbt(&root, -1);
+        insert_rbt(&root, -4, "empty");
+        insert_rbt(&root, -5, "empty");
+        insert_rbt(&root, 2, "empty");
+        insert_rbt(&root, 0, "empty");
+        insert_rbt(&root, 5, "empty");
+        insert_rbt(&root, -1, "empty");
         remove_rbt(&root, 5);
         remove_rbt(&root, -5);
         CU_ASSERT(root->key == 0);
@@ -675,14 +675,14 @@ void test_remove_rbt() {
         free_tree(root);
 
         root = NULL;
-        insert_rbt(&root, 3);
-        insert_rbt(&root, 0);
-        insert_rbt(&root, 6);
-        insert_rbt(&root, -4);
-        insert_rbt(&root, 2);
-        insert_rbt(&root, 5);
-        insert_rbt(&root, -6);
-        insert_rbt(&root, -1);
+        insert_rbt(&root, 3, "empty");
+        insert_rbt(&root, 0, "empty");
+        insert_rbt(&root, 6, "empty");
+        insert_rbt(&root, -4, "empty");
+        insert_rbt(&root, 2, "empty");
+        insert_rbt(&root, 5, "empty");
+        insert_rbt(&root, -6, "empty");
+        insert_rbt(&root, -1, "empty");
         remove_rbt(&root, 5);
         remove_rbt(&root, 6);
         CU_ASSERT(root->key == 0);
@@ -690,14 +690,14 @@ void test_remove_rbt() {
         free_tree(root);
 
         root = NULL;
-        insert_rbt(&root, 1);
-        insert_rbt(&root, -2);
-        insert_rbt(&root, 5);
-        insert_rbt(&root, -5);
-        insert_rbt(&root, -1);
-        insert_rbt(&root, 3);
-        insert_rbt(&root, -6);
-        insert_rbt(&root, 0);
+        insert_rbt(&root, 1, "empty");
+        insert_rbt(&root, -2, "empty");
+        insert_rbt(&root, 5, "empty");
+        insert_rbt(&root, -5, "empty");
+        insert_rbt(&root, -1, "empty");
+        insert_rbt(&root, 3, "empty");
+        insert_rbt(&root, -6, "empty");
+        insert_rbt(&root, 0, "empty");
         remove_rbt(&root, -5);
         remove_rbt(&root, -6);
         CU_ASSERT(root->key == 1);
@@ -708,7 +708,7 @@ void test_remove_rbt() {
         root = NULL;
         int tree_arr[] = {-1, -3, 2, -5, -2, 1, 8, 6, -4};
         for (size_t i = 0; i < 9; i++) {
-            insert_rbt(&root, tree_arr[i]);
+            insert_rbt(&root, tree_arr[i], "empty");
         }
         root->left->color = BLACK;
         root->right->color = BLACK;
@@ -720,7 +720,7 @@ void test_remove_rbt() {
         root = NULL;
         int arr_nodes[] = {7, 4, 13, 2, 5, 10, 17, 1, 9, 11, 15, 18, 12};
         for (size_t i = 0; i < 13; i++) {
-            insert_rbt(&root, arr_nodes[i]);
+            insert_rbt(&root, arr_nodes[i], "empty");
         }
         remove_rbt(&root, 5);
         CU_ASSERT(is_rb_tree(root, &issue) == 1);

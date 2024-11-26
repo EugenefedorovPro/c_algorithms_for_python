@@ -86,41 +86,41 @@ void test_check_removes_in_multiple_trees() {
         /* level = 4, ids = 22, color = 1, key = 25 */
 
         // Level 0 (root)
-        Node *root = create_node(-8, BLACK);
+        Node *root = create_node(-8, "empty", BLACK);
 
         // Level 1
-        root->left = create_node(-18, BLACK);
-        root->right = create_node(-3, BLACK);
+        root->left = create_node(-18, "empty", BLACK);
+        root->right = create_node(-3, "empty", BLACK);
 
         // Level 2
-        root->left->left = create_node(-22, BLACK);
-        root->left->right = create_node(-13, BLACK);
-        root->right->left = create_node(-6, BLACK);
-        root->right->right = create_node(14, RED);
+        root->left->left = create_node(-22, "empty", BLACK);
+        root->left->right = create_node(-13, "empty", BLACK);
+        root->right->left = create_node(-6, "empty", BLACK);
+        root->right->right = create_node(14, "empty", RED);
 
         // Level 3 (left subtree)
-        root->left->left->left = create_node(-25, BLACK);
-        root->left->left->right = create_node(-21, BLACK);
-        root->left->right->left = create_node(-15, BLACK);
-        root->left->right->right = create_node(-9, BLACK);
+        root->left->left->left = create_node(-25, "empty", BLACK);
+        root->left->left->right = create_node(-21, "empty", BLACK);
+        root->left->right->left = create_node(-15, "empty", BLACK);
+        root->left->right->right = create_node(-9, "empty", BLACK);
 
         // Level 3 (right subtree)
-        root->right->left->left = create_node(-7, BLACK);
-        root->right->left->right = create_node(-4, BLACK);
-        root->right->right->left = create_node(0, BLACK);
-        root->right->right->right = create_node(18, BLACK);
+        root->right->left->left = create_node(-7, "empty", BLACK);
+        root->right->left->right = create_node(-4, "empty", BLACK);
+        root->right->right->left = create_node(0, "empty", BLACK);
+        root->right->right->right = create_node(18, "empty", BLACK);
 
         // Level 4 (left subtree)
-        root->right->right->left->left = create_node(-1, BLACK);
-        root->right->right->left->right = create_node(6, BLACK);
+        root->right->right->left->left = create_node(-1, "empty", BLACK);
+        root->right->right->left->right = create_node(6, "empty", BLACK);
 
         // Level 4 (right subtree)
-        root->right->right->right->left = create_node(15, BLACK);
-        root->right->right->right->right = create_node(23, RED);
+        root->right->right->right->left = create_node(15, "empty", BLACK);
+        root->right->right->right->right = create_node(23, "empty", RED);
 
         // Level 5 (rightmost subtree)
-        root->right->right->right->right->left = create_node(19, BLACK);
-        root->right->right->right->right->right = create_node(24, BLACK);
+        root->right->right->right->right->left = create_node(19, "empty", BLACK);
+        root->right->right->right->right->right = create_node(24, "empty", BLACK);
 
         traverse_level_order(root);
         remove_rbt(&root, -4);
