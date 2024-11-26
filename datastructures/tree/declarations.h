@@ -137,4 +137,7 @@ TreeDebug *check_removes_in_multiple_trees(TreeDebug **tree_debug,
                                            int is_random);
 void refresh_arr_of_removed_numbers(int **arr_of_removed_numbers, size_t *size, int n_to_remove);
 
+// search 
+char *search_rbt(Node *root, int key);
+
 #endif

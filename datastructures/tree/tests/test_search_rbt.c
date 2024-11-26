@@ -11,15 +11,37 @@
 void test_search_rbt() {
 
     Node *root = NULL;
-    insert_rbt(&root, 10, "empty");
-    insert_rbt(&root, 20, "empty");
-    insert_rbt(&root, 30, "empty");
+    char text_1[] = "text 1";
+    char text_2[] = "text 2";
+    char text_3[] = "text 3";
+
+    insert_rbt(&root, 10, text_1);
+    insert_rbt(&root, 20, text_2);
+    insert_rbt(&root, 30, text_3);
+
+    traverse_level_order(root);
+
+    // key is available
+    int key = 30;
+    char *value = search_rbt(root, key);
+    printf("\nkey = %d, value = %s\n", key, value);
+    CU_ASSERT(strcmp(value, text_3) == 0);
+
+
+    // key is unavailable
+    value = search_rbt(root, 100);
+    CU_ASSERT(value == NULL);
+
+    // tree is empty
+    root = NULL;
+    value = search_rbt(root, 10);
+    CU_ASSERT(value == NULL);
 
 
     tree_to_dot(root);
 
     free_tree(root);
-
+    /* free(value); */
 }
 
 int main() {

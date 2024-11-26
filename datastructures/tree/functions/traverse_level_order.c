@@ -14,24 +14,27 @@ void traverse(NodesQueue *nodes_queue, size_t *idx) {
         size_t node_level_right = dequeued_node->level_right;
 
         size_t parent_node_level = (position == LEFT) ? node_level_left : node_level_right;
+        char *value = dequeued_node->node->value;
 
         switch (position) {
             case ROOT:
-                printf("level = %d, ids = %zu, color = %d, key = %d\n", 0, *idx, color, key);
+                printf("level = %d, ids = %zu, color = %d, key = %d, value = %s\n", 0, *idx, color, key, value);
                 break;
             case LEFT:
-                printf("level = %zu, ids = %zu, color = %d, key = %d\n",
+                printf("level = %zu, ids = %zu, color = %d, key = %d, value = %s\n",
                        node_level_left,
                        *idx,
                        color,
-                       key);
+                       key,
+                       value);
                 break;
             case RIGHT:
-                printf("level = %zu, ids = %zu, color = %d, key = %d\n",
+                printf("level = %zu, ids = %zu, color = %d, key = %d, value = %s\n",
                        node_level_right,
                        *idx,
                        color,
-                       key);
+                       key,
+                       value);
                 break;
             case IGNORE:
                 printf("\nposition is ignored\n");
