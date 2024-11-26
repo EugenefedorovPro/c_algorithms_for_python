@@ -17,7 +17,6 @@ typedef struct Node {
     Color color;
 } Node;
 
-
 typedef struct Stack {
     Node *node;
     struct Stack *next;
