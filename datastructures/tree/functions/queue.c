@@ -15,6 +15,13 @@ NodesQueue *initiate_queue() {
     return nodes_queue;
 }
 
+void free_queue(NodesQueue *nodes_queue) {
+    while (!is_empty(nodes_queue)) {
+        dequeue(nodes_queue);
+    }
+    free(nodes_queue);
+}
+
 int is_empty(NodesQueue *nodes_queue) {
     return nodes_queue->first == NULL;
 };
@@ -72,8 +79,3 @@ void enqueue(NodesQueue *nodes_queue, Node *node, size_t level_left, size_t leve
     nodes_queue->count++;
 }
 
-void free_queue(NodesQueue *nodes_queue) {
-    while (!is_empty(nodes_queue)) {
-        dequeue(nodes_queue);
-    }
-}

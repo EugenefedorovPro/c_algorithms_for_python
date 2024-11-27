@@ -9,7 +9,7 @@
 #include "../declarations.h"
 
 void test_check_removes_in_multiple_trees() {
-    int is_many_trees = 1;
+    int is_many_trees = 0;
 
     if (is_many_trees) {
         TreeDebug *tree_debug = initiate_tree_debug();
@@ -48,14 +48,21 @@ void test_check_removes_in_multiple_trees() {
         free_tree_debug(tree_debug);
 
     } else {
-        /* Node *root = NULL; */
-        /* size_t size = 24; */
-        /* int nodes[] = {4,  -16, 18, -23, -2, 13, 20, -25, -21, -10, 1, 9, */
-        /*                15, 19,  21, -14, -7, -1, 3,  7,   11,  0,   2, 8}; */
-        /* for (size_t i = 0; i < size; i++) { */
-        /*     insert_rbt(&root, nodes[i]); */
-        /* } */
-        /* /1* remove_rbt(&root, -21); *1/ */
+        Node *root = NULL;
+        size_t size = 30;
+        int nodes[] = {-14, 15, 10, -7,  14, 13,  -15, 5,  3,  5,   -15, -10, 8, 11, 11,
+                       -7,  10, 8,  -11, 7,  -11, 8,   15, 11, -11, 12,  -6,  9, 5,  -3};
+        for (size_t i = 0; i < size; i++) {
+            insert_rbt(&root, nodes[i], "empty");
+        }
+        /* 10, -15, 7, 5, 5, -11, 5, 9remove_rbt(&root, -21); */
+        remove_rbt(&root, 10);
+        remove_rbt(&root, -15);
+        remove_rbt(&root, 7);
+        remove_rbt(&root, 5);
+        remove_rbt(&root, -11);
+        remove_rbt(&root, 9);
+        
 
         // raversal level order
         /* level = 0, ids = 0, color = 0, key = -3 */
@@ -85,45 +92,45 @@ void test_check_removes_in_multiple_trees() {
         /* level = 4, ids = 21, color = 1, key = 18 */
         /* level = 4, ids = 22, color = 1, key = 25 */
 
-        // Level 0 (root)
-        Node *root = create_node(-8, "empty", BLACK);
+        /* // Level 0 (root) */
+        /* Node *root = create_node(-8, "empty", BLACK); */
 
-        // Level 1
-        root->left = create_node(-18, "empty", BLACK);
-        root->right = create_node(-3, "empty", BLACK);
+        /* // Level 1 */
+        /* root->left = create_node(-18, "empty", BLACK); */
+        /* root->right = create_node(-3, "empty", BLACK); */
 
-        // Level 2
-        root->left->left = create_node(-22, "empty", BLACK);
-        root->left->right = create_node(-13, "empty", BLACK);
-        root->right->left = create_node(-6, "empty", BLACK);
-        root->right->right = create_node(14, "empty", RED);
+        /* // Level 2 */
+        /* root->left->left = create_node(-22, "empty", BLACK); */
+        /* root->left->right = create_node(-13, "empty", BLACK); */
+        /* root->right->left = create_node(-6, "empty", BLACK); */
+        /* root->right->right = create_node(14, "empty", RED); */
 
-        // Level 3 (left subtree)
-        root->left->left->left = create_node(-25, "empty", BLACK);
-        root->left->left->right = create_node(-21, "empty", BLACK);
-        root->left->right->left = create_node(-15, "empty", BLACK);
-        root->left->right->right = create_node(-9, "empty", BLACK);
+        /* // Level 3 (left subtree) */
+        /* root->left->left->left = create_node(-25, "empty", BLACK); */
+        /* root->left->left->right = create_node(-21, "empty", BLACK); */
+        /* root->left->right->left = create_node(-15, "empty", BLACK); */
+        /* root->left->right->right = create_node(-9, "empty", BLACK); */
 
-        // Level 3 (right subtree)
-        root->right->left->left = create_node(-7, "empty", BLACK);
-        root->right->left->right = create_node(-4, "empty", BLACK);
-        root->right->right->left = create_node(0, "empty", BLACK);
-        root->right->right->right = create_node(18, "empty", BLACK);
+        /* // Level 3 (right subtree) */
+        /* root->right->left->left = create_node(-7, "empty", BLACK); */
+        /* root->right->left->right = create_node(-4, "empty", BLACK); */
+        /* root->right->right->left = create_node(0, "empty", BLACK); */
+        /* root->right->right->right = create_node(18, "empty", BLACK); */
 
-        // Level 4 (left subtree)
-        root->right->right->left->left = create_node(-1, "empty", BLACK);
-        root->right->right->left->right = create_node(6, "empty", BLACK);
+        /* // Level 4 (left subtree) */
+        /* root->right->right->left->left = create_node(-1, "empty", BLACK); */
+        /* root->right->right->left->right = create_node(6, "empty", BLACK); */
 
-        // Level 4 (right subtree)
-        root->right->right->right->left = create_node(15, "empty", BLACK);
-        root->right->right->right->right = create_node(23, "empty", RED);
+        /* // Level 4 (right subtree) */
+        /* root->right->right->right->left = create_node(15, "empty", BLACK); */
+        /* root->right->right->right->right = create_node(23, "empty", RED); */
 
-        // Level 5 (rightmost subtree)
-        root->right->right->right->right->left = create_node(19, "empty", BLACK);
-        root->right->right->right->right->right = create_node(24, "empty", BLACK);
+        /* // Level 5 (rightmost subtree) */
+        /* root->right->right->right->right->left = create_node(19, "empty", BLACK); */
+        /* root->right->right->right->right->right = create_node(24, "empty", BLACK); */
 
         traverse_level_order(root);
-        remove_rbt(&root, -4);
+        /* remove_rbt(&root, -4); */
         char *issue = malloc(100);
         is_rb_tree(root, &issue);
 

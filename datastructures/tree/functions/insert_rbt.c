@@ -222,6 +222,7 @@ void right_uncle_red(Node **parent, Node **grandparent, Stack **stack) {
 void right_uncle_black(Node **parent, Node **grandparent, Stack **stack) {
     if ((*grandparent)->right != NULL && (*grandparent)->right->key == (*parent)->key) {
         right_right_rotation(grandparent, parent);
+        free(*parent);
         return;
     }
 
@@ -234,6 +235,7 @@ void right_uncle_black(Node **parent, Node **grandparent, Stack **stack) {
 void left_uncle_black(Node **parent, Node **grandparent, Stack **stack) {
     if ((*grandparent)->left != NULL && (*grandparent)->left->key == (*parent)->key) {
         left_left_rotation(grandparent, parent);
+        free(*parent);
         return;
     }
     if ((*grandparent)->right != NULL && (*grandparent)->right->key == (*parent)->key) {
@@ -359,4 +361,5 @@ void insert_rbt(Node **root, int key, char *value) {
         s_append(&stack, *root);
     }
     insert_recurse(root, key, value, &stack);
+    free_stack(&stack);
 }

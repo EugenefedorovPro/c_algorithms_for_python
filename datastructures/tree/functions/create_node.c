@@ -1,3 +1,4 @@
+#define _POSIX_C_SOURCE 200809L
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -8,7 +9,7 @@
 Node *create_node(int key, char *value, Color color) {
     Node *node = malloc(sizeof(Node));
     if (node == NULL) {
-        fprintf(stderr, "memory allocation failed for node");
+        fprintf(stderr, "memory allocation failed for node\n");
         return NULL;
     }
     node->key = key;
@@ -16,15 +17,18 @@ Node *create_node(int key, char *value, Color color) {
     node->right = NULL;
     node->color = color;
 
-    size_t value_size = strlen(value);
-    node->value = malloc(sizeof(char) * (value_size +1));
-    if (node->value == NULL) {
+    if (value == NULL) {
         free(node);
-        fprintf(stderr, "memory allocation failed for node->value");
+        fprintf(stderr, "invalid input: value is NULL\n");
         return NULL;
     }
 
-    strcpy(node->value, value);
-    
+    node->value = strdup(value);
+    if (node->value == NULL) {
+        free(node);
+        fprintf(stderr, "memory allocation failed for node->value\n");
+        return NULL;
+    }
+
     return node;
 }

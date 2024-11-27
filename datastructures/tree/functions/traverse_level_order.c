@@ -1,3 +1,5 @@
+#include <stdlib.h>
+
 #include "../declarations.h"
 
 size_t level_left;
@@ -18,7 +20,12 @@ void traverse(NodesQueue *nodes_queue, size_t *idx) {
 
         switch (position) {
             case ROOT:
-                printf("level = %d, ids = %zu, color = %d, key = %d, value = %s\n", 0, *idx, color, key, value);
+                printf("level = %d, ids = %zu, color = %d, key = %d, value = %s\n",
+                       0,
+                       *idx,
+                       color,
+                       key,
+                       value);
                 break;
             case LEFT:
                 printf("level = %zu, ids = %zu, color = %d, key = %d, value = %s\n",
@@ -53,6 +60,7 @@ void traverse(NodesQueue *nodes_queue, size_t *idx) {
             position = RIGHT;
             enqueue(nodes_queue, dequeued_node->node->right, level_left, level_right, &position);
         }
+        free(dequeued_node);
     }
 }
 

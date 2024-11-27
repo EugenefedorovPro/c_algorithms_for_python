@@ -28,30 +28,54 @@ void print_nodes(Node *node, FILE *stream, size_t *idx) {
     const char *color = (node->color == BLACK) ? "black" : "red";
     const char *fillcolor = (node->color == BLACK) ? "black" : "red";
 
+    // Get the current node's name
+    char *node_name = get_node_name(node->key);
+    if (node_name == NULL) {
+        fprintf(stderr, "Failed to allocate memory for node name\n");
+        return;  // Stop processing this node
+    }
+
     fprintf(stream,
             "    n%s [label=\"%d\", color=\"%s\", fillcolor=\"%s\", style=filled];\n",
-            get_node_name(node->key),
+            node_name,
             node->key,
             color,
             fillcolor);
 
     // Handle left child
     if (node->left) {
-        fprintf(stream, "    n%s -> n%s\n", get_node_name(node->key), get_node_name(node->left->key));  //
+        char *left_name = get_node_name(node->left->key);
+        if (left_name == NULL) {
+            fprintf(stderr, "Failed to allocate memory for left node name\n");
+            free(node_name);  // Free the parent node name before returning
+            return;
+        }
+        fprintf(stream, "    n%s -> n%s\n", node_name, left_name);
+        free(left_name);  // Free left node name after use
         print_nodes(node->left, stream, idx);
     } else {
         fprintf(stream, "    null%zu [shape=point];\n", (*idx)++);
-        fprintf(stream, "    n%s -> null%zu\n", get_node_name(node->key), *idx - 1);
+        fprintf(stream, "    n%s -> null%zu\n", node_name, *idx - 1);
     }
 
     // Handle right child
     if (node->right) {
-        fprintf(stream, "    n%s -> n%s\n", get_node_name(node->key), get_node_name(node->right->key));  //
+        char *right_name = get_node_name(node->right->key);
+        if (right_name == NULL) {
+            fprintf(stderr, "Failed to allocate memory for right node name\n");
+            free(node_name);  // Free the parent node name before returning
+            return;
+        }
+        fprintf(stream, "    n%s -> n%s\n", node_name, right_name);
+        free(right_name);  // Free right node name after use
         print_nodes(node->right, stream, idx);
     } else {
         fprintf(stream, "    null%zu [shape=point];\n", (*idx)++);
-        fprintf(stream, "    n%s -> null%zu\n", get_node_name(node->key), *idx - 1);
+        fprintf(stream, "    n%s -> null%zu\n", node_name, *idx - 1);
     }
+
+    // Free the current node's name after all usage
+    free(node_name);
 }
 
 void tree_to_dot(Node *root) {

@@ -1,14 +1,11 @@
+#define _POSIX_C_SOURCE 200809L
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "../declarations.h"
 
 int double_black;
-
-/* enum NodePositionToParent { */
-/*     RIGHT = 1, */
-/*     LEFT = 0, */
-/* }; */
 
 void null_link_from_parent_of_removed_node(int node_position_to_parent, Node *parent) {
     if (node_position_to_parent == LEFT) {
@@ -108,7 +105,6 @@ void propagate_and_recolor(Node **parent,
         prev_node = *parent;
 
         // it does the same as inside while even if condition in while is false - ?????
-        /* recolor_sibling_black(parent, sibling, stack, node_position_to_parent); */
         propagate_and_recolor(parent, sibling, stack, node_position_to_parent);
         return;
     }
@@ -196,22 +192,27 @@ void right_siblings_far_child_is_red(Node **parent, Node **sibling) {
     Node *temp_sibling_left_child = (*sibling)->left;
     (*sibling)->left = NULL;
 
-    Node *temp_parent = malloc(sizeof(Node));
-    if (temp_parent == NULL) {
-        fprintf(stderr, "memory allocation failed for temp_parent");
+    Node *old_parent = malloc(sizeof(Node));
+    if (old_parent == NULL) {
+        fprintf(stderr, "memory allocation failed for old_parent");
         return;
     }
 
-    *temp_parent = **parent;
+    *old_parent = **parent;
+    printf("\nsibling traversal\n");
+    traverse_level_order(*sibling);
 
     **parent = **sibling;
 
-    (*parent)->left = temp_parent;
+    (*parent)->left = old_parent;
 
     (*parent)->left->right = temp_sibling_left_child;
 
     // Change color of DB's sibling's far red child to black
     (*parent)->right->color = BLACK;
+
+    /* free(*sibling); */
+    /* *sibling = NULL; */
 }
 
 void left_siblings_far_child_is_red(Node **parent, Node **sibling) {
@@ -224,25 +225,25 @@ void left_siblings_far_child_is_red(Node **parent, Node **sibling) {
     printf("\nparent = %d, sibling = %d\n", (*parent)->key, (*sibling)->key);
 
     // swap colors of DB's parent with DB's sibling's color
-    Color temp_parent_color = (*parent)->color;
+    Color old_parent_color = (*parent)->color;
     (*parent)->color = (*sibling)->color;
-    (*sibling)->color = temp_parent_color;
+    (*sibling)->color = old_parent_color;
 
     // Perform rotation of DB's parent in direction of DB
     Node *temp_sibling_right_child = (*sibling)->right;
     (*sibling)->right = NULL;
 
-    Node *temp_parent = malloc(sizeof(Node));
-    if (temp_parent == NULL) {
-        fprintf(stderr, "memory allocation failed for temp_parent");
+    Node *old_parent = malloc(sizeof(Node));
+    if (old_parent == NULL) {
+        fprintf(stderr, "memory allocation failed for old_parent");
         return;
     }
 
-    *temp_parent = **parent;
+    *old_parent = **parent;
 
     **parent = **sibling;
 
-    (*parent)->right = temp_parent;
+    (*parent)->right = old_parent;
     (*parent)->right->left = temp_sibling_right_child;
     // Change color of DB's sibling's far red child to black
     (*parent)->left->color = BLACK;
@@ -326,6 +327,15 @@ void recolor_sibling_black(Node **parent,
             left_siblings_far_child_is_red(parent, sibling);
         }
 
+        /* printf("\nbefore free sibling root = parent\n"); */
+        /* traverse_level_order(*parent); */
+
+        /* free(*sibling); */
+        /* (*sibling) = NULL; */
+
+        /* printf("\nafter free sibling root = parent\n"); */
+        /* traverse_level_order(*parent); */
+
         // if double_black = 0, stop propagation and exit program as the tree is balanced
         double_black = 0;
 
@@ -376,6 +386,7 @@ void recolor_sibling_red(Node **parent,
         temp_parent->color = (*parent)->color;
         temp_parent->left = (*parent)->left;
         temp_parent->right = temp_left_node_of_sibling;
+        temp_parent->value = strdup((*parent)->value);
 
         if (grandparent && grandparent->left->key == (*parent)->key) {
             grandparent->left = *sibling;
@@ -390,6 +401,7 @@ void recolor_sibling_red(Node **parent,
             **parent = **sibling;
             (*parent)->left = temp_parent;
             (*parent)->left->right = temp_left_node_of_sibling;
+            free(*sibling);
         }
 
         // free parent
@@ -438,6 +450,7 @@ void recolor_sibling_red(Node **parent,
         temp_parent->color = (*parent)->color;
         temp_parent->right = (*parent)->right;
         temp_parent->left = temp_right_node_of_sibling;
+        temp_parent->value = strdup((*parent)->value);
 
         if (grandparent && grandparent->left->key == (*parent)->key) {
             grandparent->left = *sibling;
@@ -452,6 +465,7 @@ void recolor_sibling_red(Node **parent,
             **parent = **sibling;
             (*parent)->right = temp_parent;
             (*parent)->right->left = temp_right_node_of_sibling;
+            free(*sibling);
         }
 
         // free parent
@@ -706,4 +720,5 @@ void remove_rbt(Node **root, int key) {
     }
 
     find_node(root, key, &stack);
+    free_stack(&stack);
 }
