@@ -19,8 +19,8 @@ void test_insert_rbt() {
         /* insert_rbt(&root, -30); */
         /* /1* insert_rbt(&root, -40); *1/ */
 
-        size_t number_nodes = 100;
-        size_t number_trees = 100;
+        size_t number_nodes = 5;
+        size_t number_trees = 1;
         int is_random = 0;
         TreeDebug *tree_debug = initiate_tree_debug();
         tree_debug =

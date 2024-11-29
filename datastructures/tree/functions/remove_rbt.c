@@ -181,38 +181,39 @@ void right_siblings_far_child_is_red(Node **parent, Node **sibling) {
     // DB's sibling's far child is red
 
     // redefine sibling according to new tree structure
-    printf("\ncase #6: right sibling is black, sibling's = %d far child is red", (*sibling)->key);
+    printf("\ncase #6: right sibling is black, sibling's = %d far child is red\n", (*sibling)->key);
 
-    // swap colors of DB's parent with DB's sibling's color
-    Color temp_parent_color = (*parent)->color;
-    (*parent)->color = (*sibling)->color;
-    (*sibling)->color = temp_parent_color;
 
-    // Perform rotation of DB's parent in direction of DB
-    Node *temp_sibling_left_child = (*sibling)->left;
-    (*sibling)->left = NULL;
+    // swap parent with sibling: key, value (color, left, right remain unchanged) 
+    int temp_key = (*parent)->key;
+    (*parent)->key = (*sibling)->key;
+    (*sibling)->key = temp_key;
 
-    Node *old_parent = malloc(sizeof(Node));
-    if (old_parent == NULL) {
-        fprintf(stderr, "memory allocation failed for old_parent");
-        return;
-    }
+    char *temp_value = (*parent)->value;
+    (*parent)->value = (*sibling)->value;
+    (*sibling)->value = temp_value;
 
-    *old_parent = **parent;
-    printf("\nsibling traversal\n");
-    traverse_level_order(*sibling);
+    // copy parent left
+    Node *temp_left_node = (*parent)->left;
 
-    **parent = **sibling;
 
-    (*parent)->left = old_parent;
+    (*parent)->left = (*parent)->right;
+    (*parent)->right = NULL;
 
-    (*parent)->left->right = temp_sibling_left_child;
+    // move sibling's right child to parent right 
+    (*parent)->right = (*parent)->left->right;
+    (*parent)->left->right = NULL;
 
-    // Change color of DB's sibling's far red child to black
+
+    (*parent)->left->right = (*parent)->left->left;
+    (*parent)->left->left = NULL;
+
+    (*parent)->left->left = temp_left_node;
+
+
     (*parent)->right->color = BLACK;
 
-    /* free(*sibling); */
-    /* *sibling = NULL; */
+
 }
 
 void left_siblings_far_child_is_red(Node **parent, Node **sibling) {
@@ -224,29 +225,34 @@ void left_siblings_far_child_is_red(Node **parent, Node **sibling) {
     printf("\ncase #6: left sibling is black, sibling's far child is red");
     printf("\nparent = %d, sibling = %d\n", (*parent)->key, (*sibling)->key);
 
-    // swap colors of DB's parent with DB's sibling's color
-    Color old_parent_color = (*parent)->color;
-    (*parent)->color = (*sibling)->color;
-    (*sibling)->color = old_parent_color;
+    int temp_key = (*parent)->key;
+    (*parent)->key = (*sibling)->key;
+    (*sibling)->key = temp_key;
 
-    // Perform rotation of DB's parent in direction of DB
-    Node *temp_sibling_right_child = (*sibling)->right;
-    (*sibling)->right = NULL;
+    char *temp_value = (*parent)->value;
+    (*parent)->value = (*sibling)->value;
+    (*sibling)->value = temp_value;
 
-    Node *old_parent = malloc(sizeof(Node));
-    if (old_parent == NULL) {
-        fprintf(stderr, "memory allocation failed for old_parent");
-        return;
-    }
+    // copy parent right
+    Node *temp_right_node = (*parent)->right;
 
-    *old_parent = **parent;
 
-    **parent = **sibling;
+    (*parent)->right = (*parent)->left;
+    (*parent)->left = NULL;
 
-    (*parent)->right = old_parent;
-    (*parent)->right->left = temp_sibling_right_child;
-    // Change color of DB's sibling's far red child to black
+    // move sibling's right child to parent right 
+    (*parent)->left = (*parent)->right->left;
+    (*parent)->right->left = NULL;
+
+
+    (*parent)->right->left = (*parent)->right->right;
+    (*parent)->right->right = NULL;
+
+    (*parent)->right->right = temp_right_node;
+
+
     (*parent)->left->color = BLACK;
+
 }
 
 void recolor_sibling_black(Node **parent,

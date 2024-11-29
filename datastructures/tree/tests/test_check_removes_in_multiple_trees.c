@@ -9,7 +9,7 @@
 #include "../declarations.h"
 
 void test_check_removes_in_multiple_trees() {
-    int is_many_trees = 0;
+    int is_many_trees = 1;
 
     if (is_many_trees) {
         TreeDebug *tree_debug = initiate_tree_debug();

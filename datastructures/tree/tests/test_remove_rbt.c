@@ -30,6 +30,7 @@ void test_remove_rbt() {
 
     char *issue = NULL;
     if (is_test_all) {
+        printf("\n\n----------------------case_1---------------------------\n\n");
         // red leaf node
         root = NULL;
         insert_rbt(&root, 10, "empty");
@@ -54,6 +55,7 @@ void test_remove_rbt() {
 
         // DB sibling's black and  DB's sibling's children are black (or null)
         // remove left sibling
+        printf("\n\n----------------------case_2---------------------------\n\n");
         root = NULL;
         insert_rbt(&root, 10, "empty");
         insert_rbt(&root, 5, "empty");
@@ -78,6 +80,7 @@ void test_remove_rbt() {
         // DB sibling's black and  DB's sibling's children are black (or null) and parent is red
         // remove right sibling
         // node_to_rm has right child
+        printf("\n\n----------------------case_3---------------------------\n\n");
         root = NULL;
         insert_rbt(&root, 10, "empty");
         insert_rbt(&root, 5, "empty");
@@ -104,6 +107,7 @@ void test_remove_rbt() {
         // DB sibling's black and  DB's sibling's children are black (or null) and parent is red
         // remove right sibling
         // node_to_rm has right child
+        printf("\n\n----------------------case_4---------------------------\n\n");
         root = NULL;
         insert_rbt(&root, 10, "empty");
         insert_rbt(&root, 5, "empty");
@@ -128,6 +132,7 @@ void test_remove_rbt() {
         /* free_tree(root); */
 
         // DB sibling's black and  DB's sibling's children are black (or null)
+        printf("\n\n----------------------case_5---------------------------\n\n");
         root = NULL;
         insert_rbt(&root, 10, "empty");
         insert_rbt(&root, 5, "empty");
@@ -159,6 +164,7 @@ void test_remove_rbt() {
 
         // DB's sibling is red
         // rm left node of a parent
+        printf("\n\n----------------------case_6---------------------------\n\n");
         root = NULL;
         insert_rbt(&root, 10, "empty");
         insert_rbt(&root, 5, "empty");
@@ -196,6 +202,7 @@ void test_remove_rbt() {
         CU_ASSERT(is_rb_tree(root, &issue) == 1);
         /* free_tree(root); */
 
+        printf("\n\n----------------------case_7---------------------------\n\n");
         root = NULL;
         insert_rbt(&root, -3, "empty");
         insert_rbt(&root, -5, "empty");
@@ -212,6 +219,7 @@ void test_remove_rbt() {
         // DB's sibling is red
         // rm left node of a parent
         // node_to_del has right child
+        printf("\n\n----------------------case_8---------------------------\n\n");
         root = NULL;
         insert_rbt(&root, 10, "empty");
         insert_rbt(&root, 5, "empty");
@@ -254,6 +262,7 @@ void test_remove_rbt() {
         // DB's sibling is red
         // rm left node of a parent
         // node_to_del has left child
+        printf("\n\n----------------------case_9---------------------------\n\n");
         root = NULL;
         insert_rbt(&root, 10, "empty");
         insert_rbt(&root, 5, "empty");
@@ -296,6 +305,7 @@ void test_remove_rbt() {
         // DB's sibling is red
         // rm left node of a parent
         // node_to_del has two children
+        printf("\n\n----------------------case_10---------------------------\n\n");
         root = NULL;
         insert_rbt(&root, 10, "empty");
         insert_rbt(&root, 5, "empty");
@@ -341,6 +351,7 @@ void test_remove_rbt() {
         // DB's sibling is red
         // rm right node of a parent
         // node_to_del has no children
+        printf("\n\n----------------------case_11---------------------------\n\n");
         root = NULL;
         insert_rbt(&root, 10, "empty");
         insert_rbt(&root, 5, "empty");
@@ -380,6 +391,7 @@ void test_remove_rbt() {
         free_tree(root);
 
         // node_to_del has right child
+        printf("\n\n----------------------case_12---------------------------\n\n");
         root = NULL;
         insert_rbt(&root, 10, "empty");
         insert_rbt(&root, 5, "empty");
@@ -424,6 +436,7 @@ void test_remove_rbt() {
         // DB's sibling is red
         // rm right node of a parent
         // node_to_del has left child
+        printf("\n\n----------------------case_13---------------------------\n\n");
         root = NULL;
         insert_rbt(&root, 10, "empty");
         insert_rbt(&root, 5, "empty");
@@ -468,6 +481,7 @@ void test_remove_rbt() {
         // DB's sibling is red
         // rm right node of a parent
         // node_to_del has right child
+        printf("\n\n----------------------case_14---------------------------\n\n");
         root = NULL;
         insert_rbt(&root, 10, "empty");
         insert_rbt(&root, 5, "empty");
@@ -508,6 +522,7 @@ void test_remove_rbt() {
         // DB's sibling is red
         // rm right node of a parent
         // node_to_del has right child
+        printf("\n\n----------------------case_15---------------------------\n\n");
         root = NULL;
         insert_rbt(&root, 10, "empty");
         insert_rbt(&root, 5, "empty");
@@ -548,6 +563,7 @@ void test_remove_rbt() {
 
         // remove root */
         // root has no children
+        printf("\n\n----------------------case_16---------------------------\n\n");
         root = NULL;
         insert_rbt(&root, 10, "empty");
         remove_rbt(&root, 10);
@@ -556,6 +572,7 @@ void test_remove_rbt() {
 
         // remove root */
         // root has one left child
+        printf("\n\n----------------------case_17---------------------------\n\n");
         root = NULL;
         insert_rbt(&root, 10, "empty");
         insert_rbt(&root, 5, "empty");
@@ -566,6 +583,7 @@ void test_remove_rbt() {
 
         // remove root */
         // root has one right child
+        printf("\n\n----------------------case_18---------------------------\n\n");
         root = NULL;
         insert_rbt(&root, 10, "empty");
         insert_rbt(&root, 20, "empty");
@@ -576,6 +594,7 @@ void test_remove_rbt() {
 
         // remove root
         // root has two children
+        printf("\n\n----------------------case_19---------------------------\n\n");
         root = NULL;
         insert_rbt(&root, 10, "empty");
         insert_rbt(&root, 5, "empty");
@@ -598,6 +617,7 @@ void test_remove_rbt() {
 
         // sibling's children are both red
         // remove not root
+        printf("\n\n----------------------case_20---------------------------\n\n");
         root = NULL;
         insert_rbt(&root, -3, "empty");
         insert_rbt(&root, -4, "empty");
@@ -610,6 +630,7 @@ void test_remove_rbt() {
 
         // sibling's children are both red
         // remove root
+        printf("\n\n----------------------case_21---------------------------\n\n");
         root = NULL;
         insert_rbt(&root, -3, "empty");
         insert_rbt(&root, -4, "empty");
@@ -623,6 +644,7 @@ void test_remove_rbt() {
 
         // sibling's children are both red
         // remove leaf remove root
+        printf("\n\n----------------------case_22---------------------------\n\n");
         root = NULL;
         insert_rbt(&root, -3, "empty");
         insert_rbt(&root, -4, "empty");
@@ -637,6 +659,7 @@ void test_remove_rbt() {
 
         // remove root
         // max node to remove has left child
+        printf("\n\n----------------------case_23---------------------------\n\n");
         root = NULL;
         insert_rbt(&root, -2, "empty");
         insert_rbt(&root, -3, "empty");
@@ -649,6 +672,7 @@ void test_remove_rbt() {
         CU_ASSERT(is_rb_tree(root, &issue) == 1);
         free_tree(root);
 
+        printf("\n\n----------------------case_24---------------------------\n\n");
         root = NULL;
         insert_rbt(&root, 4, "empty");
         insert_rbt(&root, 1, "empty");
@@ -661,6 +685,7 @@ void test_remove_rbt() {
         CU_ASSERT(is_rb_tree(root, &issue) == 1);
         free_tree(root);
 
+        printf("\n\n----------------------case_25---------------------------\n\n");
         root = NULL;
         insert_rbt(&root, -4, "empty");
         insert_rbt(&root, -5, "empty");
@@ -674,6 +699,7 @@ void test_remove_rbt() {
         CU_ASSERT(is_rb_tree(root, &issue) == 1);
         free_tree(root);
 
+        printf("\n\n----------------------case_26---------------------------\n\n");
         root = NULL;
         insert_rbt(&root, 3, "empty");
         insert_rbt(&root, 0, "empty");
@@ -689,6 +715,7 @@ void test_remove_rbt() {
         CU_ASSERT(is_rb_tree(root, &issue) == 1);
         free_tree(root);
 
+        printf("\n\n----------------------case_27---------------------------\n\n");
         root = NULL;
         insert_rbt(&root, 1, "empty");
         insert_rbt(&root, -2, "empty");
@@ -704,7 +731,7 @@ void test_remove_rbt() {
         CU_ASSERT(is_rb_tree(root, &issue) == 1);
         free_tree(root);
 
-
+        printf("\n\n----------------------case_28---------------------------\n\n");
         root = NULL;
         int tree_arr[] = {-1, -3, 2, -5, -2, 1, 8, 6, -4};
         for (size_t i = 0; i < 9; i++) {
@@ -717,6 +744,7 @@ void test_remove_rbt() {
         CU_ASSERT(is_rb_tree(root, &issue) == 1);
         free_tree(root);
 
+        printf("\n\n----------------------case_29---------------------------\n\n");
         root = NULL;
         int arr_nodes[] = {7, 4, 13, 2, 5, 10, 17, 1, 9, 11, 15, 18, 12};
         for (size_t i = 0; i < 13; i++) {
@@ -725,9 +753,46 @@ void test_remove_rbt() {
         remove_rbt(&root, 5);
         CU_ASSERT(is_rb_tree(root, &issue) == 1);
         /* free_tree(root); */
-        
-
     }
+
+        printf("\n\n----------------------case_15---------------------------\n\n");
+        root = NULL;
+        insert_rbt(&root, 10, "empty");
+        insert_rbt(&root, 5, "empty");
+        insert_rbt(&root, 30, "empty");
+        insert_rbt(&root, 1, "empty");
+        insert_rbt(&root, 7, "empty");
+        insert_rbt(&root, 25, "empty");
+        insert_rbt(&root, 40, "empty");
+        insert_rbt(&root, 8, "empty");
+        insert_rbt(&root, 6, "empty");
+        root->left->color = BLACK;
+        root->right->right->color = BLACK;
+        root->right->left->color = BLACK;
+        root->left->right->color = RED;
+        root->left->right->left->color = BLACK;
+        root->left->right->right->color = BLACK;
+        /* insert_rbt(&root, 50); */
+        /* insert_rbt(&root, 35); */
+        remove_rbt(&root, 40);
+        /* CU_ASSERT(root->key == 7); */
+        /* CU_ASSERT(root->color == BLACK); */
+        /* CU_ASSERT(root->right->key == 10); */
+        /* CU_ASSERT(root->right->color == BLACK); */
+        /* CU_ASSERT(root->left->key == 5); */
+        /* CU_ASSERT(root->left->color == BLACK); */
+        /* CU_ASSERT(root->right->right->key == 30); */
+        /* CU_ASSERT(root->right->right->color == BLACK); */
+        /* CU_ASSERT(root->right->left->key == 8); */
+        /* CU_ASSERT(root->right->left->color == BLACK); */
+        /* CU_ASSERT(root->left->left->key == 1); */
+        /* CU_ASSERT(root->left->left->color == BLACK); */
+        /* CU_ASSERT(root->left->right->key == 6); */
+        /* CU_ASSERT(root->left->right->color == BLACK); */
+        /* CU_ASSERT(root->right->right->left->key == 25); */
+        /* CU_ASSERT(root->right->right->left->color == RED); */
+        /* CU_ASSERT(is_rb_tree(root, &issue) == 1); */
+        /* free_tree(root); */
 
     tree_to_dot(root);
 
